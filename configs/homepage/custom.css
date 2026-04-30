@@ -1,0 +1,69 @@
+html,
+body,
+#__next,
+#page_container,
+main,
+div[id="page_container"] {
+    background: #000 !important;
+    background-color: #000 !important;
+}
+
+.dots-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(147, 161, 161, 0.25) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Service cards & bookmarks */
+.service-card,
+.bookmark-icon {
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(1px) !important;
+    -webkit-backdrop-filter: blur(1px) !important;
+    border: 1px solid rgba(147, 161, 161, 0.08) !important;
+    border-top-color: rgba(147, 161, 161, 0.14) !important;
+}
+
+.service-card:hover,
+.bookmark-icon:hover {
+    border-color: rgba(147, 161, 161, 0.2) !important;
+    box-shadow:
+        0 0 15px rgba(42, 161, 152, 0.15),
+        0 0 40px rgba(42, 161, 152, 0.08) !important;
+}
+
+/* Tabs */
+button[role="tab"] {
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(1px) !important;
+    -webkit-backdrop-filter: blur(1px) !important;
+    border: 1px solid transparent !important;
+}
+
+button[role="tab"][aria-selected="true"] {
+    background: linear-gradient(180deg, rgba(147, 161, 161, 0.1) 0%, rgba(147, 161, 161, 0.04) 100%) !important;
+    border-color: rgba(147, 161, 161, 0.15) !important;
+    box-shadow: 0 0 20px -8px rgba(42, 161, 152, 0.15) !important;
+}
+
+.glow-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vh;
+    border-radius: 80px;
+    background: linear-gradient(45deg,
+            rgba(255, 50, 100, 0.45) 0%,
+            rgba(255, 80, 150, 0.30) 25%,
+            rgba(120, 40, 220, 0.18) 50%,
+            rgba(0, 220, 255, 0.30) 75%,
+            rgba(0, 255, 255, 0.45) 100%);
+    filter: blur(160px);
+    pointer-events: none;
+    z-index: 0;
+}

@@ -1,0 +1,15 @@
+services:
+  homepage:
+    ports:
+      - "3000:3000"
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: localhost
+    networks:
+      - default
+    labels: []
+
+networks:
+  traefik_network:
+    external: false
+  default:
+    driver: bridge

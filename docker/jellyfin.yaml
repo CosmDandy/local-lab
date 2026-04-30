@@ -1,0 +1,31 @@
+---
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    restart: 'unless-stopped'
+    networks:
+      - traefik_network
+    expose:
+      - 8096
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_cache:/cache
+      - type: bind
+        source: ~/Music
+        target: /media
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.cosmdandy.ru`)"
+      - "traefik.http.routers.jellyfin.tls=true"
+      - "traefik.http.routers.jellyfin.entrypoints=websecure"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "traefik.http.services.jellyfin.loadbalancer.passHostHeader=true"
+
+networks:
+  traefik_network:
+    external: true
+
+volumes:
+  jellyfin_config:
+  jellyfin_cache:

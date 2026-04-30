@@ -1,0 +1,54 @@
+---
+services:
+  atuin-server:
+    image: ghcr.io/atuinsh/atuin:latest
+    container_name: atuin-server
+    restart: always
+    command: server start
+    volumes:
+      - "../configs/services/atuin:/config"
+    expose:
+      - 8888
+    environment:
+      ATUIN_HOST: "0.0.0.0"
+      ATUIN_OPEN_REGISTRATION: "true"
+      ATUIN_DB_URI: postgres://atuin:testpasswd@atuin-postgresql/atuin
+      RUST_LOG: info,atuin_server=debug
+    networks:
+      - atuin_network
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.atuin.rule=Host(`atuin.cosmdandy.ru`)"
+      - "traefik.http.routers.atuin.entrypoints=websecure"
+      - "traefik.http.routers.atuin.tls.certresolver=myresolver"
+      - "traefik.http.routers.atuin.service=atuin"
+      - "traefik.http.services.atuin.loadbalancer.server.port=8888"
+      # - "traefik.http.routers.atuin.middlewares=auth"
+    depends_on:
+      - atuin-postgresql
+
+  atuin-postgresql:
+    image: postgres:14
+    container_name: atuin-postgresql
+    restart: unless-stopped
+    volumes:
+      - "atuin_postgresql_data:/var/lib/postgresql/data/"
+    environment:
+      POSTGRES_USER: atuin
+      POSTGRES_PASSWORD: testpasswd
+      POSTGRES_DB: atuin
+    networks:
+      - atuin_network
+    labels:
+      - "traefik.enable=false"
+networks:
+  atuin_network:
+    name: atuin_network
+    driver: bridge
+  traefik_network:
+    external: true
+
+volumes:
+  atuin_postgresql_data:
+    name: atuin_postgresql_data
