@@ -30,12 +30,13 @@ data "talos_client_configuration" "this" {
 }
 
 data "helm_template" "cilium" {
-  name       = "cilium"
-  namespace  = "kube-system"
-  repository = "https://helm.cilium.io"
-  chart      = "cilium"
-  version    = "1.19.5"
-  values     = [file("${path.module}/bootstrap/cilium-values.yaml")]
+  name         = "cilium"
+  namespace    = "kube-system"
+  repository   = "https://helm.cilium.io"
+  chart        = "cilium"
+  version      = "1.19.5"
+  kube_version = "1.36.0" # helm_template рендерит локально и иначе берёт дефолт 1.20, чарт требует >=1.21
+  values       = [file("${path.module}/bootstrap/cilium-values.yaml")]
 }
 
 data "talos_machine_configuration" "controlplane" {
