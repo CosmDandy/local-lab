@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+data:
+  settings.yaml: |
+    {{ .Files.Get "files/settings.yaml" | nindent 4 }}
+  services.yaml: |
+    {{ .Files.Get "files/services.yaml" | nindent 4 }}
+  bookmarks.yaml: |
+    {{ .Files.Get "files/bookmarks.yaml" | nindent 4 }}
+  widgets.yaml: |
+    {{ .Files.Get "files/widgets.yaml" | nindent 4 }}
+  custom.css: |
+    {{ .Files.Get "files/custom.css" | nindent 4 }}
+  custom.js: |
+    {{ .Files.Get "files/custom.js" | nindent 4 }}
