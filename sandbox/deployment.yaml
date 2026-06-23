@@ -17,3 +17,8 @@ spec:
           image: nginx:alpine
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: homepage-config
+            - secretRef:
+                name: homepage-secret

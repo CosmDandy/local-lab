@@ -23,6 +23,8 @@ secrets/
 *.pem
 kubeconfig
 talosconfig
+# sandbox-эксперименты с секретами — не коммитим (для реальных: SealedSecrets/ExternalSecrets)
+sandbox/secret.yaml
 
 # Local tooling
 .claude/
