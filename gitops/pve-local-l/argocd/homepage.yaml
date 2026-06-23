@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/CosmDandy/local-lab
     targetRevision: master
-    path: kubernetes/pve-local-l/apps/default/homepage
+    path: gitops/pve-local-l/apps/default/homepage
     helm:
       valueFiles:
         - values.yaml
