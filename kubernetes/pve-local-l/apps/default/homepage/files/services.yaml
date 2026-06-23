@@ -1,0 +1,159 @@
+---
+- Hypervizor:
+      - pve-work-l-01:
+            icon: proxmox
+            href: https://pve-work-l-01.infra.hamster:8006/
+            siteMonitor: https://pve-work-l-01.infra.hamster:8006/
+            widget:
+                type: proxmox
+                url: https://pve-work-l-01.infra.hamster:8006/
+                username: api@pam!homepage
+                password: 5824b84e-0e08-46cf-966b-463118d3a08b # gitleaks:allow
+                node: pve-work-l-01
+      - pve-work-l-02:
+            icon: proxmox
+            href: https://pve-work-l-02.infra.hamster:8006/
+            siteMonitor: https://pve-work-l-02.infra.hamster:8006/
+            widget:
+                type: proxmox
+                url: https://pve-work-l-02.infra.hamster:8006/
+                username: api@pam!homepage
+                password: bfb150ba-b705-4a66-8f0c-4c521d733029 # gitleaks:allow
+                node: pve-work-l-02
+      - pve-work-l-03:
+            icon: proxmox
+            href: https://pve-work-l-03.infra.hamster:8006/
+            siteMonitor: https://pve-work-l-03.infra.hamster:8006/
+            widget:
+                type: proxmox
+                url: https://pve-work-l-03.infra.hamster:8006/
+                username: api@pam!homepage
+                password: ebdaca05-255b-4197-b98c-9768f3e57927 # gitleaks:allow
+                node: pve-work-l-03
+      - pve-local-l-01:
+            icon: proxmox
+            href: https://pve-local-l-01.infra.hamster:8006/
+            siteMonitor: https://pve-local-l-01.infra.hamster:8006/
+            widget:
+                type: proxmox
+                url: https://pve-local-l-01.infra.hamster:8006/
+                username: api@pam!homepage
+                password: a60ad65f-4571-4f20-a2b0-80b552c49ac1 # gitleaks:allow
+                node: lab
+- Hypervizor Origin:
+      - Nodes:
+            - pve-work-l-01:
+                  icon: proxmox
+                  href: https://192.168.20.151:8006/
+                  siteMonitor: https://192.168.20.151:8006/
+                  widget:
+                      type: proxmox
+                      url: https://192.168.20.151:8006/
+                      username: api@pam!homepage
+                      password: 5824b84e-0e08-46cf-966b-463118d3a08b # gitleaks:allow
+                      node: pve-work-l-01
+            - pve-work-l-02:
+                  icon: proxmox
+                  href: https://192.168.20.152:8006/
+                  siteMonitor: https://192.168.20.152:8006/
+                  widget:
+                      type: proxmox
+                      url: https://192.168.20.152:8006/
+                      username: api@pam!homepage
+                      password: bfb150ba-b705-4a66-8f0c-4c521d733029 # gitleaks:allow
+                      node: pve-work-l-02
+            - pve-work-l-03:
+                  icon: proxmox
+                  href: https://192.168.20.153:8006/
+                  siteMonitor: https://192.168.20.153:8006/
+                  widget:
+                      type: proxmox
+                      url: https://192.168.20.153:8006/
+                      username: api@pam!homepage
+                      password: ebdaca05-255b-4197-b98c-9768f3e57927 # gitleaks:allow
+                      node: pve-work-l-03
+            - pve-local-l-01:
+                  icon: proxmox
+                  href: https://10.0.1.101:8006/
+                  siteMonitor: https://10.0.1.101:8006/
+                  widget:
+                      type: proxmox
+                      url: https://10.0.1.101:8006/
+                      username: api@pam!homepage
+                      password: a60ad65f-4571-4f20-a2b0-80b552c49ac1 # gitleaks:allow
+                      node: pve-local-l-01
+      - IMM:
+            - IMM pve-local-l-01:
+                  icon: mdi-server-network
+                  href: http://localhost:8070/
+- Lab Services:
+      - Jellyfin:
+            icon: jellyfin
+            href: https://jellyfin.cosmdandy.ru/
+            siteMonitor: https://jellyfin.cosmdandy.ru/
+            # widget:
+            #     type: jellyfin
+            #     url: https://jellyfin.cosmdandy.ru/
+            #     key: dad87a84e0c747cd88a44eabad1c11fc
+            #     enableBlocks: true
+            #     expandOneStreamToTwoRows: false
+      - Photoprism:
+            icon: photoprism
+            href: https://photoprism.cosmdandy.ru/
+            siteMonitor: https://photoprism.cosmdandy.ru/
+            # widget:
+            #   type: photoprism
+            #   url: http://photoprism.host.or.ip:port
+            #   username: admin # required only if using username/password
+            #   password: password # required only if using username/password
+            #   key: # required only if using app passwords
+      - Paperless:
+            icon: paperless
+            href: https://paperless.cosmdandy.ru/
+            siteMonitor: https://paperless.cosmdandy.ru/
+            # widget:
+            #   type: paperlessngx
+            #   url: https://paperless.cosmdandy.ru/
+            #   key: your_api_key
+# - Kubernetes Infrastructure:
+#       - k8s:
+#             icon: si-kubernetes-#326CE5
+#             href: http://127.0.0.1:8500/
+#       - Vault:
+#             icon: hashicorp-vault
+#             href: https://127.0.0.1:8200/
+#             siteMonitor: https://127.0.0.1:8200/v1/sys/health
+#       - Grafana:
+#             href:
+#             siteMonitor:
+#             icon: grafana
+#             description: Metrics visualization and dashboards
+#             widget:
+#                 type: grafana
+#                 url: http://grafana.host.or.ip:port
+#                 username: username
+#                 password: password
+# - Development:
+#       - Coder:
+#             icon: coder
+- Network:
+      - Remnawave:
+            icon: remnawave
+            href: https://vpn.cosmdandy.dev/dashboard/management/users
+            siteMonitor: https://vpn.cosmdandy.dev/
+      - Traefik:
+            icon: traefik
+            href: https://traefik.cosmdandy.dev/dashboard/
+            siteMonitor: https://traefik.cosmdandy.dev/
+      - Tailscale:
+            icon: tailscale
+            href: https://mesh.cosmdandy.dev/admin/machines
+            siteMonitor: https://mesh.cosmdandy.dev/
+      # - Router:
+      #       - OPNSense:
+      #             icon: opnsense
+      #             href:
+      #       - Home Switch:
+      #             icon: zyxel-networks
+      #             href: http://10.0.1.65/
+      #             ping: 10.0.1.65

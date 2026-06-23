@@ -9,7 +9,7 @@ background:
   color: "#000000"
 headerStyle: clean
 hideVersion: true
-bookmarksStyle: icons
+# bookmarksStyle: icons
 statusStyle: "dot"
 # useEqualHeights: true
 
@@ -19,47 +19,32 @@ layout:
     style: row
     columns: 3
     useEqualHeights: true
-  Arr Stack:
-    tab: Services
-    style: row
-    columns: 2
-  Arr Stack Search:
-    tab: Services
-    style: row
-    columns: 4
-  Torrent:
-    tab: Services
-    style: row
-    columns: 2
   Hypervizor:
     tab: Infrastucture
     style: row
     columns: 4
     disableCollapse: true
+    initiallyCollapsed: true
   Hypervizor Origin:
     tab: Infrastucture
-    style: row
-    columns: 3
-    initiallyCollapsed: true
+    initiallyCollapsed: false
+    Nodes:
+      style: row
+      columns: 4
+      header: false
+    IMM:
+      style: row
+      columns: 1
+      header: false
   Network:
     tab: Infrastucture
     style: row
-    columns: 2
-  Vpn:
-    tab: Infrastucture
-    header: false
-    style: row
     columns: 1
-  Router:
-    tab: Infrastucture
-    header: false
-    style: row
-    columns: 2
-  Nomad Infrastructure:
-    tab: Infrastucture
-    style: row
-    columns: 3
-    disableCollapse: true
+    Router:
+      tab: Infrastucture
+      header: false
+      style: row
+      columns: 2
   Kubernetes Infrastructure:
     tab: Infrastucture
     style: row
@@ -67,12 +52,6 @@ layout:
     disableCollapse: true
   Development:
     tab: Infrastucture
-    style: row
-    columns: 1
-    disableCollapse: true
-  Lab Monitoring:
-    tab: Infrastucture
-    # header: false
     style: row
     columns: 1
     disableCollapse: true
