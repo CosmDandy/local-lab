@@ -31,6 +31,16 @@ resource "proxmox_virtual_environment_vm" "talos-vm" {
     import_from  = var.image_import_id
   }
 
+  dynamic "disk" {
+    for_each = var.data_disks
+    content {
+      datastore_id = disk.value.datastore_id
+      interface    = "scsi${disk.key + 1}"
+      size         = disk.value.size
+      discard      = "on" # thin: вернуть освобождённые блоки в ZFS-пул
+    }
+  }
+
   initialization {
     datastore_id = "local-lvm"
     ip_config {

@@ -33,7 +33,7 @@ variable "disk_size" {
 
 variable "image_import_id" {
   type    = string
-  default = "local:import/talos-v1.13.4-nocloud-amd64.raw"
+  default = "local:import/talos-v1.13.5-nocloud-amd64.raw"
 }
 
 variable "ipv4_cidr" {
@@ -43,4 +43,13 @@ variable "ipv4_cidr" {
 variable "gateway" {
   type    = string
   default = "10.0.1.1"
+}
+
+variable "data_disks" {
+  description = "Дополнительные (data) диски ВМ, напр. под Longhorn. Пустой список — только OS-диск."
+  type = list(object({
+    datastore_id = string
+    size         = number
+  }))
+  default = []
 }

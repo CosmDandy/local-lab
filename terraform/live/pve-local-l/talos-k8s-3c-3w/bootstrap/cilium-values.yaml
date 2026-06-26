@@ -11,6 +11,12 @@ k8sServicePort: 7445
 ipam:
   mode: kubernetes
 
+# --- Gateway API (замена ingress-nginx) ---
+# CRD ставятся отдельно (inlineManifests), Cilium их не создаёт.
+# Требует kubeProxyReplacement: true (выше) и l7Proxy (вкл. по умолчанию).
+gatewayAPI:
+  enabled: true
+
 # --- Talos-специфика: cgroup v2 уже смонтирован системой, ---
 # Cilium не должен монтировать его сам.
 cgroup:

@@ -15,5 +15,9 @@ variable "vms" {
     cores        = optional(number, 2)
     memory       = optional(number, 2048)
     disk_size    = optional(number, 8)
+    data_disks = optional(list(object({
+      datastore_id = string
+      size         = number
+    })), [])
   }))
 }
