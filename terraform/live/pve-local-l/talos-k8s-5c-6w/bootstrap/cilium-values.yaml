@@ -1,0 +1,56 @@
+# --- kube-proxy replacement (т.к. в Talos мы отключили kube-proxy) ---
+kubeProxyReplacement: true
+
+# Адрес API-сервера. В Talos есть KubePrism — локальный прокси к API
+# на каждой ноде, включён по умолчанию. Cilium ходит в API через него,
+# поэтому не зависит от kube-proxy/VIP на этапе старта.
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+# --- IPAM: адреса подам выдаёт сам Cilium по нодам ---
+ipam:
+  mode: kubernetes
+
+# --- Gateway API (замена ingress-nginx) ---
+# CRD ставятся отдельно (inlineManifests), Cilium их не создаёт.
+# Требует kubeProxyReplacement: true (выше) и l7Proxy (вкл. по умолчанию).
+gatewayAPI:
+  enabled: true
+
+# --- Talos-специфика: cgroup v2 уже смонтирован системой, ---
+# Cilium не должен монтировать его сам.
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+# --- Talos-специфика: Talos не даёт capabilities автоматически, ---
+# их надо перечислить явно, иначе агент не стартует.
+securityContext:
+  capabilities:
+    ciliumAgent:
+      [
+        CHOWN,
+        KILL,
+        NET_ADMIN,
+        NET_RAW,
+        IPC_LOCK,
+        SYS_ADMIN,
+        SYS_RESOURCE,
+        DAC_OVERRIDE,
+        FOWNER,
+        SETGID,
+        SETUID,
+      ]
+    cleanCiliumState: [NET_ADMIN, SYS_ADMIN, SYS_RESOURCE]
+
+# --- Hubble: наблюдаемость сети ---
+hubble:
+  enabled: true
+  tls:
+    auto:
+      method: cronJob # сертификаты Hubble генерит Job в кластере, не зашиваются в манифест
+  relay:
+    enabled: true # сборщик данных со всех нод
+  ui:
+    enabled: true # веб-морда с графом сервисов
