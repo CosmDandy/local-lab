@@ -154,6 +154,62 @@ local-lab/
 
 ---
 
+## Установка кластера с нуля (pve-local-l)
+
+Пошаговый runbook для реального кластера `pve-local-l` (3 CP + 3 worker, Talos + Cilium Gateway API + Longhorn). Три шага неизбежно ручные — это bootstrap-«семя» (инфраструктуры ещё нет / ArgoCD не ставит сам себя / нужно посадить первый Application). Всё остальное ArgoCD доводит сам.
+
+### Слой 0 — предпосылки на Proxmox
+- образ Talos **с extensions** (`iscsi-tools`, `util-linux-tools`) залит в `local:import/`
+- registry-зеркала `10.0.1.50:5000-5002` подняты и прогреты (в Talos `skipFallback: true` — без них кластер не соберётся)
+- ZFS-пул `tank` для data-дисков Longhorn
+
+### Слой 1 — Terraform (VM + диски + Talos + Cilium)
+```bash
+cd terraform/live/pve-local-l/talos-k8s-3c-3w
+terraform init
+terraform apply
+```
+Закладывай ~10 мин: etcd проходит через learner-гонку и самособирается (поды control-plane могут повисеть в `ContainerCreating` — это ожидаемо, не ошибка).
+
+Достать доступы:
+```bash
+mkdir -p ~/.kube
+terraform output -raw kubeconfig  > ~/.kube/local-lab.yaml
+terraform output -raw talosconfig > ~/.talosconfig
+export KUBECONFIG=~/.kube/local-lab.yaml
+```
+
+### Слой 2 — ArgoCD (единственная ручная установка чарта)
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace \
+  --version <pin> \
+  -f gitops/pve-local-l/bootstrap/argocd-values.yaml
+```
+`argocd-values.yaml` уводит redis с `ecr-public.aws.com` (нет в registry-зеркалах) на `docker.io`. Версию чарта запинь через `--version` (`helm search repo argo/argo-cd --versions`).
+
+### Слой 3 — посадить App-of-Apps
+```bash
+kubectl apply -f gitops/pve-local-l/bootstrap/root-app.yaml
+```
+
+### Слой 4 — дальше ArgoCD сам
+Подтягивает из репозитория: metallb → metrics-server → longhorn → cilium-gateway → homepage. Между приложениями нет жёсткого порядка — ArgoCD реконсилит до сходимости (~несколько минут после первого `git push` reconcile-задержки).
+```bash
+kubectl get applications -n argocd -w
+```
+
+### Проверки после сходимости
+```bash
+kubectl get nodes                    # 6 Ready (3 CP + 3 worker)
+kubectl get gatewayclass             # cilium
+kubectl get gateway -n gateway       # homelab: PROGRAMMED=True, есть ADDRESS из MetalLB-пула
+kubectl get storageclass             # longhorn
+```
+
+---
+
 ## DevContainer
 
 Репозиторий настроен под **DevPod / VS Code DevContainers**. Открой в VS Code → Reopen in Container, либо:
