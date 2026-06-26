@@ -29,3 +29,7 @@ sandbox/secret.yaml
 # Local tooling
 .claude/
 .DS_Store
+
+# Helm dependency artifacts (pulled by `helm dependency build`) — ArgoCD rebuilds them on sync
+gitops/**/charts/
+gitops/**/Chart.lock
