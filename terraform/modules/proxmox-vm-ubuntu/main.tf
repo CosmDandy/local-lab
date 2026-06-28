@@ -1,9 +1,10 @@
 resource "proxmox_virtual_environment_vm" "vm" {
-  name      = var.vm_name
-  vm_id     = tonumber(split(".", split("/", var.ipv4_address)[0])[3])
-  node_name = var.proxmox_node_name
-  tags      = var.tags
-  on_boot   = true
+  vm_id       = var.vm_id
+  name        = var.vm_name
+  description = var.vm_description
+  tags        = var.vm_tags
+  node_name   = var.proxmox_node_name
+  on_boot     = true
 
   clone {
     full  = var.clone_full
@@ -14,6 +15,12 @@ resource "proxmox_virtual_environment_vm" "vm" {
     enabled = true
   }
 
+  network_device {
+    bridge   = var.bridge
+    vlan_id  = var.vlan_id
+    firewall = var.firewall
+  }
+
   initialization {
     ip_config {
       ipv4 {
@@ -21,11 +28,18 @@ resource "proxmox_virtual_environment_vm" "vm" {
         gateway = var.gateway
       }
     }
+    user_account {
+      username = var.ci_user
+      keys     = var.ci_user_keys
+    }
+    dns {
+      servers = var.dns_servers
+    }
   }
 
   cpu {
     cores = var.cores
-    type  = "host"
+    type  = var.type
   }
 
   memory {
@@ -33,16 +47,46 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.os_disk.datastore_id
     interface    = "scsi0"
-    size         = var.disk_size
+    size         = var.os_disk.size
+    iothread     = true
+    ssd          = var.os_disk.ssd
+    discard      = "on"
+  }
+
+  dynamic "disk" {
+    for_each = var.data_disks
+    content {
+      datastore_id = disk.value.datastore_id
+      interface    = "scsi${disk.key + 1}"
+      size         = disk.value.size
+      iothread     = true
+      ssd          = disk.value.ssd
+      discard      = "on"
+    }
   }
 
   vga {
     type = "serial0"
   }
+}
 
-  provisioner "local-exec" {
-    command = "ssh root@${var.proxmox_node_ip} 'qm stop ${self.vm_id} && sleep 10 && qm start ${self.vm_id}'"
+resource "proxmox_virtual_environment_firewall_options" "vm" {
+  node_name     = var.proxmox_node_name
+  vm_id         = proxmox_virtual_environment_vm.vm.vm_id
+  enabled       = var.firewall
+  input_policy  = "DROP"
+  output_policy = "ACCEPT"
+}
+
+resource "proxmox_virtual_environment_firewall_rules" "vm" {
+  node_name = var.proxmox_node_name
+  vm_id     = proxmox_virtual_environment_vm.vm.vm_id
+  dynamic "rule" {
+    for_each = var.firewall_security_groups
+    content {
+      security_group = rule.value
+    }
   }
 }
