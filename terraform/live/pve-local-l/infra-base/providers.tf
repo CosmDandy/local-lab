@@ -5,10 +5,3 @@ provider "proxmox" {
     username = "root"
   }
 }
-
-provider "talos" {
-
-}
-
-# Рендерит чарт Cilium локально (helm_template), подключение к кластеру не требуется
-provider "helm" {}
