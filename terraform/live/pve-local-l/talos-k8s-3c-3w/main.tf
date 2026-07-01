@@ -1,19 +1,3 @@
-module "node" {
-  source = "../../../modules/proxmox-vm-talos"
-
-  for_each          = var.vms
-  vm_name           = each.key
-  vm_id             = tonumber(split(".", split("/", each.value.ipv4_address)[0])[3])
-  proxmox_node_name = var.proxmox_node_name
-  tags              = ["k8s", "terraform"]
-  cores             = each.value.cores
-  memory            = each.value.memory
-  disk_size         = each.value.disk_size
-  ipv4_cidr         = "${each.value.ipv4_address}/24"
-  gateway           = var.gateway
-  data_disks        = each.value.data_disks
-}
-
 locals {
   masters         = { for k, v in var.vms : k => v if v.role == "controlplane" }
   workers         = { for k, v in var.vms : k => v if v.role == "worker" }
@@ -22,12 +6,42 @@ locals {
   # Gateway API CRDs (vendored, pinned v1.4.1) — Cilium их сам не ставит,
   # должны быть в кластере до старта оператора → вшиваем в inlineManifests.
   gateway_crd_dir = "${path.module}/bootstrap/gateway-api-crds"
+  talos_image_url = "https://factory.talos.dev/image/${var.talos_schematic_id}/${var.talos_version}/nocloud-amd64.raw.gz"
+  os_datastore_id = "local-lvm"
+  tags            = ["k8s", "terraform"]
+}
+
+resource "proxmox_download_file" "talos" {
+  content_type            = "import"
+  datastore_id            = var.image_datastore
+  node_name               = var.proxmox_node_name
+  url                     = local.talos_image_url
+  file_name               = "talos-${var.talos_version}-nocloud-amd64.raw"
+  decompression_algorithm = "gz"
+}
+
+module "node" {
+  source = "../../../modules/proxmox-vm-talos"
+
+  for_each          = var.vms
+  vm_name           = each.key
+  vm_id             = tonumber(split(".", split("/", each.value.ipv4_address)[0])[3])
+  proxmox_node_name = var.proxmox_node_name
+  os_datastore_id   = local.os_datastore_id
+  image_import_id   = proxmox_download_file.talos.id
+  tags              = local.tags
+  cores             = each.value.cores
+  memory            = each.value.memory
+  disk_size         = each.value.disk_size
+  ipv4_cidr         = "${each.value.ipv4_address}/24"
+  gateway           = var.gateway
+  data_disks        = each.value.data_disks
 }
 
 resource "talos_machine_secrets" "this" {}
 
 data "talos_client_configuration" "this" {
-  cluster_name         = "local-lab"
+  cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoints            = [for k, v in local.masters : v.ipv4_address]
   nodes                = [for k, v in var.vms : v.ipv4_address]
@@ -44,7 +58,7 @@ data "helm_template" "cilium" {
 }
 
 data "talos_machine_configuration" "controlplane" {
-  cluster_name     = "local-lab"
+  cluster_name     = var.cluster_name
   machine_type     = "controlplane"
   cluster_endpoint = "https://${local.first_master_ip}:6443" # IP первой master
   machine_secrets  = talos_machine_secrets.this.machine_secrets
@@ -79,22 +93,22 @@ data "talos_machine_configuration" "controlplane" {
         )
       }
       machine = {
-        registries = {
-          mirrors = {
-            "registry.k8s.io" = {
-              endpoints    = ["http://10.0.1.50:5000"]
-              skipFallback = true
-            }
-            "docker.io" = {
-              endpoints    = ["http://10.0.1.50:5001"]
-              skipFallback = true
-            }
-            "quay.io" = {
-              endpoints    = ["http://10.0.1.50:5002"]
-              skipFallback = true
-            }
-          }
-        }
+        # registries = {
+        #   mirrors = {
+        #     "registry.k8s.io" = {
+        #       endpoints    = ["http://10.0.1.50:5000"]
+        #       skipFallback = true
+        #     }
+        #     "docker.io" = {
+        #       endpoints    = ["http://10.0.1.50:5001"]
+        #       skipFallback = true
+        #     }
+        #     "quay.io" = {
+        #       endpoints    = ["http://10.0.1.50:5002"]
+        #       skipFallback = true
+        #     }
+        #   }
+        # }
         install = {
           disk = "/dev/sda"
         }
@@ -104,7 +118,7 @@ data "talos_machine_configuration" "controlplane" {
 }
 
 data "talos_machine_configuration" "worker" {
-  cluster_name     = "local-lab"
+  cluster_name     = var.cluster_name
   machine_type     = "worker"
   cluster_endpoint = "https://${local.first_master_ip}:6443" # IP первой master
   machine_secrets  = talos_machine_secrets.this.machine_secrets
@@ -123,22 +137,22 @@ data "talos_machine_configuration" "worker" {
         }
       }
       machine = {
-        registries = {
-          mirrors = {
-            "registry.k8s.io" = {
-              endpoints    = ["http://10.0.1.50:5000"]
-              skipFallback = true
-            }
-            "docker.io" = {
-              endpoints    = ["http://10.0.1.50:5001"]
-              skipFallback = true
-            }
-            "quay.io" = {
-              endpoints    = ["http://10.0.1.50:5002"]
-              skipFallback = true
-            }
-          }
-        }
+        # registries = {
+        #   mirrors = {
+        #     "registry.k8s.io" = {
+        #       endpoints    = ["http://10.0.1.50:5000"]
+        #       skipFallback = true
+        #     }
+        #     "docker.io" = {
+        #       endpoints    = ["http://10.0.1.50:5001"]
+        #       skipFallback = true
+        #     }
+        #     "quay.io" = {
+        #       endpoints    = ["http://10.0.1.50:5002"]
+        #       skipFallback = true
+        #     }
+        #   }
+        # }
         install = {
           disk = "/dev/sda"
         }
@@ -159,6 +173,7 @@ data "talos_machine_configuration" "worker" {
 
 resource "talos_machine_configuration_apply" "controlplane" {
   for_each                    = local.masters # map master-нод
+  depends_on                  = [module.node]
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
   node                        = each.value.ipv4_address
@@ -184,6 +199,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
 
 resource "talos_machine_configuration_apply" "worker" {
   for_each                    = local.workers
+  depends_on                  = [module.node]
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
   node                        = each.value.ipv4_address

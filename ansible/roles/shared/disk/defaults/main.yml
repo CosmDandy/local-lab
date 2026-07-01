@@ -1,0 +1,8 @@
+---
+disk_fstype: ext4
+disk_mount_opts: defaults,nofail
+disk_by_id_prefix: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-
+
+# Маппинг интерфейса data-диска (из TF-стейта) в точку монтирования.
+# Задаётся сервис-ролью, напр. { scsi1: /srv/databasus }.
+disk_mounts: {}

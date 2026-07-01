@@ -1,0 +1,6 @@
+---
+# Вся инсталляция слой за слоем: bootstrap → base → database → clusters
+- import_playbook: playbooks/bootstrap.yml
+- import_playbook: playbooks/base.yml
+# - import_playbook: playbooks/database.yml   # Postgres — когда появится роль
+# - import_playbook: playbooks/clusters.yml   # k8s (Talos) — когда появится

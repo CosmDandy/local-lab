@@ -1,0 +1,4 @@
+---
+# Bootstrap-слой целиком: DNS (HA) → Nexus
+- import_playbook: bootstrap/dns.yml
+- import_playbook: bootstrap/nexus.yml

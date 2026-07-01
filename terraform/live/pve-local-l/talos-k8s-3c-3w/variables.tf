@@ -1,11 +1,33 @@
-variable "proxmox_node_name" {
+variable "proxmox_api_endpoint" {
+  type = string
+}
+
+variable "proxmox_api_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "cluster_name" {
+  type = string
+}
+variable "talos_version" {
   type    = string
-  default = "pve-local-l-01"
+  default = "v1.13.5"
+}
+variable "talos_schematic_id" { # твой набор extensions (qemu-agent, iscsi-tools)
+  type = string
+}
+variable "image_datastore" { # где лежит образ (import-storage)
+  type    = string
+  default = "local"
+}
+
+variable "proxmox_node_name" {
+  type = string
 }
 
 variable "gateway" {
-  type    = string
-  default = "10.0.1.1"
+  type = string
 }
 
 variable "vms" {

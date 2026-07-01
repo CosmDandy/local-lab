@@ -1,0 +1,25 @@
+{% set secondaries = groups['tag_dns'] | reject('equalto', dns_primary_host) | map('extract', hostvars, 'ansible_host') | list %}
+# {{ ansible_managed }}
+launch=lmdb
+lmdb-filename=/var/lib/powerdns/pdns.lmdb
+lmdb-shards=2
+lmdb-sync-mode=sync
+
+local-address=127.0.0.1
+local-port={{ dns_auth_port }}
+
+# API — для ExternalDNS / ACME (позже)
+api=yes
+api-key={{ dns_api_key }}
+webserver=yes
+webserver-address=127.0.0.1
+webserver-port=8081
+webserver-allow-from=127.0.0.1
+
+{% if dns_is_primary %}
+primary=yes
+allow-axfr-ips={{ secondaries | join(',') }}
+also-notify={{ secondaries | join(',') }}
+{% else %}
+secondary=yes
+{% endif %}

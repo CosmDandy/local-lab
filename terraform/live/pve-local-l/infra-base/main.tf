@@ -11,7 +11,7 @@ locals {
 }
 
 module "node" {
-  source = "../../../modules/proxmox-vm-ubuntu"
+  source = "../../../modules/proxmox-vm"
 
   for_each = var.vms
 

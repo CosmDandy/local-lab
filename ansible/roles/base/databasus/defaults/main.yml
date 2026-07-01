@@ -1,0 +1,6 @@
+---
+databasus_image: databasus/databasus
+databasus_version: latest
+databasus_port: 4005
+databasus_base_dir: /srv/databasus
+databasus_data_dir: "{{ databasus_base_dir }}/data"

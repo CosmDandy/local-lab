@@ -1,0 +1,39 @@
+---
+- name: Mount data disk declared in Terraform state
+  ansible.builtin.include_role:
+    name: shared/disk
+  vars:
+    disk_mounts:
+      scsi1: "{{ seaweedfs_base_dir }}"
+
+- name: Create SeaweedFS data directory
+  ansible.builtin.file:
+    path: "{{ seaweedfs_data_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Create SeaweedFS config directory
+  ansible.builtin.file:
+    path: "{{ seaweedfs_config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Render S3 identities config
+  ansible.builtin.template:
+    src: s3.json.j2
+    dest: "{{ seaweedfs_config_dir }}/s3.json"
+    mode: "0644"
+  no_log: true
+  notify: Restart seaweedfs
+
+- name: Render SeaweedFS compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ seaweedfs_base_dir }}/docker-compose.yml"
+    mode: "0640"
+  notify: Restart seaweedfs
+
+- name: Deploy SeaweedFS stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ seaweedfs_base_dir }}"
+    state: present

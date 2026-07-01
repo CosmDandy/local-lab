@@ -1,0 +1,21 @@
+services:
+  seaweedfs:
+    container_name: seaweedfs
+    image: "{{ seaweedfs_image }}:{{ seaweedfs_version }}"
+    command: >
+      server
+      -dir=/data
+      -filer
+      -s3
+      -s3.config=/config/s3.json
+      -master.volumeSizeLimitMB={{ seaweedfs_volume_size_limit_mb }}
+      -master.defaultReplication={{ seaweedfs_default_replication }}
+      -volume.max={{ seaweedfs_volume_max }}
+    ports:
+      - "{{ seaweedfs_s3_port }}:8333"
+      - "{{ seaweedfs_ui_bind }}9333:9333"
+      - "{{ seaweedfs_ui_bind }}8888:8888"
+    volumes:
+      - "{{ seaweedfs_data_dir }}:/data"
+      - "{{ seaweedfs_config_dir }}:/config:ro"
+    restart: unless-stopped

@@ -1,0 +1,6 @@
+---
+- name: Base layer — Databasus backup service
+  hosts: tag_databasus
+  become: true
+  roles:
+    - base/databasus

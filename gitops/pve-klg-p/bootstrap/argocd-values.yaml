@@ -1,0 +1,5 @@
+# Redis по умолчанию тянется с ecr-public.aws.com (нет в Talos registry-зеркалах).
+# Уводим на docker.io — он замаплен на pull-through cache 10.0.1.50:5001.
+redis:
+  image:
+    repository: docker.io/library/redis

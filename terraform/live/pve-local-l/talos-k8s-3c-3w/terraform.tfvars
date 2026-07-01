@@ -1,3 +1,8 @@
+cluster_name       = "local-lab"
+talos_version      = "v1.13.5"
+talos_schematic_id = "5be72c148a4108b6449f245102d2eea965811505ecbc6c84984c5f8b8628c8be"
+proxmox_node_name  = "pve-local-l-01"
+gateway            = "10.0.1.1"
 vms = {
   "talos-k8s-master-01" = {
     ipv4_address = "10.0.1.111"

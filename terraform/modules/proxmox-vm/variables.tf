@@ -43,6 +43,10 @@ variable "firewall_security_groups" {
 }
 
 # Initialization
+variable "snippets_datastore" {
+  type    = string
+  default = "local"
+}
 variable "ipv4_address" {
   type = string
 }

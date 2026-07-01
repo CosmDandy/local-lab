@@ -1,0 +1,6 @@
+---
+- name: Base layer — SeaweedFS S3 storage
+  hosts: tag_seaweedfs
+  become: true
+  roles:
+    - base/seaweed-fs

@@ -1,0 +1,5 @@
+# Сгенерированные секреты (password lookup) — не коммитить
+credentials/
+
+# Мастер-пароль Ansible Vault — только локально
+.vault-pass

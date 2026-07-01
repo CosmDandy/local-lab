@@ -1,0 +1,24 @@
+---
+dns_domain: cosmdandy.dev
+
+# Primary — первый хост в группе tag_dns (dns-01). Остальные — secondary.
+dns_primary_host: "{{ groups['tag_dns'] | sort | first }}"
+dns_is_primary: "{{ inventory_hostname == dns_primary_host }}"
+dns_primary_ip: "{{ hostvars[dns_primary_host].ansible_host }}"
+
+# Authoritative слушает локально, recursor форвардит ему зону.
+dns_auth_port: 5300
+dns_api_key: "{{ lookup('password', 'credentials/pdns_api_key length=32 chars=ascii_letters,digits') }}"
+
+# Recursor: всё, кроме зоны, уходит на upstream (split-horizon).
+dns_upstream_resolvers:
+  - 1.1.1.1
+  - 8.8.8.8
+dns_allow_from:
+  - 192.168.82.0/24
+  - 127.0.0.0/8
+
+# Статические A-записи зоны (в git). Применяются на primary, secondary получает через AXFR.
+dns_zone_records:
+  - { name: dns-01, ip: 192.168.82.102 }
+  - { name: dns-02, ip: 192.168.82.103 }

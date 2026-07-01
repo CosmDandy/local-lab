@@ -154,6 +154,64 @@ local-lab/
 
 ---
 
+## Proxmox API-токен для Terraform
+
+Провайдер [`bpg/proxmox`](https://registry.terraform.io/providers/bpg/proxmox) аутентифицируется в Proxmox по **API-токену**. Endpoint и токен каждого кластера лежат в `secret.auto.tfvars` рядом со стейтом (файл под `.gitignore`, в репо не попадает), провайдер читает их через `var.proxmox_api_endpoint` / `var.proxmox_api_token`.
+
+### 1. Создать пользователя и токен
+
+На любой ноде Proxmox-кластера (root-сессия):
+
+```bash
+# пользователь под Terraform (realm pve = встроенный)
+pveum user add terraform@pve
+
+# токен с отключённым privilege separation: токен наследует права пользователя
+pveum user token add terraform@pve terraform --privsep 0
+```
+
+`token add` **один раз** выведет секрет вида `terraform@pve!terraform=xxxxxxxx-xxxx-...` — сохрани сразу, повторно он не показывается.
+
+### 2. Выдать права
+
+Для провижининга VM (создание, диски, cloud-init, сеть) достаточно роли `PVEAdmin`:
+
+```bash
+pveum acl modify / --users terraform@pve --roles PVEAdmin
+```
+
+⚠️ **Подвох:** `PVEAdmin` не содержит `Sys.Modify`, а он обязателен для скачивания образа по URL (`proxmox_download_file` → API `query-url-metadata`). Без него `terraform apply` падает на загрузке Talos-образа с `HTTP 403 — Permission check failed`. Добавляем ровно эту привилегию отдельной ролью (least-privilege, не расширяя до `PVESysAdmin`/`Administrator`):
+
+```bash
+pveum role add TerraformDownload --privs "Sys.Modify"
+pveum acl modify / --users terraform@pve --roles TerraformDownload
+```
+
+### 3. Прописать в стейте
+
+В `secret.auto.tfvars` каждого стейта (`terraform/live/<cluster>/<stack>/`):
+
+```hcl
+proxmox_api_endpoint = "https://<proxmox-ip>:8006/"
+proxmox_api_token    = "terraform@pve!terraform=xxxxxxxx-xxxx-..."
+```
+
+### 4. Проверить
+
+```bash
+# эффективные права токена — должны включать Sys.Modify
+pveum user token permissions terraform@pve terraform | grep Sys.Modify
+
+# живой тест metadata-запроса: ожидаем HTTP 200, не 403
+curl -sk -o /dev/null -w "%{http_code}\n" \
+  -H "Authorization: PVEAPIToken=terraform@pve!terraform=xxxxxxxx-xxxx-..." \
+  --data-urlencode "url=https://factory.talos.dev/<...>.raw.gz" \
+  --data-urlencode "verify-certificates=0" -G \
+  "https://<proxmox-ip>:8006/api2/json/nodes/<node>/query-url-metadata"
+```
+
+---
+
 ## Установка кластера с нуля (pve-local-l)
 
 Пошаговый runbook для реального кластера `pve-local-l` (3 CP + 3 worker, Talos + Cilium Gateway API + Longhorn). Три шага неизбежно ручные — это bootstrap-«семя» (инфраструктуры ещё нет / ArgoCD не ставит сам себя / нужно посадить первый Application). Всё остальное ArgoCD доводит сам.
@@ -206,6 +264,38 @@ kubectl get nodes                    # 6 Ready (3 CP + 3 worker)
 kubectl get gatewayclass             # cilium
 kubectl get gateway -n gateway       # homelab: PROGRAMMED=True, есть ADDRESS из MetalLB-пула
 kubectl get storageclass             # longhorn
+```
+
+---
+
+## Дальнейшие этапы — ArgoCD bootstrap (kvt-lab / pve-klg-p-02)
+
+После `terraform apply` (VM + Talos + Cilium развёрнуты) кластер пуст. Дальше ставится ArgoCD и сажается App-of-Apps. **Порядок строгий:** ArgoCD ставится первым (это `helm install`), App-of-Apps применяется уже работающим ArgoCD — не наоборот.
+
+**Предусловие:** bootstrap-файлы для klg пока не созданы (есть только у `pve-local-l`). Создай по образцу `gitops/pve-local-l/`:
+- `gitops/pve-klg-p-02/bootstrap/argocd-values.yaml` — overrides ArgoCD-чарта. У `pve-local-l` тут redis уводится на registry-зеркало `10.0.1.50`; у klg сеть другая и registry-зеркала пока отключены — правь под свою.
+- `gitops/pve-klg-p-02/bootstrap/root-app.yaml` — App-of-Apps, `path: gitops/pve-klg-p-02/argocd`.
+- `gitops/pve-klg-p-02/argocd/` — манифесты приложений, которые подтянет ArgoCD.
+
+### Слой 2 — ArgoCD (единственная ручная установка чарта)
+```bash
+export KUBECONFIG=~/.kube/kvt-lab/config
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -n argocd --create-namespace \
+  --version <pin> \
+  -f gitops/pve-klg-p-02/bootstrap/argocd-values.yaml
+```
+
+### Слой 3 — посадить App-of-Apps
+```bash
+kubectl apply -f gitops/pve-klg-p-02/bootstrap/root-app.yaml
+```
+
+### Слой 4 — дальше ArgoCD сам
+Реконсилит всё из `gitops/pve-klg-p-02/argocd` до сходимости.
+```bash
+kubectl get applications -n argocd -w
 ```
 
 ---

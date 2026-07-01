@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: homepage
+  template:
+    metadata:
+      labels:
+        app: homepage
+    spec:
+      initContainers:
+        # configmap монтируется read-only, а homepage пишет в /app/config (скелеты, логи).
+        # Копируем конфиги в writable emptyDir, который и монтируем основному контейнеру.
+        - name: copy-config
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["sh", "-c", "cp -f /src/* /app/config/ 2>/dev/null || true"]
+          volumeMounts:
+            - mountPath: /app/config
+              name: config
+            - mountPath: /src
+              name: config-src
+      containers:
+        - name: homepage
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{.Values.image.pullPolicy}}
+          ports:
+            - containerPort: 3000
+          env:
+            # homepage валидирует Host-заголовок; разрешаем хост из ingress
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: {{ .Values.ingress.host | quote }}
+          volumeMounts:
+            - mountPath: /app/config
+              name: config
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: config-src
+          configMap:
+            name: homepage-config

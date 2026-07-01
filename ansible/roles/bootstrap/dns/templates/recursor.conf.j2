@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+local-address={{ ansible_default_ipv4.address }},127.0.0.1
+local-port=53
+allow-from={{ dns_allow_from | join(',') }}
+
+# Зона cosmdandy.dev → локальный authoritative (split-horizon: внутренние записи)
+forward-zones={{ dns_domain }}=127.0.0.1:{{ dns_auth_port }}
+
+# Всё остальное → upstream-резолверы
+forward-zones-recurse=.={{ dns_upstream_resolvers | join(';') }}
+
+dnssec=process-no-validate

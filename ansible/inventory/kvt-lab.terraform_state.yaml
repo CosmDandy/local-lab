@@ -1,0 +1,19 @@
+plugin: cloud.terraform.terraform_state
+backend_type: cloud
+backend_config:
+  organization: CosmDandy
+  workspaces:
+    name: kvt-lab-infra-base
+provider_mapping:
+  - provider_name: registry.terraform.io/bpg/proxmox
+    types:
+      - proxmox_virtual_environment_vm
+search_child_modules: true
+hostnames:
+  - name
+compose:
+  ansible_host: "'192.168.82.' ~ vm_id"
+keyed_groups:
+  - key: tags
+    prefix: "tag"
+    separator: "_"

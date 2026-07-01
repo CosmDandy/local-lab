@@ -1,0 +1,6 @@
+---
+- name: Bootstrap layer — Nexus registry
+  hosts: tag_nexus
+  become: true
+  roles:
+    - bootstrap/nexus

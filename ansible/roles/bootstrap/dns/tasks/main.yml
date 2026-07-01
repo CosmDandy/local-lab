@@ -1,0 +1,80 @@
+---
+- name: Disable systemd-resolved stub listener (free port 53)
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#?DNSStubListener='
+    line: 'DNSStubListener=no'
+  notify: Restart systemd-resolved
+
+- name: Apply resolved change before binding port 53
+  ansible.builtin.meta: flush_handlers
+
+- name: Install PowerDNS authoritative, LMDB backend and recursor
+  ansible.builtin.apt:
+    name:
+      - pdns-server
+      - pdns-backend-lmdb
+      - pdns-recursor
+    state: present
+    update_cache: true
+
+- name: Configure authoritative server
+  ansible.builtin.template:
+    src: pdns.conf.j2
+    dest: /etc/powerdns/pdns.conf
+    owner: root
+    group: pdns
+    mode: "0640"
+  notify: Restart pdns
+
+- name: Configure recursor
+  ansible.builtin.template:
+    src: recursor.conf.j2
+    dest: /etc/powerdns/recursor.conf
+    mode: "0644"
+  notify: Restart pdns-recursor
+
+- name: Start authoritative and recursor before zone operations
+  ansible.builtin.meta: flush_handlers
+
+- name: Ensure PowerDNS services are enabled and running
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - pdns
+    - pdns-recursor
+
+# --- Zone management: primary ---
+- name: Check whether zone already exists (primary)
+  ansible.builtin.command: pdnsutil list-zone {{ dns_domain }}
+  register: dns_zone_check
+  changed_when: false
+  failed_when: false
+  when: dns_is_primary
+
+- name: Create zone on primary
+  ansible.builtin.command: pdnsutil create-zone {{ dns_domain }} {{ dns_primary_host }}.{{ dns_domain }}
+  when:
+    - dns_is_primary
+    - dns_zone_check.rc != 0
+  notify: Restart pdns
+
+- name: Apply static A records on primary
+  ansible.builtin.command: pdnsutil replace-rrset {{ dns_domain }} {{ item.name }} A 300 {{ item.ip }}
+  loop: "{{ dns_zone_records }}"
+  loop_control:
+    label: "{{ item.name }} → {{ item.ip }}"
+  when: dns_is_primary
+  changed_when: true
+
+# --- Zone management: secondary ---
+- name: Configure secondary zone (AXFR from primary)
+  ansible.builtin.command: pdnsutil create-secondary-zone {{ dns_domain }} {{ dns_primary_ip }}
+  register: dns_sec_zone
+  changed_when: "'Added' in dns_sec_zone.stdout or 'Creating' in dns_sec_zone.stdout"
+  failed_when:
+    - dns_sec_zone.rc != 0
+    - "'already exists' not in (dns_sec_zone.stderr | default(''))"
+  when: not dns_is_primary

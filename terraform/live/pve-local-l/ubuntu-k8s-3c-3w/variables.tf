@@ -1,3 +1,12 @@
+variable "proxmox_api_endpoint" {
+  type = string
+}
+
+variable "proxmox_api_token" {
+  type      = string
+  sensitive = true
+}
+
 variable "proxmox_node" {
   type    = string
   default = "10.0.1.101" # IP твоей Proxmox-ноды

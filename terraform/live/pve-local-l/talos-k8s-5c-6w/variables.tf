@@ -1,3 +1,12 @@
+variable "proxmox_api_endpoint" {
+  type = string
+}
+
+variable "proxmox_api_token" {
+  type      = string
+  sensitive = true
+}
+
 variable "proxmox_node_name" {
   type    = string
   default = "pve-local-l-01"

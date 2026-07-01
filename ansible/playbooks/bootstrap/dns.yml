@@ -1,0 +1,6 @@
+---
+- name: Bootstrap layer — PowerDNS authoritative + recursor
+  hosts: tag_dns
+  become: true
+  roles:
+    - bootstrap/dns

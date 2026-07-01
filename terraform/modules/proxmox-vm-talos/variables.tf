@@ -6,6 +6,11 @@ variable "vm_name" {
   type = string
 }
 
+variable "vm_description" {
+  type    = string
+  default = ""
+}
+
 variable "proxmox_node_name" {
   type    = string
   default = "pve-local-l-01"
@@ -26,14 +31,44 @@ variable "memory" {
   default = 2048
 }
 
+variable "bridge" {
+  type    = string
+  default = "vmbr0"
+}
+
+variable "vlan_id" {
+  type     = number
+  default  = null
+  nullable = true
+}
+
+variable "firewall" {
+  type    = bool
+  default = false
+}
+
+variable "firewall_security_groups" {
+  type    = list(string)
+  default = []
+}
+
 variable "disk_size" {
   type    = number
   default = 8
 }
 
-variable "image_import_id" {
+variable "os_datastore_id" {
   type    = string
-  default = "local:import/talos-v1.13.5-nocloud-amd64.raw"
+  default = "local-lvm"
+}
+
+variable "ssd" {
+  type    = bool
+  default = true
+}
+
+variable "image_file_id" {
+  type = string
 }
 
 variable "ipv4_cidr" {
@@ -50,6 +85,7 @@ variable "data_disks" {
   type = list(object({
     datastore_id = string
     size         = number
+    ssd          = optional(bool, true)
   }))
   default = []
 }

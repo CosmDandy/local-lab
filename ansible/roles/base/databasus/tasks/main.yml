@@ -1,0 +1,25 @@
+---
+- name: Mount data disk declared in Terraform state
+  ansible.builtin.include_role:
+    name: shared/disk
+  vars:
+    disk_mounts:
+      scsi1: "{{ databasus_base_dir }}"
+
+- name: Create Databasus data directory
+  ansible.builtin.file:
+    path: "{{ databasus_data_dir }}"
+    state: directory
+    mode: "0750"
+
+- name: Render Databasus compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ databasus_base_dir }}/docker-compose.yml"
+    mode: "0640"
+  notify: Restart databasus
+
+- name: Deploy Databasus stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ databasus_base_dir }}"
+    state: present

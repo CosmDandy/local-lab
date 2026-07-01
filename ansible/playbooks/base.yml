@@ -1,0 +1,4 @@
+---
+# Base-слой целиком
+- import_playbook: base/databasus.yml
+- import_playbook: base/seaweedfs.yml

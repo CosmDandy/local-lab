@@ -1,0 +1,31 @@
+---
+seaweedfs_image: chrislusf/seaweedfs
+seaweedfs_version: "4.37"
+
+seaweedfs_base_dir: /srv/seaweedfs
+seaweedfs_data_dir: "{{ seaweedfs_base_dir }}/data"
+seaweedfs_config_dir: "{{ seaweedfs_base_dir }}/config"
+
+seaweedfs_s3_port: 8333
+# Bind UI-портов (master 9333, filer 8888). "" = все интерфейсы (доступ по IP ВМ).
+# ВНИМАНИЕ: filer 8888 не имеет auth — открытый доступ = чтение/запись файлов кем угодно в сети.
+# Безопаснее "127.0.0.1:" (только через SSH-туннель).
+seaweedfs_ui_bind: "127.0.0.1:"
+seaweedfs_volume_size_limit_mb: 30000
+# Лимит ЧИСЛА томов на volume-сервере (не преаллокация). Нужен запас под новые бакеты/collections.
+seaweedfs_volume_max: 100
+# "000" — без репликации (single-node). При добавлении volume-нод сменить, напр. "010".
+seaweedfs_default_replication: "000"
+
+# Список S3-identity. Ключи генерируются/персистятся в gitignored credentials/ (раздаются клиентам тем же lookup).
+# admin — полный доступ (управление). Клиентские — только Read/Write/List на свой бакет (least privilege).
+# Actions с суффиксом ":bucket" ограничивают identity конкретным бакетом.
+seaweedfs_identities:
+  - name: admin
+    access_key: "{{ lookup('password', 'credentials/seaweedfs_access_key length=20 chars=ascii_letters,digits') }}"
+    secret_key: "{{ lookup('password', 'credentials/seaweedfs_secret_key length=40 chars=ascii_letters,digits') }}"
+    actions: [Admin, Read, Write]
+  - name: databasus
+    access_key: "{{ lookup('password', 'credentials/seaweedfs_databasus_access_key length=20 chars=ascii_letters,digits') }}"
+    secret_key: "{{ lookup('password', 'credentials/seaweedfs_databasus_secret_key length=40 chars=ascii_letters,digits') }}"
+    actions: ["Read:databasus", "Write:databasus", "List:databasus", "Tagging:databasus"]

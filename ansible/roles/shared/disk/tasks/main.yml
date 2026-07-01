@@ -1,0 +1,23 @@
+---
+- name: Select data disks requested by the service
+  ansible.builtin.set_fact:
+    disk_data_disks: "{{ disk | default([]) | selectattr('interface', 'in', disk_mounts.keys() | list) | list }}"
+
+- name: Create filesystem on data disks
+  community.general.filesystem:
+    dev: "{{ disk_by_id_prefix }}{{ item.interface }}"
+    fstype: "{{ disk_fstype }}"
+  loop: "{{ disk_data_disks }}"
+  loop_control:
+    label: "{{ item.interface }}"
+
+- name: Mount data disks at service-defined paths
+  ansible.posix.mount:
+    path: "{{ disk_mounts[item.interface] }}"
+    src: "{{ disk_by_id_prefix }}{{ item.interface }}"
+    fstype: "{{ disk_fstype }}"
+    opts: "{{ disk_mount_opts }}"
+    state: mounted
+  loop: "{{ disk_data_disks }}"
+  loop_control:
+    label: "{{ item.interface }}"

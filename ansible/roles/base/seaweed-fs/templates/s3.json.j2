@@ -1,0 +1,16 @@
+{
+  "identities": [
+{% for id in seaweedfs_identities %}
+    {
+      "name": "{{ id.name }}",
+      "credentials": [
+        {
+          "accessKey": "{{ id.access_key }}",
+          "secretKey": "{{ id.secret_key }}"
+        }
+      ],
+      "actions": {{ id.actions | to_json }}
+    }{{ "," if not loop.last else "" }}
+{% endfor %}
+  ]
+}
