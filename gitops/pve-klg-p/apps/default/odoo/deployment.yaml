@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo
+spec:
+  replicas: 1
+  # RWO-том filestore монтируется к одной ноде: сначала гасим старый под
+  # (том освобождается), затем поднимаем новый — иначе Multi-Attach error.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: odoo
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry
+      containers:
+        - name: odoo
+          image: gitlab.electrointech.ru:5050/codekvt/solutions/odoo13/develop:latest
+          imagePullPolicy: Always # latest → всегда тянуть свежий слой (иначе застынет кеш)
+          # entrypoint.sh склеит: odoo <args> <DB_ARGS>. Имя базы задаётся здесь,
+          # т.к. в режиме no_install/no_update скрипт НЕ подставляет -d PROJECT_DATABASE.
+          args:
+            - odoo
+            - -d
+            - develop
+            - --db-filter=^develop$
+          ports:
+            - name: web
+              containerPort: 8069
+            - name: longpolling
+              containerPort: 8072
+          env:
+            # --- Подключение к внешнему Postgres (VM) ---
+            - name: HOST
+              value: "192.168.82.140"
+            - name: PORT # порт Postgres, НЕ Odoo
+              value: "5432"
+            - name: USER
+              value: "odoo"
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-db
+                  key: password
+            # --- Идентичность базы и мастер-пароль Odoo ---
+            # TODO(human): задать PROJECT_DATABASE, ADMIN_PASSWD, DBFILTER, LIST_DB
+            - name: PROJECT_DATABASE
+              value: "develop"
+            - name: ADMIN_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: odoo-db
+                  key: admin-passwd
+            - name: DBFILTER
+              value: "^develop$"
+            - name: LIST_DB
+              value: "true"
+            # --- Функциональные параметры (перенесены из Nomad-джобы) ---
+            - name: SERVER_WIDE_MODULES
+              value: "web,queue_job"
+            - name: WORKERS
+              value: "4"
+            - name: MAX_CRON_THREADS
+              value: "1"
+            # limit_memory_* — НА ВОРКЕР. 4 воркера × 1.25 GiB ≈ 5 GiB + мастер < 6 GiB пода.
+            - name: LIMIT_MEMORY_HARD
+              value: "1342177280" # 1.25 GiB на воркер (жёсткий kill)
+            - name: LIMIT_MEMORY_SOFT
+              value: "1073741824" # 1 GiB на воркер (мягкий рестарт воркера)
+            - name: DEBUG_MODE
+              value: "False"
+            - name: AUTO_UPDATE_BY_SHA
+              value: "0" # MVP: без авто-апдейта модулей при старте
+            - name: COMMAND_ARGS_INSTALL
+              value: "odoo_no_install"
+            - name: COMMAND_ARGS_UPDATE
+              value: "odoo_no_update"
+          volumeMounts:
+            - name: filestore
+              mountPath: /var/lib/odoo
+          readinessProbe:
+            httpGet:
+              path: /web/database/selector
+              port: 8069
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /web/database/selector
+              port: 8069
+            initialDelaySeconds: 40
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "2" # воркеры по 4 vCPU; 4 целиком не влезает (система занимает часть)
+              memory: 6Gi
+            limits:
+              cpu: "4" # потолок = размер ноды, под может брать почти все ядра под нагрузкой
+              memory: 6Gi
+      volumes:
+        - name: filestore
+          persistentVolumeClaim:
+            claimName: odoo-filestore

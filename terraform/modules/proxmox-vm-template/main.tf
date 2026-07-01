@@ -1,8 +1,9 @@
 resource "proxmox_download_file" "cloud_image" {
-  content_type = "iso"
-  datastore_id = var.image_datastore
-  node_name    = var.node_name
-  url          = var.image_url
+  content_type        = "iso"
+  datastore_id        = var.image_datastore
+  node_name           = var.node_name
+  url                 = var.image_url
+  overwrite_unmanaged = true
 }
 
 resource "proxmox_virtual_environment_vm" "template" {

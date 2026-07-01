@@ -1,0 +1,6 @@
+---
+- name: Database layer — PostgreSQL for Odoo
+  hosts: tag_postgres
+  become: true
+  roles:
+    - database/postgres

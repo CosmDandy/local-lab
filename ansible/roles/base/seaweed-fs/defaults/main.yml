@@ -22,10 +22,10 @@ seaweedfs_default_replication: "000"
 # Actions с суффиксом ":bucket" ограничивают identity конкретным бакетом.
 seaweedfs_identities:
   - name: admin
-    access_key: "{{ lookup('password', 'credentials/seaweedfs_access_key length=20 chars=ascii_letters,digits') }}"
-    secret_key: "{{ lookup('password', 'credentials/seaweedfs_secret_key length=40 chars=ascii_letters,digits') }}"
+    access_key: "{{ vault_seaweedfs_admin_access_key }}"
+    secret_key: "{{ vault_seaweedfs_admin_secret_key }}"
     actions: [Admin, Read, Write]
   - name: databasus
-    access_key: "{{ lookup('password', 'credentials/seaweedfs_databasus_access_key length=20 chars=ascii_letters,digits') }}"
-    secret_key: "{{ lookup('password', 'credentials/seaweedfs_databasus_secret_key length=40 chars=ascii_letters,digits') }}"
+    access_key: "{{ vault_seaweedfs_databasus_access_key }}"
+    secret_key: "{{ vault_seaweedfs_databasus_secret_key }}"
     actions: ["Read:databasus", "Write:databasus", "List:databasus", "Tagging:databasus"]

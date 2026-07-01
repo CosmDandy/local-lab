@@ -1,0 +1,24 @@
+---
+postgresql_version: "18"
+
+# Точка монтирования data-диска (scsi1).
+postgres_mount_dir: /srv/postgres
+# PGDATA — в поддиректории mount point (initdb не работает с самим mount point из-за lost+found).
+postgres_data_dir: /srv/postgres/pgdata
+
+odoo_db_name: develop
+odoo_db_user: odoo
+odoo_db_password: "{{ vault_postgres_odoo_password }}"
+
+# "*" — слушать на всех интерфейсах: подключение удалённое из k8s (Odoo вне этой VM).
+postgres_listen_addresses: "*"
+
+# CIDR, которым разрешён доступ к БД odoo (pg_hba.conf).
+# ВНИМАНИЕ: pod_cidr/service_cidr — placeholder, уточнить фактические значения
+# из talos-k8s кластера (terraform/live/pve-local-l/talos-k8s-*/terraform.tfvars).
+# Если CNI делает SNAT egress-трафика на IP ноды (напр. Cilium по умолчанию),
+# для Postgres источником будет IP ноды, а не под-CIDR — тогда pod_cidr тут не нужен,
+# достаточно CIDR/адресов k8s-нод (обычно уже покрыт LAN-подсетью ниже).
+postgres_allowed_cidrs:
+  - 192.168.82.0/24 # LAN (k8s-ноды находятся в этой подсети)
+  - 10.244.0.0/16 # k8s pod CIDR — УТОЧНИТЬ, нужен только если CNI НЕ делает SNAT

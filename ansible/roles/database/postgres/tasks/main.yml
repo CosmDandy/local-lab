@@ -1,0 +1,120 @@
+---
+- name: Mount data disk declared in Terraform state
+  ansible.builtin.include_role:
+    name: shared/disk
+  vars:
+    disk_mounts:
+      scsi1: "{{ postgres_mount_dir }}"
+
+- name: Install repository prerequisites
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+    update_cache: true
+
+- name: Create keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download PGDG GPG key
+  ansible.builtin.get_url:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    dest: /etc/apt/keyrings/postgresql.asc
+    mode: "0644"
+
+- name: Configure PGDG apt repository
+  ansible.builtin.deb822_repository:
+    name: pgdg
+    types: [deb]
+    uris: https://apt.postgresql.org/pub/repos/apt
+    suites: ["{{ ansible_distribution_release }}-pgdg"]
+    components: [main]
+    signed_by: /etc/apt/keyrings/postgresql.asc
+    state: present
+    enabled: true
+
+- name: Install postgresql-common
+  ansible.builtin.apt:
+    name: postgresql-common
+    state: present
+    update_cache: true
+
+# Должно выполниться ДО установки postgresql-{{ postgresql_version }},
+# иначе postinst-скрипт пакета создаст кластер в дефолтном каталоге
+# (/var/lib/postgresql/{{ postgresql_version }}/main), а не на смонтированном диске.
+- name: Disable automatic creation of the default cluster
+  ansible.builtin.lineinfile:
+    path: /etc/postgresql-common/createcluster.conf
+    regexp: '^#?\s*create_main_cluster\s*='
+    line: "create_main_cluster = false"
+
+- name: Install PostgreSQL server and psycopg
+  ansible.builtin.apt:
+    name:
+      - "postgresql-{{ postgresql_version }}"
+      - python3-psycopg2
+    state: present
+
+- name: Check whether the PostgreSQL cluster already exists
+  ansible.builtin.stat:
+    path: "{{ postgres_data_dir }}/PG_VERSION"
+  register: postgres_cluster_marker
+
+- name: Create PostgreSQL cluster on the mounted data disk
+  ansible.builtin.command:
+    cmd: >-
+      pg_createcluster {{ postgresql_version }} main
+      --datadir={{ postgres_data_dir }}
+  when: not postgres_cluster_marker.stat.exists
+  changed_when: true
+
+- name: Ensure PostgreSQL service is started and enabled
+  ansible.builtin.systemd_service:
+    name: "postgresql@{{ postgresql_version }}-main"
+    state: started
+    enabled: true
+
+- name: Configure listen_addresses for remote access
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regexp: "^#?listen_addresses\\s*="
+    line: "listen_addresses = '{{ postgres_listen_addresses }}'"
+  notify: Restart postgresql
+
+- name: Allow the odoo user to connect from trusted CIDRs
+  ansible.builtin.blockinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - odoo remote access"
+    block: |
+      {% for cidr in postgres_allowed_cidrs %}
+      host    all    {{ odoo_db_user }}    {{ cidr }}    scram-sha-256
+      {% endfor %}
+  notify: Reload postgresql
+
+- name: Apply pending PostgreSQL configuration changes
+  ansible.builtin.meta: flush_handlers
+
+- name: Create the odoo database role
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ odoo_db_user }}"
+    password: "{{ odoo_db_password }}"
+    encrypted: true
+    role_attr_flags: CREATEDB,NOSUPERUSER
+    state: present
+  no_log: true
+
+- name: Create the odoo database
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ odoo_db_name }}"
+    owner: "{{ odoo_db_user }}"
+    encoding: UTF-8
+    state: present

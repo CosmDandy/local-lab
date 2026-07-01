@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: odoo
+spec:
+  # LoadBalancer: MetalLB выдаст внешний IP для прямого доступа http://<IP>:8069
+  # (в обход Gateway, без Host-заголовка). Gateway по имени продолжает работать.
+  type: LoadBalancer
+  selector:
+    app: odoo
+  ports:
+    - name: web
+      port: 8069
+      targetPort: 8069
+    - name: longpolling
+      port: 8072
+      targetPort: 8072

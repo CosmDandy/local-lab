@@ -1,0 +1,3 @@
+---
+# Database-слой целиком
+- import_playbook: database/postgres.yml
