@@ -5,9 +5,6 @@
 {
   "name": "local-lab DevContainer",
   "image": "ghcr.io/cosmdandy/devcontainer:devops",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-  },
   "containerEnv": {
     "LANG": "en_US.UTF-8",
     "LC_ALL": "en_US.UTF-8",
