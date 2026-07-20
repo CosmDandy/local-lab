@@ -1,0 +1,30 @@
+---
+- name: Mount data disk declared in Terraform state
+  ansible.builtin.include_role:
+    name: shared/disk
+  vars:
+    disk_mounts:
+      scsi1: "{{ nexus_base_dir }}"
+
+- name: Create Nexus data directory owned by container user
+  ansible.builtin.file:
+    path: "{{ nexus_data_dir }}"
+    state: directory
+    owner: "{{ nexus_container_uid }}"
+    group: "{{ nexus_container_uid }}"
+    mode: "0750"
+
+- name: Render Nexus compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ nexus_base_dir }}/docker-compose.yml"
+    mode: "0640"
+  notify: Restart nexus
+
+- name: Deploy Nexus stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ nexus_base_dir }}"
+    state: present
+
+- name: Provision Nexus (repos, realms, admin password) via REST
+  ansible.builtin.import_tasks: provision.yml

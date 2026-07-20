@@ -1,0 +1,19 @@
+---
+- name: Install node-exporter package
+  ansible.builtin.apt:
+    name: "{{ node_exporter_package }}"
+    state: present
+    update_cache: true
+
+- name: Configure node-exporter arguments
+  ansible.builtin.template:
+    src: default.j2
+    dest: "/etc/default/{{ node_exporter_package }}"
+    mode: "0644"
+  notify: Restart node-exporter
+
+- name: Ensure node-exporter is started and enabled
+  ansible.builtin.systemd_service:
+    name: "{{ node_exporter_package }}"
+    state: started
+    enabled: true

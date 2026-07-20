@@ -1,0 +1,14 @@
+---
+postgres_exporter_package: prometheus-postgres-exporter
+postgres_exporter_port: 9187
+
+# Exporter co-located на БД-хосте → подключается к локальному PostgreSQL.
+postgres_exporter_db_host: 127.0.0.1
+postgres_exporter_db_port: 5432
+postgres_exporter_db_name: postgres
+postgres_exporter_db_user: "{{ odoo_db_user | default('odoo') }}"
+postgres_exporter_db_password: "{{ vault_postgres_odoo_password }}"
+postgres_exporter_db_sslmode: disable
+
+# Бинд на приватный IP VM — как node-exporter (скрейп с VM VictoriaMetrics).
+postgres_exporter_listen_address: "{{ ansible_host }}:{{ postgres_exporter_port }}"

@@ -1,0 +1,38 @@
+# Managed by Ansible — Vector agent (logs → OpenSearch)
+data_dir: {{ vector_data_dir }}
+
+sources:
+  journald:
+    type: journald
+    current_boot_only: true
+{% if vector_enable_docker_logs | bool %}
+
+  docker_logs:
+    type: docker_logs
+{% endif %}
+
+transforms:
+  enrich:
+    type: remap
+    inputs:
+      - journald
+{% if vector_enable_docker_logs | bool %}
+      - docker_logs
+{% endif %}
+    source: |
+      .host = get_hostname!()
+      .environment = "{{ vector_environment }}"
+
+sinks:
+  opensearch:
+    type: elasticsearch
+    inputs:
+      - enrich
+    endpoints:
+      - "{{ vector_opensearch_endpoint }}"
+    api_version: auto
+    mode: bulk
+    bulk:
+      index: "{{ vector_opensearch_index }}"
+    healthcheck:
+      enabled: false

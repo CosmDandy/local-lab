@@ -1,0 +1,138 @@
+---
+# Provisioning Nexus через REST API. Идемпотентно: повторный прогон не ломает состояние.
+# Репозитории существуют только в БД Nexus — поднять их «из файла» нельзя, лишь через API.
+
+- name: Wait for Nexus API to become writable
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/status/writable"
+    status_code: [200]
+  register: nexus_health
+  until: nexus_health.status == 200
+  retries: 30
+  delay: 10
+
+# --- Bootstrap admin-пароля (первый старт → пароль из vault) ---
+- name: Check whether the vaulted admin password already works
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/security/users?userId=admin"
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    status_code: [200, 401, 403]
+  register: nexus_admin_check
+  no_log: true
+
+- name: Read initial admin password generated on first boot
+  ansible.builtin.slurp:
+    src: "{{ nexus_data_dir }}/admin.password"
+  register: nexus_initial_pw
+  when: nexus_admin_check.status != 200
+  failed_when: false
+
+- name: Rotate admin password to the vaulted one
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/security/users/admin/change-password"
+    method: PUT
+    user: admin
+    password: "{{ nexus_initial_pw.content | b64decode | trim }}"
+    force_basic_auth: true
+    headers:
+      Content-Type: text/plain
+    body: "{{ nexus_admin_password }}"
+    status_code: [204]
+  when:
+    - nexus_admin_check.status != 200
+    - nexus_initial_pw.content is defined
+  no_log: true
+
+# --- EULA (Community Edition: без принятия Nexus отдаёт 403 на весь контент) ---
+- name: Get EULA acceptance status
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/system/eula"
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    status_code: [200]
+  register: nexus_eula
+  no_log: true
+
+- name: Accept EULA
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/system/eula/accept"
+    method: POST
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      disclaimer: "{{ nexus_eula.json.disclaimer }}"
+      accepted: true
+    status_code: [204]
+  when: not nexus_eula.json.accepted
+  no_log: true
+
+# --- Security: Docker Bearer Token realm + анонимный доступ (для pull без кредов) ---
+- name: Enable Docker Bearer Token realm
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/security/realms/active"
+    method: PUT
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      - NexusAuthenticatingRealm
+      - DockerToken
+    status_code: [204]
+  no_log: true
+
+- name: Enable anonymous access
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/security/anonymous"
+    method: PUT
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body:
+      enabled: true
+      userId: anonymous
+      realmName: NexusAuthorizingRealm
+    status_code: [200]
+  no_log: true
+
+# --- Docker proxy-репозитории (создаём только отсутствующие) ---
+- name: List existing repositories
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/repositories"
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    status_code: [200]
+  register: nexus_repos
+  no_log: true
+
+- name: Create docker proxy repositories
+  ansible.builtin.uri:
+    url: "{{ nexus_api_url }}/service/rest/v1/repositories/docker/proxy"
+    method: POST
+    user: admin
+    password: "{{ nexus_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body: "{{ {
+      'name': item.name,
+      'online': true,
+      'storage': {'blobStoreName': 'default', 'strictContentTypeValidation': true},
+      'proxy': {'remoteUrl': item.remote_url, 'contentMaxAge': 1440, 'metadataMaxAge': 1440},
+      'negativeCache': {'enabled': true, 'timeToLive': 1440},
+      'httpClient': {'blocked': false, 'autoBlock': true},
+      'docker': {'v1Enabled': false, 'forceBasicAuth': false, 'httpPort': item.port | int},
+      'dockerProxy': {'indexType': item.index_type, 'indexUrl': item.index_url | default(item.remote_url)}
+      } }}"
+    status_code: [201]
+  loop: "{{ nexus_docker_proxies }}"
+  loop_control:
+    label: "{{ item.name }} :{{ item.port }} → {{ item.remote_url }}"
+  when: item.name not in (nexus_repos.json | map(attribute='name') | list)
+  no_log: true

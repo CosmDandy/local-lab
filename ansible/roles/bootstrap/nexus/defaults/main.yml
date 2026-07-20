@@ -1,0 +1,35 @@
+---
+nexus_image: sonatype/nexus3
+nexus_version: 3.93.2
+
+nexus_ui_port: 8081
+nexus_docker_hosted_port: 5000
+
+# Docker pull-through proxy-репо. Каждый = свой connector-порт + upstream.
+# index_type: HUB для Docker Hub (нужен index_url), REGISTRY для прочих.
+nexus_docker_proxies:
+  - name: docker-hub
+    port: 5001
+    remote_url: https://registry-1.docker.io
+    index_type: HUB
+    index_url: https://index.docker.io/
+  - name: k8s
+    port: 5002
+    remote_url: https://registry.k8s.io
+    index_type: REGISTRY
+  - name: quay
+    port: 5003
+    remote_url: https://quay.io
+    index_type: REGISTRY
+
+# admin-креды для provisioning. Целевой пароль — из vault.
+nexus_api_url: "http://localhost:{{ nexus_ui_port }}"
+nexus_admin_password: "{{ vault_nexus_admin_password }}"
+
+nexus_base_dir: /srv/nexus
+nexus_data_dir: "{{ nexus_base_dir }}/data"
+
+# uid/gid пользователя nexus внутри контейнера sonatype/nexus3
+nexus_container_uid: 200
+
+nexus_jvm_heap: 4g

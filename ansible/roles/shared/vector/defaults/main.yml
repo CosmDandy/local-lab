@@ -1,0 +1,23 @@
+---
+vector_package: vector
+
+# APT-репозиторий Vector (хостится Datadog), ключ — Datadog APT key.
+vector_apt_key_url: https://keys.datadoghq.com/DATADOG_APT_KEY_CURRENT.public
+vector_apt_uri: https://apt.vector.dev
+vector_apt_suite: stable
+vector_apt_component: vector-0
+
+vector_config_dir: /etc/vector
+vector_data_dir: /var/lib/vector
+
+# Метка окружения, добавляется в каждое событие (для фильтрации в OpenSearch).
+vector_environment: prod
+
+# Сбор логов Docker-контейнеров. true на хостах с Docker (base-слой);
+# на хостах без Docker выстави false, останется только journald.
+vector_enable_docker_logs: true
+
+# Sink — хранилище логов. OpenSearch поднимается в base-слое позже;
+# при готовности переопредели в group_vars/all. Домен из DNS-слоя (cosmdandy.dev).
+vector_opensearch_endpoint: "http://opensearch.cosmdandy.dev:9200"
+vector_opensearch_index: "vector-logs-%Y.%m.%d"

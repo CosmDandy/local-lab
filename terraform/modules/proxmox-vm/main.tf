@@ -139,7 +139,7 @@ resource "proxmox_virtual_environment_firewall_rules" "vm" {
   node_name = var.proxmox_node_name
   vm_id     = proxmox_virtual_environment_vm.vm.vm_id
   dynamic "rule" {
-    for_each = var.firewall_security_groups
+    for_each = var.firewall ? var.firewall_security_groups : []
     content {
       security_group = rule.value
     }

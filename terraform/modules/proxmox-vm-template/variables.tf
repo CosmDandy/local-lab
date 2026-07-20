@@ -9,9 +9,10 @@ variable "template_name" {
 }
 
 variable "vm_id" {
-  description = "ID шаблона. null — Proxmox назначит сам"
+  description = "ID шаблона. По умолчанию — из диапазона 9000+ (конвенция Proxmox для шаблонов)"
   type        = number
-  default     = null
+  # TODO(human): задать дефолт, чтобы шаблоны автоматически нумеровались от 9000
+  default = null
 }
 
 variable "image_url" {

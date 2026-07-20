@@ -1,0 +1,18 @@
+services:
+  nexus:
+    container_name: nexus
+    image: "{{ nexus_image }}:{{ nexus_version }}"
+    # host networking: Nexus биндит UI (8081) и docker-коннекторы (5000-5003)
+    # напрямую на хост. Новые proxy-репо открывают порт сами, compose не трогаем.
+    network_mode: host
+    volumes:
+      - "{{ nexus_data_dir }}:/nexus-data"
+    restart: unless-stopped
+    environment:
+      INSTALL4J_ADD_VM_PARAMS: "-Xms{{ nexus_jvm_heap }} -Xmx{{ nexus_jvm_heap }} -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8081/service/rest/v1/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 180s

@@ -10,6 +10,16 @@ locals {
   tags            = ["k8s", "terraform"]
   talos_image_url = "https://factory.talos.dev/image/${var.talos_schematic_id}/${var.talos_version}/nocloud-amd64.raw.gz"
 
+  # Registry pull-through mirrors → Nexus (bootstrap-слой). Один источник для CP и worker.
+  # skipFallback=false: если Nexus недоступен, containerd падает обратно на upstream
+  # (доступность важнее «только через кэш»; поменяешь на true, когда захочешь air-gap).
+  nexus_host = "192.168.82.150" # TODO: тянуть из terraform_remote_state bootstrap (output registry_server_ips)
+  registry_mirrors = {
+    "docker.io"       = { endpoints = ["http://${local.nexus_host}:5001"], skipFallback = false }
+    "registry.k8s.io" = { endpoints = ["http://${local.nexus_host}:5002"], skipFallback = false }
+    "quay.io"         = { endpoints = ["http://${local.nexus_host}:5003"], skipFallback = false }
+  }
+
   kubeconfig_path  = coalesce(var.kubeconfig_path, pathexpand("~/.kube/configs/${var.cluster_name}.yaml"))
   talosconfig_path = coalesce(var.talosconfig_path, pathexpand("~/.talos/${var.cluster_name}.talosconfig"))
 }
@@ -21,6 +31,12 @@ resource "proxmox_download_file" "talos" {
   url                     = local.talos_image_url
   file_name               = "talos-${var.talos_version}-nocloud-amd64.img"
   decompression_algorithm = "gz"
+
+  # bpg на каждом plan сверяет размер по URL (сжатый .raw.gz) с сохранённым
+  # (распакованным) → они не сходятся, size уходит в "known after apply" и ложно
+  # форсит replace образа (каскадом — всех VM). overwrite=false: не перекачивать
+  # существующий файл, тем самым убрать ложный replace. Реального дрейфа нет.
+  overwrite = false
 }
 
 module "node" {
@@ -96,22 +112,9 @@ data "talos_machine_configuration" "controlplane" {
         )
       }
       machine = {
-        # registries = {
-        #   mirrors = {
-        #     "registry.k8s.io" = {
-        #       endpoints    = ["http://10.0.1.50:5000"]
-        #       skipFallback = true
-        #     }
-        #     "docker.io" = {
-        #       endpoints    = ["http://10.0.1.50:5001"]
-        #       skipFallback = true
-        #     }
-        #     "quay.io" = {
-        #       endpoints    = ["http://10.0.1.50:5002"]
-        #       skipFallback = true
-        #     }
-        #   }
-        # }
+        registries = {
+          mirrors = local.registry_mirrors
+        }
         install = {
           disk = "/dev/sda"
         }
@@ -140,22 +143,9 @@ data "talos_machine_configuration" "worker" {
         }
       }
       machine = {
-        # registries = {
-        #   mirrors = {
-        #     "registry.k8s.io" = {
-        #       endpoints    = ["http://10.0.1.50:5000"]
-        #       skipFallback = true
-        #     }
-        #     "docker.io" = {
-        #       endpoints    = ["http://10.0.1.50:5001"]
-        #       skipFallback = true
-        #     }
-        #     "quay.io" = {
-        #       endpoints    = ["http://10.0.1.50:5002"]
-        #       skipFallback = true
-        #     }
-        #   }
-        # }
+        registries = {
+          mirrors = local.registry_mirrors
+        }
         install = {
           disk = "/dev/sda"
         }

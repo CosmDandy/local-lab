@@ -1,5 +1,5 @@
 locals {
-  clone_full   = false
+  clone_full   = true
   gateway      = "192.168.82.1"
   ci_user      = "cosmdandy"
   ci_user_keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsx73RvU7CaBdKkAcRXcLdIG/APXzi5l4sxY+5J57EV cosmdandy@macbook-cosmdandy"]

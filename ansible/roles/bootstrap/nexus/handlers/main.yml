@@ -1,0 +1,5 @@
+---
+- name: Restart nexus
+  community.docker.docker_compose_v2:
+    project_src: "{{ nexus_base_dir }}"
+    state: restarted

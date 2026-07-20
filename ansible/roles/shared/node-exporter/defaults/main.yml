@@ -1,0 +1,8 @@
+---
+node_exporter_package: prometheus-node-exporter
+node_exporter_port: 9100
+
+# Адрес прослушивания :9100. У экспортёра НЕТ auth, а VictoriaMetrics скрейпит
+# его с ДРУГОЙ VM по приватной сети 192.168.82.0/24. Бинд строго на приватный
+# IP VM (ansible_host): доступен соседу в /24, но не на внешних интерфейсах.
+node_exporter_listen_address: "{{ ansible_host }}:{{ node_exporter_port }}"

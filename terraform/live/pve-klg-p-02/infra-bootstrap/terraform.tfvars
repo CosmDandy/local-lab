@@ -1,6 +1,6 @@
 vms = {
   "nexus" = {
-    ipv4_address      = "192.168.82.104/24"
+    ipv4_address      = "192.168.82.150/24"
     vm_tags           = ["nexus", "registry", "bootstrap"]
     proxmox_node_name = "node2"
     dns_servers       = ["1.1.1.1", "8.8.8.8"]

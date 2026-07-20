@@ -1,0 +1,16 @@
+---
+# Telemetry agents — co-located на каждой VM (метрики + логи).
+# Сквозной слой: ставится поверх всех остальных (bootstrap/base/database).
+- name: Telemetry agents — metrics & logs on every host
+  hosts: all
+  become: true
+  roles:
+    - shared/node-exporter
+    - shared/vector
+
+# postgres-exporter — только на БД-хостах (нужен доступ к локальному PostgreSQL).
+- name: Telemetry agents — PostgreSQL metrics
+  hosts: tag_postgres
+  become: true
+  roles:
+    - shared/postgres-exporter

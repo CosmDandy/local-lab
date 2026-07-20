@@ -1,0 +1,20 @@
+---
+- name: Install postgres-exporter package
+  ansible.builtin.apt:
+    name: "{{ postgres_exporter_package }}"
+    state: present
+    update_cache: true
+
+- name: Configure postgres-exporter environment
+  ansible.builtin.template:
+    src: default.j2
+    dest: "/etc/default/{{ postgres_exporter_package }}"
+    mode: "0640"
+  no_log: true
+  notify: Restart postgres-exporter
+
+- name: Ensure postgres-exporter is started and enabled
+  ansible.builtin.systemd_service:
+    name: "{{ postgres_exporter_package }}"
+    state: started
+    enabled: true

@@ -1,0 +1,66 @@
+---
+- name: Install repository prerequisites
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+    update_cache: true
+
+- name: Create keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Vector (Datadog) GPG key
+  ansible.builtin.get_url:
+    url: "{{ vector_apt_key_url }}"
+    dest: /etc/apt/keyrings/vector.asc
+    mode: "0644"
+
+- name: Configure Vector apt repository
+  ansible.builtin.deb822_repository:
+    name: vector
+    types: [deb]
+    uris: "{{ vector_apt_uri }}"
+    suites: ["{{ vector_apt_suite }}"]
+    components: ["{{ vector_apt_component }}"]
+    signed_by: /etc/apt/keyrings/vector.asc
+    state: present
+    enabled: true
+
+- name: Install Vector
+  ansible.builtin.apt:
+    name: "{{ vector_package }}"
+    state: present
+    update_cache: true
+
+- name: Allow Vector to read the system journal
+  ansible.builtin.user:
+    name: vector
+    groups: systemd-journal
+    append: true
+  notify: Restart vector
+
+- name: Allow Vector to read the Docker socket
+  ansible.builtin.user:
+    name: vector
+    groups: docker
+    append: true
+  when: vector_enable_docker_logs | bool
+  notify: Restart vector
+
+- name: Render Vector configuration
+  ansible.builtin.template:
+    src: vector.yaml.j2
+    dest: "{{ vector_config_dir }}/vector.yaml"
+    mode: "0644"
+    validate: "vector validate --no-environment %s"
+  notify: Restart vector
+
+- name: Ensure Vector is started and enabled
+  ansible.builtin.systemd_service:
+    name: "{{ vector_package }}"
+    state: started
+    enabled: true

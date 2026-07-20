@@ -1,0 +1,3 @@
+# Managed by Ansible — postgres-exporter
+DATA_SOURCE_NAME="postgresql://{{ postgres_exporter_db_user }}:{{ postgres_exporter_db_password }}@{{ postgres_exporter_db_host }}:{{ postgres_exporter_db_port }}/{{ postgres_exporter_db_name }}?sslmode={{ postgres_exporter_db_sslmode }}"
+ARGS="--web.listen-address={{ postgres_exporter_listen_address }}"
