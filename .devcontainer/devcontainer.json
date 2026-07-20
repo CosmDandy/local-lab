@@ -1,10 +1,32 @@
+// Пребилт-образ из CosmDandy/dotfiles: плагины nvim, mason-пакеты и
+// treesitter-парсеры уже внутри, поэтому нет onCreateCommand и setup.sh.
+// Профили: :core — редактор и шелл, :devops — плюс terraform/k8s/ansible.
+// containerEnv, а не remoteEnv: локаль нужна и демонам, и docker exec.
 {
+  "name": "local-lab DevContainer",
   "image": "ghcr.io/cosmdandy/devcontainer:devops",
-  "remoteEnv": {
-    "LANG": "en_US.UTF-8",
-    "LC_ALL": "en_US.UTF-8"
-  },
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "containerEnv": {
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": "en_US.UTF-8",
+    "TZ": "Europe/Moscow"
+  },
+  "remoteEnv": {
+    "TERM": "xterm-256color",
+    "COLORTERM": "truecolor"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
+      }
+    }
   }
 }
