@@ -1,0 +1,80 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+title: Services
+description: GO HARD OR GO HOME
+theme: dark
+color: slate
+background:
+  color: "#000000"
+headerStyle: clean
+hideVersion: true
+# bookmarksStyle: icons
+statusStyle: "dot"
+# useEqualHeights: true
+
+layout:
+  Lab Services:
+    tab: Services
+    style: row
+    columns: 3
+    useEqualHeights: true
+  Hypervizor:
+    tab: Infrastucture
+    style: row
+    columns: 1
+    initiallyCollapsed: false
+    Nodes:
+      style: row
+      columns: 5
+      header: false
+      KVT 01:
+        style: row
+        columns: 1
+        header: false
+      KVT 02:
+        style: row
+        columns: 1
+        header: false
+      KVT 03:
+        style: row
+        columns: 1
+        header: false
+      Local 01:
+        style: row
+        columns: 1
+        header: false
+      Local 02:
+        style: row
+        columns: 1
+        header: false
+  Cloud Lab:
+    tab: Infrastucture
+    style: row
+    columns: 1
+    Auth:
+      style: row
+      columns: 1
+      header: false
+    VPN:
+      style: row
+      columns: 2
+      header: false
+    Ingress:
+      style: row
+      columns: 1
+      header: false
+    Monitoring:
+      style: row
+      columns: 3
+      header: false
+  Kubernetes Infrastructure:
+    tab: Infrastucture
+    style: row
+    columns: 3
+    disableCollapse: true
+  Development:
+    tab: Infrastucture
+    style: row
+    columns: 1
+    disableCollapse: true

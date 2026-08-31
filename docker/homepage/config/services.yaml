@@ -1,0 +1,165 @@
+---
+- Hypervizor:
+    - Nodes:
+        - KVT 01:
+            - pve-kvt-l-01:
+                icon: proxmox
+                href: https://192.168.20.151:8006/
+                siteMonitor: https://192.168.20.151:8006/
+                widget:
+                  type: proxmox
+                  url: https://192.168.20.151:8006/
+                  username: api@pve!homepage
+                  password: {{HOMEPAGE_VAR_PVE_KVT_TOKEN}}
+                  node: pve-kvt-l-01
+                  fields: ["vms", "resources.cpu", "resources.mem"]
+        - KVT 02:
+            - pve-kvt-l-02:
+                icon: proxmox
+                href: https://192.168.20.152:8006/
+                siteMonitor: https://192.168.20.152:8006/
+                widget:
+                  type: proxmox
+                  url: https://192.168.20.152:8006/
+                  username: api@pve!homepage
+                  password: {{HOMEPAGE_VAR_PVE_KVT_TOKEN}}
+                  node: pve-kvt-l-02
+                  fields: ["vms", "resources.cpu", "resources.mem"]
+        - KVT 03:
+            - pve-kvt-l-03:
+                icon: proxmox
+                href: https://192.168.20.153:8006/
+                siteMonitor: https://192.168.20.153:8006/
+                widget:
+                  type: proxmox
+                  url: https://192.168.20.153:8006/
+                  username: api@pve!homepage
+                  password: {{HOMEPAGE_VAR_PVE_KVT_TOKEN}}
+                  node: pve-kvt-l-03
+                  fields: ["vms", "resources.cpu", "resources.mem"]
+        - Local 01:
+            - pve-local-l-01:
+                icon: proxmox
+                href: https://10.0.1.101:8006/
+                siteMonitor: https://10.0.1.101:8006/
+                widget:
+                  type: proxmox
+                  url: https://10.0.1.101:8006/
+                  username: api@pve!homepage
+                  password: {{HOMEPAGE_VAR_PVE_LOCAL_L_01_TOKEN}}
+                  node: pve-local-l-01
+                  fields: ["vms", "resources.cpu", "resources.mem"]
+            - IMM:
+                icon: mdi-server-network
+                href: http://localhost:8070/
+                ping: https://10.0.1.100/
+        - Local 02:
+            - pve-local-l-02:
+                icon: proxmox
+                # href: https://10.0.1.102:8006/
+                # siteMonitor: https://10.0.1.102:8006/
+                href: https://192.168.20.154:8006/
+                siteMonitor: https://192.168.20.154:8006/
+                widget:
+                  type: proxmox
+                  # url: https://10.0.1.102:8006/
+                  url: https://192.168.20.154:8006/
+                  username: api@pve!homepage
+                  password: {{HOMEPAGE_VAR_PVE_LOCAL_L_02_TOKEN}}
+                  node: pve-local-l-02
+                  fields: ["vms", "resources.cpu", "resources.mem"]
+            - iLO:
+                icon: mdi-server-network
+                href: http://127.0.0.1:8443/
+                ping: https://192.168.20.207/
+- Lab Services:
+    - Jellyfin:
+        icon: jellyfin
+        href: https://jellyfin.cosmdandy.ru/
+        siteMonitor: https://jellyfin.cosmdandy.ru/
+        # widget:
+        #     type: jellyfin
+        #     url: https://jellyfin.cosmdandy.ru/
+        #     key: dad87a84e0c747cd88a44eabad1c11fc
+        #     enableBlocks: true
+        #     expandOneStreamToTwoRows: false
+    - Photoprism:
+        icon: photoprism
+        href: https://photoprism.cosmdandy.ru/
+        siteMonitor: https://photoprism.cosmdandy.ru/
+        # widget:
+        #   type: photoprism
+        #   url: http://photoprism.host.or.ip:port
+        #   username: admin # required only if using username/password
+        #   password: password # required only if using username/password
+        #   key: # required only if using app passwords
+    - Paperless:
+        icon: paperless
+        href: https://paperless.cosmdandy.ru/
+        siteMonitor: https://paperless.cosmdandy.ru/
+        # widget:
+        #   type: paperlessngx
+        #   url: https://paperless.cosmdandy.ru/
+        #   key: your_api_key
+# - Kubernetes Infrastructure:
+#       - k8s:
+#             icon: si-kubernetes-#326CE5
+#             href: http://127.0.0.1:8500/
+#       - Vault:
+#             icon: hashicorp-vault
+#             href: https://127.0.0.1:8200/
+#             siteMonitor: https://127.0.0.1:8200/v1/sys/health
+#       - Grafana:
+#             href:
+#             siteMonitor:
+#             icon: grafana
+#             description: Metrics visualization and dashboards
+#             widget:
+#                 type: grafana
+#                 url: http://grafana.host.or.ip:port
+#                 username: username
+#                 password: password
+# - Development:
+#       - Coder:
+#             icon: coder
+- Cloud Lab:
+    - Auth:
+        - Pocket ID:
+            icon: pocket-id
+            href: https://oidc.cosmdandy.dev/
+            siteMonitor: https://oidc.cosmdandy.dev/
+    - VPN:
+        - Remnawave:
+            icon: remnawave
+            href: https://vpn.cosmdandy.dev/dashboard/management/users
+            siteMonitor: https://vpn.cosmdandy.dev/
+        - Headscale:
+            icon: headscale
+            href: https://mesh.cosmdandy.dev/admin/machines
+            siteMonitor: https://mesh.cosmdandy.dev/
+    - Ingress:
+        - Traefik:
+            icon: traefik
+            href: https://traefik.cosmdandy.dev/dashboard/
+            siteMonitor: https://traefik.cosmdandy.dev/
+    - Monitoring:
+        - Grafana:
+            icon: grafana
+            href: https://grafana.cosmdandy.dev/
+            siteMonitor: https://grafana.cosmdandy.dev/
+        - Status:
+            icon: gatus
+            href: https://status.cosmdandy.dev/
+            siteMonitor: https://status.cosmdandy.dev/
+        - VPN Status:
+            icon: gatus
+            href: https://status.vpn.cosmdandy.dev/
+            siteMonitor: https://status.vpn.cosmdandy.dev/
+  # - Router:
+  #       - OPNSense:
+  #             icon: opnsense
+  #             href:
+  #       - Home Switch:
+  #             icon: zyxel-networks
+  #             href: http://10.0.1.65/
+  #             ping: 10.0.1.65

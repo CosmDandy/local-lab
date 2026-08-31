@@ -1,0 +1,34 @@
+---
+# Homepage dashboard, running on the workstation.
+#
+# Proxmox tokens are not in config/ — services.yaml references them as {{HOMEPAGE_VAR_*}}
+# and homepage substitutes them from the environment at startup:
+#
+#   cd docker/homepage
+#   sops exec-env secrets.sops.yaml 'docker compose up -d'
+#
+# NOTE: config/services.yaml links the BMC bridges as 127.0.0.1:8070 and :8443. Those
+# resolve in the *viewer's* browser, so the dashboard is only fully functional when opened
+# on the machine that runs the bridges — see ../imm-bridge and ../ilo-bridge.
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v2.0.0
+    container_name: homepage
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: localhost:3000
+      # Fail loudly rather than rendering a dashboard with silently broken widgets.
+      HOMEPAGE_VAR_PVE_KVT_TOKEN: ${HOMEPAGE_VAR_PVE_KVT_TOKEN:?run via sops exec-env}
+      HOMEPAGE_VAR_PVE_LOCAL_L_01_TOKEN: ${HOMEPAGE_VAR_PVE_LOCAL_L_01_TOKEN:?run via sops exec-env}
+      HOMEPAGE_VAR_PVE_LOCAL_L_02_TOKEN: ${HOMEPAGE_VAR_PVE_LOCAL_L_02_TOKEN:?run via sops exec-env}
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

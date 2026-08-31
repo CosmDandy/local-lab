@@ -1,0 +1,140 @@
+# For configurahttp://localhost:3000http://localhost:3000tion options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+---
+- AI:
+      - Claude:
+            - abbr: CL
+              icon: si-claude-#D97757
+              href: https://claude.ai/new
+      - Claude Status:
+            - abbr: CS
+              icon: si-claude-#D97757
+              href: https://status.claude.com/
+      - Claude News:
+            - abbr: AN
+              icon: si-claude-#D97757
+              href: https://claude.com/blog
+      - Claude API:
+            - abbr: CA
+              icon: si-claude-#D97757
+              href: https://platform.claude.com/dashboard
+      - ChatGPT:
+            - abbr: CG
+              icon: openai-light
+              href: https://chatgpt.com/
+      - Qwen:
+            - abbr: QW
+              icon: qwen
+              href: https://chat.qwen.ai/
+      - Grok:
+            - abbr: GR
+              icon: grok-dark
+              href: https://grok.com/
+- Cloud:
+      - HostHatch:
+            - abbr: HH
+              icon: https://hosthatch.com/images/favicon.svg
+              href: https://cloud.hosthatch.com/servers
+      - Hetzner:
+            - abbr: HZ
+              icon: si-hetzner-#D50C2D
+              href: https://console.hetzner.com/projects
+      - Vultr:
+            - abbr: VL
+              icon: si-vultr-#007BFC
+              href: https://console.vultr.com/getstarted/
+      - MivoCloud:
+            - abbr: MC
+              icon: https://mivocloud.com/images/media/1/theme/favicon.png
+              href: https://clients.mivocloud.com/clientarea.php
+      - Misaka Network:
+            - abbr: MN
+              icon: https://misaka.io/favicon.ico
+              href: https://app.misaka.io/iaas/vm/
+      - FirstVds:
+            - abbr: FV
+              icon: https://firstvds.ru/themes/firstvds/favicon/apple-touch-icon-180x180.png
+              href: https://my.firstvds.ru/billmgr?startform=vds
+      # - AWS:
+      #     - abbr: AW
+      #       icon: amazon-web-services-light
+      #       href: https://console.aws.amazon.com/
+      # - Oracle Cloud:
+      #     - abbr: OC
+      #       icon: si-oracle-#F80000
+      #       href: https://cloud.oracle.com/
+- Infra Tools:
+      - HCP Terraform:
+            - abbr: TF
+              icon: si-terraform-#7B42BC
+              href: https://app.terraform.io/app/CosmDandy
+      - Cloudflare:
+            - abbr: CF
+              icon: si-cloudflare-#F38020
+              href: https://dash.cloudflare.com/
+      - Beget:
+            - abbr: BG
+              icon: https://beget.com/apple-touch-icon-152x152-precomposed.png
+              href: https://cp.beget.com/domains
+- Dev:
+      - Github Me:
+            - abbr: GH
+              icon: si-github
+              href: https://github.com/CosmDandy
+      - Github Repos:
+            - abbr: GH
+              icon: si-github
+              href: https://github.com/CosmDandy?tab=repositories
+      - Github Status:
+            - abbr: GS
+              icon: si-github
+              href: https://www.githubstatus.com/
+      - Cloudflare Speed:
+            - abbr: CS
+              icon: si-cloudflare-#F38020
+              href: https://speed.cloudflare.com/
+      - Keymap Editor:
+            - abbr: KE
+              icon: https://nickcoutsos.github.io/keymap-editor/keycap.png
+              href: https://nickcoutsos.github.io/keymap-editor/
+- Learn:
+      - LeetCode:
+            - abbr: LC
+              icon: si-leetcode-#FFA116
+              href: https://leetcode.com/
+      - Codewars:
+            - abbr: CW
+              icon: si-codewars-#B1361E
+              href: https://www.codewars.com/
+      - Kaggle:
+            - abbr: KG
+              icon: si-kaggle-#20BEFF
+              href: https://www.kaggle.com/
+      - Hugging Face:
+            - abbr: HF
+              icon: si-huggingface-#FFD21E
+              href: https://huggingface.co/
+      - Colab:
+            - abbr: GC
+              icon: si-googlecolab-#F9AB00
+              href: https://colab.google/
+      - MonkeyType:
+            - abbr: MT
+              icon: si-monkeytype-#DA291C
+              href: https://monkeytype.com
+- Personal:
+      - LinkedIn:
+            - abbr: LI
+              icon: si-linkedin-#0A66C2
+              href: https://www.linkedin.com/
+      - Portfolio:
+            - abbr: CD
+              icon: https://cosmdandy.dev/assets/favicon.svg
+              href: https://cosmdandy.dev/
+      - X-Studio:
+            - abbr: XS
+              href: https://x-studio-music.ru/
+      - Bybit:
+            - abbr: BY
+              icon: https://www.bybit.com/favicon.ico
+              href: https://www.bybit.com/ru-RU/dashboard
