@@ -1,0 +1,2 @@
+secrets.sops.yaml
+*.sops.yaml
