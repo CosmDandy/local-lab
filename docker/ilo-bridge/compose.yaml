@@ -1,0 +1,42 @@
+---
+# Browser access to the HP iLO 3 (BMC) of pve-local-l-02.
+#
+# See hardware/pve-local-l-02.md. iLO 3 speaks HTTPS, but only TLS 1.0 with DES-CBC3-SHA;
+# every current browser refuses the handshake outright. socat terminates plain TCP on 8443
+# and re-originates the connection as TLS 1.0 towards the iLO, so the browser never has to
+# negotiate the obsolete cipher itself.
+#
+# Runs on the workstation, not on a cluster node: it needs a route to the office subnet.
+#
+#   cd docker/ilo-bridge && docker compose up -d
+#
+# Open http://127.0.0.1:8443/
+services:
+  ilo-bridge:
+    # NOTE: alpine:3.7 is EOL and pinned deliberately. It ships OpenSSL 1.0.2, the last
+    # release that still implements TLS 1.0 and DES-CBC3-SHA. On any current Alpine
+    # (OpenSSL 3.x) those are compiled out or blocked by the security level, and socat
+    # cannot complete the handshake with the iLO at all.
+    image: alpine:3.7
+    container_name: ilo-bridge
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      # BUG: apk pulls socat from an EOL Alpine mirror on every start. When that mirror is
+      # retired the bridge stops coming up. Fix by baking an image instead of installing at
+      # runtime — see docker/ilo-bridge.Dockerfile when that becomes urgent.
+      - >-
+        apk add --no-cache socat >/dev/null &&
+        exec socat
+        TCP-LISTEN:8443,fork,reuseaddr
+        OPENSSL:192.168.20.207:443,verify=0,method=TLS1,cipher=DES-CBC3-SHA
+    ports:
+      # Loopback only — see the note in imm-bridge.yaml.
+      - "127.0.0.1:8443:8443"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

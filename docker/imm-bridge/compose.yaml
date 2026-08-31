@@ -1,0 +1,29 @@
+---
+# Browser access to the IBM IMM (BMC) of pve-local-l-01.
+#
+# See hardware/pve-local-l-01.md. The IMM is reachable at 10.0.1.100 but its firmware is too
+# old for a modern browser to talk to directly. nginx fixes the HTTP semantics — Host header,
+# Secure cookies, absolute redirects — and serves the result as plain HTTP on 8070.
+#
+# Runs on the workstation, not on a cluster node: it needs a route to the home subnet.
+#
+#   cd docker/imm-bridge && docker compose up -d
+#
+# Open http://127.0.0.1:8070/
+services:
+  imm-bridge:
+    image: nginx:1.27-alpine
+    container_name: imm-bridge
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      # Loopback only. This proxy carries no authentication of its own — anything it exposes
+      # is the BMC's own login page, and the BMC is the machine's out-of-band root.
+      - "127.0.0.1:8070:8070"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
