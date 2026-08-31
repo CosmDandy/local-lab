@@ -1,4 +1,8 @@
 ---
 creation_rules:
   - path_regex: \.sops\.ya?ml$
-    age: age1apuqylxr4cxvrrypxjshpn6hf6jf8kqs5uanyfs9d493hmv9wpysgzz8zg
+    # Two recipients: either private key can decrypt.
+    # The second one is the key present on the workstation.
+    age: >-
+      age1apuqylxr4cxvrrypxjshpn6hf6jf8kqs5uanyfs9d493hmv9wpysgzz8zg,
+      age1r7w9d59dtx5ksqxfujskjk5xwrt4ftv5czva2zzff2paggggy9nq4q0lxm
