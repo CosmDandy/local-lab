@@ -29,12 +29,12 @@ resource "proxmox_virtual_environment_vm" "talos-vm" {
   }
 
   disk {
-    datastore_id = var.os_datastore_id
+    datastore_id = var.os_disk.datastore_id
     file_id      = var.image_file_id
     interface    = "scsi0"
-    size         = var.disk_size
+    size         = var.os_disk.size
     iothread     = true
-    ssd          = var.ssd
+    ssd          = var.os_disk.ssd
     discard      = "on"
   }
 
@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "talos-vm" {
   }
 
   initialization {
-    datastore_id = var.os_datastore_id
+    datastore_id = var.os_disk.datastore_id
     ip_config {
       ipv4 {
         address = var.ipv4_cidr

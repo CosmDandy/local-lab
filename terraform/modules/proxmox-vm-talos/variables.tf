@@ -52,19 +52,13 @@ variable "firewall_security_groups" {
   default = []
 }
 
-variable "disk_size" {
-  type    = number
-  default = 8
-}
-
-variable "os_datastore_id" {
-  type    = string
-  default = "local-lvm"
-}
-
-variable "ssd" {
-  type    = bool
-  default = true
+variable "os_disk" {
+  type = object({
+    datastore_id = optional(string, "local-lvm")
+    size         = optional(number, 8)
+    ssd          = optional(bool, true)
+  })
+  default = {}
 }
 
 variable "image_file_id" {
