@@ -103,8 +103,10 @@ local-lab/
 │       ├── infrastructure/     # минимум: Cilium, cert-manager, Traefik
 │       └── apps/               # пусто (Home Assistant — отдельная HAOS VM)
 │
-├── docker/                      # Legacy compose-файлы (справочник на время миграции)
-├── configs/                     # Конфиги сервисов (исходники для k8s ConfigMaps)
+├── docker/                      # Сервисы вне Kubernetes — папка на сервис
+│   ├── homepage/                #   дашборд: compose.yaml + config/ + secrets.sops.yaml
+│   ├── imm-bridge/              #   доступ к IMM сервера pve-local-l-01
+│   └── ilo-bridge/              #   доступ к iLO сервера pve-local-l-02
 ├── hardware/                    # Инвентаризация железа
 ├── SERVICES.md                  # Карта сервисов и фаз миграции
 └── README.md

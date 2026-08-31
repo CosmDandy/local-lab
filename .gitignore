@@ -7,7 +7,7 @@ terraform/.terraform.lock.hcl
 # Saved plan files may embed variable values/secrets
 **/*.tfplan
 **/tfplan
-configs/services/homepage/logs/homepage.log
+docker/homepage/config/logs/
 apps/traefik/letsencrypt/acme.json
 data
 
@@ -33,3 +33,6 @@ sandbox/secret.yaml
 # Helm dependency artifacts (pulled by `helm dependency build`) — ArgoCD rebuilds them on sync
 gitops/**/charts/
 gitops/**/Chart.lock
+
+# Tailscale release tarballs — 61 MB of binaries, fetched rather than versioned
+ansible/roles/tailscale/files/*.tgz
