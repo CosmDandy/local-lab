@@ -1,0 +1,181 @@
+---
+# Proxmox VE Post-Install Configuration Tasks
+
+- name: Get Proxmox VE version
+  shell: pveversion | awk -F'/' '{print $2}' | awk -F'-' '{print $1}'
+  register: pve_version_check
+  changed_when: false
+
+- name: Set PVE version facts
+  set_fact:
+    pve_version: "{{ pve_version_check.stdout }}"
+    pve_major: "{{ pve_version_check.stdout.split('.')[0] | int }}"
+
+- name: Display Proxmox version
+  debug:
+    msg: "Detected Proxmox VE version: {{ pve_version }} (major: {{ pve_major }})"
+
+- name: Verify Proxmox version is 9.x
+  fail:
+    msg: "This role is configured for Proxmox VE 9.x only. Detected version: {{ pve_version }}"
+  when: pve_major | int != 9
+
+# === Proxmox VE Configuration ===
+- name: Configure Proxmox VE repositories and settings
+  block:
+    - name: Disable pve-enterprise repository (trixie)
+      copy:
+        content: |
+          # Types: deb
+          # URIs: https://enterprise.proxmox.com/debian/pve
+          # Suites: trixie
+          # Components: pve-enterprise
+          # Signed-By: /usr/share/keyrings/proxmox-release-trixie.gpg
+        dest: /etc/apt/sources.list.d/pve-enterprise.sources
+        backup: true
+      when: proxmox_disable_enterprise
+
+    - name: Remove old pve-enterprise repository (legacy format)
+      file:
+        path: /etc/apt/sources.list.d/pve-enterprise.list
+        state: absent
+      when: proxmox_disable_enterprise
+    - name: Remove old Debian sources
+      file:
+        path: /etc/apt/sources.list
+        state: absent
+      when: proxmox_configure_sources
+
+    - name: Configure Debian sources (deb822 format)
+      copy:
+        content: "{{ proxmox_debian_sources }}"
+        dest: /etc/apt/sources.list.d/debian.sources
+      when: proxmox_configure_sources
+
+    - name: Configure Proxmox repository (deb822 format)
+      copy:
+        content: "{{ proxmox_pve_sources }}"
+        dest: /etc/apt/sources.list.d/proxmox.sources
+      when: proxmox_enable_no_subscription
+
+    - name: Configure Ceph repositories (deb822 format)
+      copy:
+        content: |
+          # Types: deb
+          # URIs: https://enterprise.proxmox.com/debian/ceph-squid
+          # Suites: trixie
+          # Components: enterprise
+          # Signed-By: /usr/share/keyrings/proxmox-release-trixie.gpg
+
+          # Types: deb
+          # URIs: http://download.proxmox.com/debian/ceph-squid
+          # Suites: trixie
+          # Components: no-subscription
+          # Signed-By: /usr/share/keyrings/proxmox-release-trixie.gpg
+        dest: /etc/apt/sources.list.d/ceph.sources
+      when: proxmox_configure_sources
+
+    - name: Add pve-test repository (disabled)
+      copy:
+        content: |
+          # Types: deb
+          # URIs: http://download.proxmox.com/debian/pve
+          # Suites: trixie
+          # Components: pve-test
+          # Signed-By: /usr/share/keyrings/proxmox-release-trixie.gpg
+        dest: /etc/apt/sources.list.d/pve-test.sources
+      when: proxmox_configure_sources
+
+    - name: Update APT cache after repository changes
+      apt:
+        update_cache: yes
+        cache_valid_time: 0
+      when: proxmox_disable_enterprise or proxmox_configure_sources
+
+# === Common Configuration ===
+- name: Disable subscription nag
+  copy:
+    content: |
+      DPkg::Post-Invoke { "if [ -s /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js ] && ! grep -q -F 'NoMoreNagging' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; then echo 'Removing subscription nag from UI...'; sed -i '/data\.status/{s/\\!/; s/active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; fi" };
+    dest: /etc/apt/apt.conf.d/no-nag-script
+  when: proxmox_disable_subscription_nag
+
+- name: Reinstall proxmox-widget-toolkit to apply nag removal
+  apt:
+    name: proxmox-widget-toolkit
+    state: present
+    force: true
+  when: proxmox_disable_subscription_nag
+
+- name: Check if HA services are active
+  systemd:
+    name: "{{ item }}"
+  register: ha_services_status
+  loop:
+    - pve-ha-lrm
+    - pve-ha-crm
+    - corosync
+  failed_when: false
+  when: proxmox_disable_ha_services
+
+- name: Disable high availability services (single node setup)
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop:
+    - pve-ha-lrm
+    - pve-ha-crm
+    - corosync
+  when:
+    - proxmox_disable_ha_services
+    - ha_services_status is defined
+  ignore_errors: true
+
+- name: Update package cache
+  apt:
+    update_cache: true
+    cache_valid_time: 0
+  when: proxmox_update_packages
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+    autoremove: true
+    autoclean: true
+  register: upgrade_result
+  when: proxmox_update_packages
+
+- name: Display upgrade results
+  debug:
+    var: upgrade_result
+  when:
+    - proxmox_update_packages
+    - upgrade_result.changed
+
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required
+
+- name: Display reboot requirement
+  debug:
+    msg: "Reboot is required after post-install configuration"
+  when: reboot_required.stat.exists
+
+- name: Display post-install completion message
+  debug:
+    msg:
+      - "Proxmox VE post-install configuration completed!"
+      - "Key changes made:"
+      - "- Configured proper package sources: {{ 'Yes' if proxmox_configure_sources else 'Skipped' }}"
+      - "- Disabled enterprise repository: {{ 'Yes' if proxmox_disable_enterprise else 'Skipped' }}"
+      - "- Enabled no-subscription repository: {{ 'Yes' if proxmox_enable_no_subscription else 'Skipped' }}"
+      - "- Disabled subscription nag: {{ 'Yes' if proxmox_disable_subscription_nag else 'Skipped' }}"
+      - "- Disabled HA services: {{ 'Yes' if proxmox_disable_ha_services else 'Skipped' }}"
+      - "- Updated packages: {{ 'Yes' if proxmox_update_packages else 'Skipped' }}"
+      - "{{ 'REBOOT REQUIRED!' if reboot_required.stat.exists else 'System is up to date' }}"
+      - ""
+      - "Next steps:"
+      - "1. Clear browser cache (Ctrl+Shift+R) before accessing Web UI"
+      - "2. Consider rebooting if required"

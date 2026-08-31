@@ -1,0 +1,18 @@
+---
+# Main tasks file for Proxmox role
+
+- name: Include post-install configuration tasks
+  include_tasks: post-install.yml
+  when: proxmox_run_post_install | default(true)
+  tags:
+    - proxmox
+    - proxmox-post-install
+    - post-install
+
+- name: Include reboot tasks
+  include_tasks: reboot.yml
+  when: proxmox_run_reboot_check | default(true)
+  tags:
+    - proxmox
+    - proxmox-reboot
+    - reboot

@@ -1,0 +1,49 @@
+---
+# Авторизация в Tailscale сети
+
+- name: Authorize message
+  ansible.builtin.debug:
+    msg: "Starting Tailscale authorization on {{ inventory_hostname }}"
+
+- name: Check current Tailscale status
+  ansible.builtin.command:
+    cmd: tailscale status
+  register: tailscale_status
+  failed_when: false
+  changed_when: false
+
+- name: Connect to Tailscale network
+  ansible.builtin.command:
+    cmd: >-
+      tailscale up
+      --reset
+      --authkey={{ tailscale_authkey }}
+      --hostname={{ tailscale_hostname }}
+      --login-server={{ tailscale_login_server }}
+      {% if tailscale_accept_routes %}--accept-routes{% endif %}
+      {% if tailscale_accept_dns %}--accept-dns{% endif %}
+      {% if tailscale_advertise_exit_node %}--advertise-exit-node{% endif %}
+      {% if exit_node != '' %}--exit-node={{ exit_node }} --exit-node-allow-lan-access{% endif %}
+      {% if tailscale_advertise_routes != '' %}--advertise-routes={{ tailscale_advertise_routes }}{% endif %}
+  register: tailscale_connect_result
+  when: >
+    tailscale_authkey is defined and
+    tailscale_authkey != "" and
+    (
+      'Logged out' in tailscale_status.stdout or
+      'not logged in' in tailscale_status.stdout or
+      tailscale_status.rc != 0
+    )
+
+- name: Get final Tailscale ip
+  ansible.builtin.command:
+    cmd: tailscale ip -4
+  register: tailscale_final_ip
+  failed_when: false
+  changed_when: false
+
+- name: Display connection results
+  ansible.builtin.debug:
+    msg: |
+      Successfully connected to Tailscale network!
+      IP: {{ tailscale_final_ip.stdout | default('No IP') }}

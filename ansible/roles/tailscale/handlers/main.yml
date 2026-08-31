@@ -1,0 +1,28 @@
+---
+# Обработчики событий для роли tailscale
+
+- name: reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: restart tailscaled
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: restarted
+  when: tailscale_enable_service | default(true)
+
+- name: stop tailscaled
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: stopped
+
+- name: start tailscaled
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: started
+  when: tailscale_start_service | default(true)
+
+- name: enable tailscaled
+  ansible.builtin.systemd:
+    name: tailscaled
+    enabled: yes

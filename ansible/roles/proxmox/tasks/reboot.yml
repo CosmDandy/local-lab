@@ -1,0 +1,63 @@
+---
+# Proxmox VE Reboot Tasks
+
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required
+
+- name: Display reboot status
+  debug:
+    msg: "{{ inventory_hostname }}: {{ 'Reboot required' if reboot_required.stat.exists else 'No reboot needed' }}"
+
+- name: Reboot servers that require it
+  reboot:
+    msg: "Rebooting {{ inventory_hostname }} after Proxmox post-install configuration"
+    pre_reboot_delay: 5
+    post_reboot_delay: "{{ proxmox_post_reboot_delay | default(30) }}"
+    reboot_timeout: "{{ proxmox_reboot_timeout | default(300) }}"
+    test_command: pveversion
+  when:
+    - reboot_required.stat.exists
+    - proxmox_auto_reboot | default(false)
+
+- name: Manual reboot notification
+  debug:
+    msg:
+      - "{{ inventory_hostname }}: Reboot is required but automatic reboot is disabled"
+      - "To enable automatic reboot, set 'proxmox_auto_reboot: true'"
+      - "Or reboot manually: 'ansible {{ inventory_hostname }} -m reboot'"
+  when:
+    - reboot_required.stat.exists
+    - not (proxmox_auto_reboot | default(false))
+
+- name: Wait for Proxmox services to be ready (after reboot)
+  wait_for:
+    port: 8006
+    host: "{{ ansible_host }}"
+    delay: 10
+    timeout: "{{ proxmox_reboot_timeout | default(300) }}"
+  when:
+    - reboot_required.stat.exists
+    - proxmox_auto_reboot | default(false)
+  delegate_to: localhost
+
+- name: Verify Proxmox VE is running (after reboot)
+  uri:
+    url: "https://{{ ansible_host }}:8006/api2/json/version"
+    method: GET
+    validate_certs: false
+    status_code: 200
+  when:
+    - reboot_required.stat.exists
+    - proxmox_auto_reboot | default(false)
+  register: pve_status
+  retries: 5
+  delay: 10
+
+- name: Display final status
+  debug:
+    msg: "{{ inventory_hostname }}: Proxmox VE is ready ({{ pve_status.json.data.version if pve_status.json is defined else 'Status check skipped' }})"
+  when:
+    - reboot_required.stat.exists
+    - proxmox_auto_reboot | default(false)

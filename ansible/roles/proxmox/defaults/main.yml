@@ -1,0 +1,46 @@
+---
+# Default variables for Proxmox role
+
+# Task execution control
+proxmox_run_post_install: true
+proxmox_run_reboot_check: true
+
+# Post-install configuration options
+proxmox_configure_sources: true
+proxmox_disable_enterprise: true
+proxmox_enable_no_subscription: true
+proxmox_disable_subscription_nag: true
+proxmox_disable_ha_services: true
+proxmox_update_packages: true
+
+# Reboot configuration
+proxmox_auto_reboot: false
+proxmox_reboot_timeout: 300
+proxmox_post_reboot_delay: 30
+
+# Repository configuration (DEB822 format)
+proxmox_debian_sources: |
+  Types: deb
+  URIs: http://deb.debian.org/debian
+  Suites: trixie
+  Components: main contrib
+  Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+  Types: deb
+  URIs: http://deb.debian.org/debian
+  Suites: trixie-updates
+  Components: main contrib
+  Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+  Types: deb
+  URIs: http://deb.debian.org/debian-security
+  Suites: trixie-security
+  Components: main contrib
+  Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+proxmox_pve_sources: |
+  Types: deb
+  URIs: http://download.proxmox.com/debian/pve
+  Suites: trixie
+  Components: pve-no-subscription
+  Signed-By: /usr/share/keyrings/proxmox-release-trixie.gpg

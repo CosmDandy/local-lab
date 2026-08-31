@@ -1,0 +1,81 @@
+---
+# Атомарная операция: Удаление Tailscale
+
+- name: Check if Tailscale is installed
+  ansible.builtin.command:
+    cmd: tailscale version
+  register: uninstall_check
+  failed_when: false
+  changed_when: false
+
+- name: Skip uninstall if not installed
+  ansible.builtin.debug:
+    msg: "Tailscale not installed, skipping uninstall"
+  when: uninstall_check.rc != 0
+
+- name: Uninstall Tailscale
+  block:
+    - name: Disconnect from Tailscale network
+      ansible.builtin.command:
+        cmd: tailscale down
+      failed_when: false
+
+    - name: Stop tailscaled service
+      ansible.builtin.systemd:
+        name: tailscaled
+        state: stopped
+      failed_when: false
+
+    - name: Disable tailscaled service
+      ansible.builtin.systemd:
+        name: tailscaled
+        enabled: no
+      failed_when: false
+
+    - name: Remove systemd service file
+      ansible.builtin.file:
+        path: /etc/systemd/system/tailscaled.service
+        state: absent
+      notify: reload systemd
+
+    - name: Remove defaults file
+      ansible.builtin.file:
+        path: /etc/default/tailscaled
+        state: absent
+
+    - name: Remove binaries
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ tailscale_bin_path }}/tailscale"
+        - "{{ tailscale_sbin_path }}/tailscaled"
+
+    - name: Remove state directories (if requested)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ tailscale_state_dir }}"
+        - "{{ tailscale_cache_dir }}"
+
+    - name: Force handlers to run
+      meta: flush_handlers
+
+    - name: Verify Tailscale removal
+      ansible.builtin.command:
+        cmd: tailscale version
+      register: verify_removal
+      failed_when: false
+      changed_when: false
+
+    - name: Display uninstall results
+      ansible.builtin.debug:
+        msg: |
+          {% if verify_removal.rc != 0 %}
+          Tailscale successfully removed from {{ inventory_hostname }}
+          {% else %}
+          Tailscale removal incomplete - some components may remain
+          {% endif %}
+
+  when: uninstall_check.rc == 0

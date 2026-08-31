@@ -1,0 +1,39 @@
+---
+# Значения по умолчанию для роли tailscale
+
+
+# Переменные для шаблонов
+tailscale_version: "1.90.9"
+tailscale_arch: "amd64"
+tailscale_archive_name: "tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.tgz"
+tailscale_extracted_dir: "tailscale_{{ tailscale_version }}_{{ tailscale_arch }}"
+
+# Временная папка на серверах
+tailscale_temp_dir: "/tmp/tailscale_install"
+
+# Пути установки на целевых серверах
+tailscale_bin_path: "/usr/bin"
+tailscale_sbin_path: "/usr/sbin"
+
+# Настройки подключения
+tailscale_hostname: "pve.{{ inventory_hostname }}"
+tailscale_login_server: "{{ vault_tailscale_login_server | default('') }}"
+
+# Настройки exit node
+tailscale_advertise_exit_node: false
+exit_node: ""
+
+# Настройки DNS и маршрутов
+tailscale_accept_dns: true
+tailscale_accept_routes: false
+
+# Настройки объявления маршрутов (для доступа к локальной сети)
+# Пример: "192.168.1.0/24,10.0.0.0/8" - объявить доступ к этим подсетям
+tailscale_advertise_routes: ""
+
+# Директории
+tailscale_state_dir: "/var/lib/tailscale"
+tailscale_cache_dir: "/var/cache/tailscale"
+
+# Управление операциями роли
+tailscale_operation: "install-full"

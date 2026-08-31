@@ -1,0 +1,110 @@
+---
+# Установка Tailscale
+
+- name: Install message
+  ansible.builtin.debug:
+    msg: "Starting Tailscale installation on {{ inventory_hostname }}"
+
+- name: Stop tailscaled service if running
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: stopped
+  failed_when: false
+
+- name: Create temporary directory
+  ansible.builtin.file:
+    path: "{{ tailscale_temp_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy Tailscale archive to servers
+  ansible.builtin.copy:
+    src: "files/{{ tailscale_archive_name }}"
+    dest: "{{ tailscale_temp_dir }}/{{ tailscale_archive_name }}"
+    mode: '0644'
+
+- name: Extract Tailscale archive
+  ansible.builtin.unarchive:
+    src: "{{ tailscale_temp_dir }}/{{ tailscale_archive_name }}"
+    dest: "{{ tailscale_temp_dir }}"
+    remote_src: yes
+    creates: "{{ tailscale_temp_dir }}/{{ tailscale_extracted_dir }}"
+
+- name: Copy tailscale client binary
+  ansible.builtin.copy:
+    src: "{{ tailscale_temp_dir }}/{{ tailscale_extracted_dir }}/tailscale"
+    dest: "{{ tailscale_bin_path }}/tailscale"
+    mode: '0755'
+    owner: root
+    group: root
+    remote_src: yes
+  notify: restart tailscaled
+
+- name: Copy tailscaled daemon binary
+  ansible.builtin.copy:
+    src: "{{ tailscale_temp_dir }}/{{ tailscale_extracted_dir }}/tailscaled"
+    dest: "{{ tailscale_sbin_path }}/tailscaled"
+    mode: '0755'
+    owner: root
+    group: root
+    remote_src: yes
+  notify: restart tailscaled
+
+- name: Create /etc/default directory
+  ansible.builtin.file:
+    path: /etc/default
+    state: directory
+    mode: '0755'
+
+- name: Copy tailscaled defaults
+  ansible.builtin.copy:
+    src: "{{ tailscale_temp_dir }}/{{ tailscale_extracted_dir }}/systemd/tailscaled.defaults"
+    dest: /etc/default/tailscaled
+    mode: '0644'
+    owner: root
+    group: root
+    remote_src: yes
+
+- name: Copy tailscaled systemd service
+  ansible.builtin.copy:
+    src: "{{ tailscale_temp_dir }}/{{ tailscale_extracted_dir }}/systemd/tailscaled.service"
+    dest: /etc/systemd/system/tailscaled.service
+    mode: '0644'
+    owner: root
+    group: root
+    remote_src: yes
+  notify: reload systemd
+
+- name: Create Tailscale state directory
+  ansible.builtin.file:
+    path: /var/lib/tailscale
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+
+- name: Create Tailscale cache directory
+  ansible.builtin.file:
+    path: /var/cache/tailscale
+    state: directory
+    mode: '0750'
+    owner: root
+    group: root
+
+- name: Force handlers to run now
+  meta: flush_handlers
+
+- name: Enable and start tailscaled service
+  ansible.builtin.systemd:
+    name: tailscaled
+    enabled: yes
+    state: started
+
+- name: Wait for tailscaled to start
+  ansible.builtin.wait_for:
+    timeout: 10
+
+- name: Cleanup temporary files
+  ansible.builtin.file:
+    path: "{{ tailscale_temp_dir }}"
+    state: absent

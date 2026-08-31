@@ -1,0 +1,46 @@
+---
+# Главный роутер для роли Tailscale
+# Выбирает какую операцию выполнить на основе переменных
+
+- name: Check current Tailscale installation
+  ansible.builtin.command:
+    cmd: tailscale version
+  register: tailscale_check
+  failed_when: false
+  changed_when: false
+
+- name: Display current status
+  ansible.builtin.debug:
+    msg: |
+      Requested operation: {{ tailscale_operation | default('install') }}
+
+# Роутинг операций на основе переменной tailscale_operation
+- name: Execute full install operation
+  include_tasks: install-full.yml
+  when: tailscale_operation | default('install') == 'install-full'
+  tags: ['install-full']
+
+- name: Execute install operation
+  include_tasks: install.yml
+  when: tailscale_operation | default('install') == 'install'
+  tags: ['install']
+
+- name: Execute uninstall operation
+  include_tasks: uninstall.yml
+  when: tailscale_operation | default('install') == 'uninstall'
+  tags: ['uninstall']
+
+- name: Execute update operation
+  include_tasks: update.yml
+  when: tailscale_operation | default('install') == 'update'
+  tags: ['update']
+
+- name: Execute authorize operation
+  include_tasks: authorize.yml
+  when: tailscale_operation | default('install') == 'authorize'
+  tags: ['authorize']
+
+- name: Execute deauthorize operation
+  include_tasks: deauthorize.yml
+  when: tailscale_operation | default('install') == 'deauthorize'
+  tags: ['deauthorize']

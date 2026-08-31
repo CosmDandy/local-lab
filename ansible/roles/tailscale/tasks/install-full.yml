@@ -1,0 +1,47 @@
+---
+# Полная установка (install + authorize)
+
+- name: Display full installation plan
+  ansible.builtin.debug:
+    msg: |
+      Starting full Tailscale installation on {{ inventory_hostname }}
+      Plan: Install → Authorize → Verify
+
+- name: Execute installation
+  include_tasks: install.yml
+  vars:
+    install_context: "full-install"
+
+- name: Execute authorization (if authkey provided)
+  include_tasks: authorize.yml
+  when:
+    - tailscale_authkey is defined
+    - tailscale_authkey != ""
+    - tailscale_authkey | length > 10
+
+- name: Verify final installation
+  ansible.builtin.command:
+    cmd: tailscale version
+  register: full_install_version
+  changed_when: false
+
+- name: Get final status
+  ansible.builtin.command:
+    cmd: tailscale ip -4
+  register: full_install_ip
+  failed_when: false
+  changed_when: false
+
+- name: Display full installation results
+  ansible.builtin.debug:
+    msg: |
+      Full installation completed on {{ inventory_hostname }}
+
+      Installation: Success
+      Version: {{ full_install_version.stdout }}
+
+      Authorization: Success
+      IP: {{ full_install_ip.stdout | default('No IP') }}
+
+      Hostname: {{ tailscale_hostname }}
+      Login Server: {{ tailscale_login_server if tailscale_login_server != '' else 'Not specified' }}

@@ -1,0 +1,40 @@
+---
+# Деавторизация от Tailscale сети
+
+- name: Deauthorize message
+  ansible.builtin.debug:
+    msg: "Starting Tailscale deauthorization on {{ inventory_hostname }}"
+
+- name: Check current Tailscale status
+  ansible.builtin.command:
+    cmd: tailscale status
+  register: deauth_status
+  failed_when: false
+  changed_when: false
+
+- name: Deauthorize from Tailscale network
+  block:
+    - name: Disconnect from Tailscale network
+      ansible.builtin.command:
+        cmd: tailscale down
+      register: deauth_result
+
+    - name: Verify disconnection
+      ansible.builtin.command:
+        cmd: tailscale status
+      register: verify_deauth
+      failed_when: false
+      changed_when: false
+
+    - name: Display deauthorization results
+      ansible.builtin.debug:
+        msg: |
+          {% if verify_deauth.rc != 0 or 'Logged out' in verify_deauth.stdout %}
+          ✅ Successfully disconnected from Tailscale network
+          Status: {{ verify_deauth.stdout | default('Disconnected') }}
+          {% else %}
+          ⚠️  Deauthorization may not be complete
+          Status: {{ verify_deauth.stdout }}
+          {% endif %}
+
+  when: deauth_status.rc == 0 and 'Logged out' not in deauth_status.stdout

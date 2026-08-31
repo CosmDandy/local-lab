@@ -1,0 +1,45 @@
+---
+# Композитная операция: Обновление (uninstall + install + authorize)
+
+- name: Display update plan
+  ansible.builtin.debug:
+    msg: |
+      🔄 Starting Tailscale update on {{ inventory_hostname }}
+      Plan: Uninstall → Install → Authorize → Verify
+
+- name: Check current version before update
+  ansible.builtin.command:
+    cmd: tailscale version
+  register: update_old_version
+  failed_when: false
+  changed_when: false
+
+- name: Execute uninstallation
+  include_tasks: uninstall.yml
+
+- name: Execute installation
+  include_tasks: install.yml
+
+- name: Execute authorization
+  include_tasks: authorize.yml
+  when: >
+    tailscale_authkey is defined and
+    tailscale_authkey != ""
+
+- name: Verify update completion
+  ansible.builtin.command:
+    cmd: tailscale version
+  register: update_new_version
+  changed_when: false
+
+- name: Get final status after update
+  ansible.builtin.command:
+    cmd: tailscale status
+  register: update_final_status
+  failed_when: false
+  changed_when: false
+
+- name: Display update results
+  ansible.builtin.debug:
+    msg: |
+      Tailscale update completed on {{ inventory_hostname }}
