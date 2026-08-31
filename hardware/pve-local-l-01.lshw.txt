@@ -1,4 +1,4 @@
-cosm
+pve-local-l-01
     description: Rack Mount Chassis
     product: System x3550 M3 -[7944KHG]- (XxXxXxX)
     vendor: IBM
@@ -23,10 +23,11 @@ cosm
           bus info: cpu@0
           version: 6.44.2
           slot: Node 1 Socket 1
-          size: 3070MHz
+          size: 3192MHz
+          capacity: 3192MHz
           width: 64 bits
           clock: 2105MHz
-          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d cpufreq
           configuration: cores=6 enabledcores=6 microcode=31 threads=12
         *-cache:0
              description: L1 cache
@@ -60,10 +61,11 @@ cosm
           bus info: cpu@1
           version: 6.44.2
           slot: Node 1 Socket 2
-          size: 3070MHz
+          size: 3192MHz
+          capacity: 3192MHz
           width: 64 bits
           clock: 2105MHz
-          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d cpufreq
           configuration: cores=6 enabledcores=6 microcode=31 threads=12
         *-cache:0
              description: L1 cache
@@ -93,195 +95,159 @@ cosm
           description: System Memory
           physical id: 9
           slot: System board or motherboard
-          size: 192GiB
+          size: 96GiB
           capabilities: ecc
           configuration: errordetection=ecc
         *-bank:0
-             description: DIMM 800 MHz (1.2 ns)
-             product: M393B2G70BH0-CK0
-             vendor: Samsung
+             description: [empty]
              physical id: 0
-             serial: BB566F36
              slot: DIMM01
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
         *-bank:1
-             description: DIMM 800 MHz (1.2 ns)
-             product: M393B2G70BH0-CK0
-             vendor: Samsung
-             physical id: 1
-             serial: EA406F36
-             slot: DIMM02
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
-        *-bank:2
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36JSF2G72PZ-1G6E1
+             description: DIMM 1333 MHz (0.8 ns)
+             product: 36KSF1G72PZ-1G4M1
              vendor: Micron
-             physical id: 2
-             serial: 93641B44
-             slot: DIMM03
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
-        *-bank:3
-             description: DIMM 800 MHz (1.2 ns)
-             product: HMT31GR7CFR4A-H9
-             vendor: Hynix
-             physical id: 3
-             serial: A0953818
-             slot: DIMM04
+             physical id: 1
+             serial: 7EAC9BE0
+             slot: DIMM02
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
-        *-bank:4
-             description: DIMM 800 MHz (1.2 ns)
+             clock: 1333MHz (0.8ns)
+        *-bank:2
+             description: DIMM 1333 MHz (0.8 ns)
              product: HMT31GR7CFR4A-H9
              vendor: Hynix
+             physical id: 2
+             serial: A1957818
+             slot: DIMM03
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:3
+             description: [empty]
+             physical id: 3
+             slot: DIMM04
+        *-bank:4
+             description: DIMM 1333 MHz (0.8 ns)
+             product: 36KSF1G72PZ-1G4M1
+             vendor: Micron
              physical id: 4
-             serial: A7956818
+             serial: 1122439
              slot: DIMM05
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:5
-             description: DIMM 800 MHz (1.2 ns)
+             description: DIMM 1333 MHz (0.8 ns)
              product: HMT31GR7CFR4A-H9
              vendor: Hynix
              physical id: 5
-             serial: A1955818
+             serial: 8F958818
              slot: DIMM06
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:6
-             description: DIMM 800 MHz (1.2 ns)
-             product: HMT31GR7CFR4A-H9
-             vendor: Hynix
+             description: [empty]
              physical id: 6
-             serial: A1957818
              slot: DIMM07
-             size: 8GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
         *-bank:7
-             description: DIMM 800 MHz (1.2 ns)
-             product: HMT31GR7CFR4A-H9
-             vendor: Hynix
+             description: DIMM 1333 MHz (0.8 ns)
+             product: 36KSF1G72PZ-1G4K1
+             vendor: Micron
              physical id: 7
-             serial: 8F958818
+             serial: 485CC1DF
              slot: DIMM08
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:8
-             description: DIMM 800 MHz (1.2 ns)
+             description: DIMM 1333 MHz (0.8 ns)
              product: HMT31GR7CFR4A-H9
              vendor: Hynix
              physical id: 8
-             serial: 84951818
+             serial: A0953818
              slot: DIMM09
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:9
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36JSF2G72PZ-1G6E1
-             vendor: Micron
+             description: [empty]
              physical id: 9
-             serial: F5641B44
              slot: DIMM10
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
         *-bank:10
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36JSF2G72PZ-1G6E1
-             vendor: Micron
+             description: DIMM 1333 MHz (0.8 ns)
+             product: HMT31GR7CFR4A-H9
+             vendor: Hynix
              physical id: a
-             serial: AD641B44
+             serial: A6952818
              slot: DIMM11
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
-        *-bank:11
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36JSF2G72PZ-1G6E1
-             vendor: Micron
-             physical id: b
-             serial: B8641B44
-             slot: DIMM12
-             size: 16GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
-        *-bank:12
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36KSF1G72PZ-1G4K1
-             vendor: Micron
-             physical id: c
-             serial: 485CC1DF
-             slot: DIMM13
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
+        *-bank:11
+             description: DIMM 1333 MHz (0.8 ns)
+             product: HMT31GR7CFR4A-H9
+             vendor: Hynix
+             physical id: b
+             serial: A1955818
+             slot: DIMM12
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:12
+             description: [empty]
+             physical id: c
+             slot: DIMM13
         *-bank:13
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36KSF1G72PZ-1G4M1
-             vendor: Micron
+             description: DIMM 1333 MHz (0.8 ns)
+             product: M393B1K70CH0-YH9
+             vendor: Samsung
              physical id: d
-             serial: 7EAC9BE0
+             serial: BCF5A682
              slot: DIMM14
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:14
-             description: DIMM 800 MHz (1.2 ns)
-             product: 36KSF1G72PZ-1G4M1
-             vendor: Micron
+             description: DIMM 1333 MHz (0.8 ns)
+             product: HMT31GR7CFR4A-H9
+             vendor: Hynix
              physical id: e
-             serial: 1122439
+             serial: 84951818
              slot: DIMM15
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:15
-             description: DIMM 800 MHz (1.2 ns)
-             product: 9965426-199.A00LF
-             vendor: Unknown
+             description: [empty]
              physical id: f
-             serial: A5A21854
              slot: DIMM16
-             size: 8GiB
-             width: 64 bits
-             clock: 800MHz (1.2ns)
         *-bank:16
-             description: DIMM 800 MHz (1.2 ns)
-             product: 9965426-199.A00LF
-             vendor: Unknown
+             description: DIMM 1333 MHz (0.8 ns)
+             product: M393B1K70CH0-YH9
+             vendor: Samsung
              physical id: 10
-             serial: A59D1856
+             serial: 93F6A682
              slot: DIMM17
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
         *-bank:17
-             description: DIMM 800 MHz (1.2 ns)
-             product: 9965426-199.A00LF
-             vendor: Unknown
+             description: DIMM 1333 MHz (0.8 ns)
+             product: HMT31GR7CFR4A-H9
+             vendor: Hynix
              physical id: 11
-             serial: A5801854
+             serial: A7956818
              slot: DIMM18
              size: 8GiB
              width: 64 bits
-             clock: 800MHz (1.2ns)
+             clock: 1333MHz (0.8ns)
      *-firmware
           description: BIOS
           vendor: IBM Corp.
           physical id: 2f
-          version: -[D6E154AUS-1.13]-
-          date: 09/23/2011
+          version: -[D6E164AUS-1.22]-
+          date: 06/04/2018
           size: 128KiB
           capacity: 4MiB
           capabilities: pci pnp upgrade shadowing cdboot bootselect edd int13floppy2880 int5printscreen int9keyboard int14serial int10video acpi usb ls120boot zipboot netboot
@@ -306,20 +272,21 @@ cosm
              capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
              configuration: driver=pcieport
              resources: irq:26 memory:96000000-99ffffff
-           *-network:0 DISABLED
+           *-network:0
                 description: Ethernet interface
                 product: NetXtreme II BCM5709 Gigabit Ethernet
                 vendor: Broadcom Inc. and subsidiaries
                 physical id: 0
                 bus info: pci@0000:0b:00.0
-                logical name: enp11s0f0
+                logical name: mgmt
                 version: 20
                 serial: 5c:f3:fc:e5:62:6c
+                size: 1Gbit/s
                 capacity: 1Gbit/s
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm vpd msi msix pciexpress bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=6.14.11-1-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=full firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
                 resources: irq:25 memory:96000000-97ffffff
            *-network:1 DISABLED
                 description: Ethernet interface
@@ -327,15 +294,15 @@ cosm
                 vendor: Broadcom Inc. and subsidiaries
                 physical id: 0.1
                 bus info: pci@0000:0b:00.1
-                logical name: enp11s0f1
+                logical name: nic1
                 version: 20
                 serial: 5c:f3:fc:e5:62:6e
                 capacity: 1Gbit/s
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm vpd msi msix pciexpress bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=6.14.11-1-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
-                resources: irq:33 memory:98000000-99ffffff
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
+                resources: irq:34 memory:98000000-99ffffff
         *-pci:1
              description: PCI bridge
              product: 5520/5500/X58 I/O Hub PCI Express Root Port 2
@@ -348,21 +315,20 @@ cosm
              capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
              configuration: driver=pcieport
              resources: irq:28 memory:92000000-95ffffff
-           *-network:0
+           *-network:0 DISABLED
                 description: Ethernet interface
                 product: NetXtreme II BCM5709 Gigabit Ethernet
                 vendor: Broadcom Inc. and subsidiaries
                 physical id: 0
                 bus info: pci@0000:10:00.0
-                logical name: enp16s0f0
+                logical name: nic2
                 version: 20
                 serial: 5c:f3:fc:6a:35:84
-                size: 1Gbit/s
                 capacity: 1Gbit/s
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm vpd msi msix pciexpress bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=6.14.11-1-pve duplex=full firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
                 resources: irq:27 memory:92000000-93ffffff
            *-network:1 DISABLED
                 description: Ethernet interface
@@ -370,14 +336,14 @@ cosm
                 vendor: Broadcom Inc. and subsidiaries
                 physical id: 0.1
                 bus info: pci@0000:10:00.1
-                logical name: enp16s0f1
+                logical name: nic3
                 version: 20
                 serial: 5c:f3:fc:6a:35:86
                 capacity: 1Gbit/s
                 width: 64 bits
                 clock: 33MHz
                 capabilities: pm vpd msi msix pciexpress bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=6.14.11-1-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 6.2.0 NCSI 2.0.11 latency=0 link=no multicast=yes port=twisted pair
                 resources: irq:35 memory:94000000-95ffffff
         *-pci:2
              description: PCI bridge
@@ -614,11 +580,11 @@ cosm
              resources: irq:17 ioport:10a0(size=32)
            *-usbhost
                 product: UHCI Host Controller
-                vendor: Linux 6.14.11-1-pve uhci_hcd
+                vendor: Linux 7.0.14-14-pve uhci_hcd
                 physical id: 1
                 bus info: usb@3
                 logical name: usb3
-                version: 6.14
+                version: 7.00
                 capabilities: usb-1.10
                 configuration: driver=hub slots=2 speed=12Mbit/s
         *-usb:1
@@ -635,11 +601,11 @@ cosm
              resources: irq:18 ioport:1080(size=32)
            *-usbhost
                 product: UHCI Host Controller
-                vendor: Linux 6.14.11-1-pve uhci_hcd
+                vendor: Linux 7.0.14-14-pve uhci_hcd
                 physical id: 1
                 bus info: usb@4
                 logical name: usb4
-                version: 6.14
+                version: 7.00
                 capabilities: usb-1.10
                 configuration: driver=hub slots=2 speed=12Mbit/s
         *-usb:2
@@ -656,11 +622,11 @@ cosm
              resources: irq:19 memory:9b921000-9b9213ff
            *-usbhost
                 product: EHCI Host Controller
-                vendor: Linux 6.14.11-1-pve ehci_hcd
+                vendor: Linux 7.0.14-14-pve ehci_hcd
                 physical id: 1
-                bus info: usb@2
-                logical name: usb2
-                version: 6.14
+                bus info: usb@1
+                logical name: usb1
+                version: 7.00
                 capabilities: usb-2.00
                 configuration: driver=hub slots=6 speed=480Mbit/s
         *-pci:4
@@ -725,24 +691,13 @@ cosm
              resources: irq:17 ioport:1060(size=32)
            *-usbhost
                 product: UHCI Host Controller
-                vendor: Linux 6.14.11-1-pve uhci_hcd
+                vendor: Linux 7.0.14-14-pve uhci_hcd
                 physical id: 1
                 bus info: usb@5
                 logical name: usb5
-                version: 6.14
+                version: 7.00
                 capabilities: usb-1.10
                 configuration: driver=hub slots=2 speed=12Mbit/s
-              *-usb DISABLED
-                   description: Ethernet interface
-                   product: RNDIS/CDC ETHER
-                   vendor: IBM
-                   physical id: 2
-                   bus info: usb@5:2
-                   logical name: enx5ef3fcdd626f
-                   version: 2.15
-                   serial: 5e:f3:fc:dd:62:6f
-                   capabilities: usb-2.00 ethernet physical
-                   configuration: autonegotiation=off broadcast=yes driver=cdc_ether driverversion=6.14.11-1-pve duplex=half firmware=CDC Ethernet Device link=no maxpower=100mA multicast=yes port=twisted pair speed=12Mbit/s
         *-usb:4
              description: USB controller
              product: 82801JI (ICH10 Family) USB UHCI Controller #2
@@ -757,11 +712,11 @@ cosm
              resources: irq:18 ioport:1040(size=32)
            *-usbhost
                 product: UHCI Host Controller
-                vendor: Linux 6.14.11-1-pve uhci_hcd
+                vendor: Linux 7.0.14-14-pve uhci_hcd
                 physical id: 1
                 bus info: usb@6
                 logical name: usb6
-                version: 6.14
+                version: 7.00
                 capabilities: usb-1.10
                 configuration: driver=hub slots=2 speed=12Mbit/s
         *-usb:5
@@ -778,11 +733,11 @@ cosm
              resources: irq:19 ioport:1020(size=32)
            *-usbhost
                 product: UHCI Host Controller
-                vendor: Linux 6.14.11-1-pve uhci_hcd
+                vendor: Linux 7.0.14-14-pve uhci_hcd
                 physical id: 1
                 bus info: usb@7
                 logical name: usb7
-                version: 6.14
+                version: 7.00
                 capabilities: usb-1.10
                 configuration: driver=hub slots=2 speed=12Mbit/s
         *-usb:6
@@ -799,11 +754,11 @@ cosm
              resources: irq:17 memory:9b920000-9b9203ff
            *-usbhost
                 product: EHCI Host Controller
-                vendor: Linux 6.14.11-1-pve ehci_hcd
+                vendor: Linux 7.0.14-14-pve ehci_hcd
                 physical id: 1
-                bus info: usb@1
-                logical name: usb1
-                version: 6.14
+                bus info: usb@2
+                logical name: usb2
+                version: 7.00
                 capabilities: usb-2.00
                 configuration: driver=hub slots=6 speed=480Mbit/s
         *-pci:6
@@ -834,45 +789,20 @@ cosm
                 capabilities: pnp
                 configuration: driver=rtc_cmos
            *-pnp00:01
-                product: PnP device PNP0103
+                product: PnP device PNP0501
                 physical id: 1
                 capabilities: pnp
-                configuration: driver=system
+                configuration: driver=serial
            *-pnp00:02
-                product: PnP device PNP0c02
+                product: PnP device PNP0501
                 physical id: 2
                 capabilities: pnp
-                configuration: driver=system
+                configuration: driver=serial
            *-pnp00:03
-                product: PnP device PNP0501
+                product: PnP device PNP0c31
                 physical id: 3
                 capabilities: pnp
-                configuration: driver=serial
-           *-pnp00:04
-                product: PnP device PNP0501
-                physical id: 4
-                capabilities: pnp
-                configuration: driver=serial
-           *-pnp00:05
-                product: PnP device PNP0c31
-                physical id: 5
-                capabilities: pnp
                 configuration: driver=tpm_tis
-           *-pnp00:06
-                product: PnP device PNP0c02
-                physical id: 6
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:07
-                product: PnP device PNP0c02
-                physical id: 7
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:08
-                product: PnP device IPI0001
-                physical id: 8
-                capabilities: pnp
-                configuration: driver=system
         *-ide:0
              description: IDE interface
              product: 82801JI (ICH10 Family) 4 port SATA IDE Controller #1
@@ -900,32 +830,31 @@ cosm
                 configuration: ansiversion=5 status=nodisc
            *-disk:0
                 description: ATA Disk
-                product: KINGSTON SA400S3
+                product: Samsung SSD 870
                 physical id: 0
                 bus info: scsi@0:0.1.0
                 logical name: /dev/sda
-                version: 0106
-                serial: 50026B7381ACDAD1
-                size: 223GiB (240GB)
+                version: 1B6Q
+                serial: S5Y1NF0RA34320R
+                size: 465GiB (500GB)
                 capabilities: gpt-1.00 partitioned partitioned:gpt
-                configuration: ansiversion=5 guid=5aad36c9-a870-452f-b41c-a95f6e6a10e1 logicalsectorsize=512 sectorsize=512
+                configuration: ansiversion=5 guid=e46595b2-aa50-4781-988b-a44a75b3f851 logicalsectorsize=512 sectorsize=512
               *-volume:0
                    description: BIOS Boot partition
                    vendor: EFI
                    physical id: 1
                    bus info: scsi@0:0.1.0,1
                    logical name: /dev/sda1
-                   serial: 7bab704c-b710-4579-b079-0fc706cae01a
+                   serial: 1437aaae-4121-45be-81f3-c6d32b1a6351
                    capacity: 1006KiB
                    capabilities: nofs
-              *-volume:1
+              *-volume:1 UNCLAIMED
                    description: Windows FAT volume
                    vendor: mkfs.fat
                    physical id: 2
                    bus info: scsi@0:0.1.0,2
-                   logical name: /dev/sda2
                    version: FAT32
-                   serial: 0447-e5ac
+                   serial: d804-5e57
                    size: 1022MiB
                    capacity: 1023MiB
                    capabilities: boot fat initialized
@@ -936,54 +865,19 @@ cosm
                    physical id: 3
                    bus info: scsi@0:0.1.0,3
                    logical name: /dev/sda3
-                   serial: 5VV5pR-vQ13-45M2-GhII-c57W-Vd45-vFS53w
-                   size: 222GiB
+                   serial: 0CxoKY-tPrt-kGJq-TBd0-kdvI-Jy0D-Q2VvBw
+                   size: 464GiB
                    capabilities: multi lvm2
            *-disk:1
                 description: ATA Disk
-                product: WDC WD5000LPVX-6
-                vendor: Western Digital
+                product: TS500GSSD220Q
                 physical id: 1
                 bus info: scsi@1:0.1.0
                 logical name: /dev/sdb
-                version: 1A01
-                serial: WD-WXM1A65RKS6E
+                version: 1A0
+                serial: H826862261
                 size: 465GiB (500GB)
-                capabilities: partitioned partitioned:dos
-                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=4096 signature=415a1dbc
-              *-volume:0
-                   description: Windows NTFS volume
-                   physical id: 1
-                   bus info: scsi@1:0.1.0,1
-                   logical name: /dev/sdb1
-                   version: 3.1
-                   serial: 888e-920a
-                   size: 98MiB
-                   capacity: 100MiB
-                   capabilities: primary bootable ntfs initialized
-                   configuration: clustersize=4096 created=2016-07-13 10:09:54 filesystem=ntfs label=Зарезервировано системой state=clean
-              *-volume:1
-                   description: Windows NTFS volume
-                   physical id: 2
-                   bus info: scsi@1:0.1.0,2
-                   logical name: /dev/sdb2
-                   version: 3.1
-                   serial: 6a1818bc-521a-984e-be73-86aae8a5c936
-                   size: 66GiB
-                   capacity: 66GiB
-                   capabilities: primary ntfs initialized
-                   configuration: clustersize=4096 created=2016-07-13 10:09:57 filesystem=ntfs label=OS state=clean
-              *-volume:2
-                   description: Windows NTFS volume
-                   physical id: 3
-                   bus info: scsi@1:0.1.0,3
-                   logical name: /dev/sdb3
-                   version: 3.1
-                   serial: 6eb533e3-81d2-ac4b-85ec-f0b0f8bbe7b1
-                   size: 398GiB
-                   capacity: 399GiB
-                   capabilities: primary ntfs initialized
-                   configuration: clustersize=4096 created=2016-07-14 09:12:26 filesystem=ntfs state=clean
+                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=512
         *-serial
              description: SMBus
              product: 82801JI (ICH10 Family) SMBus Controller
@@ -1001,12 +895,34 @@ cosm
              vendor: Intel Corporation
              physical id: 1f.5
              bus info: pci@0000:00:1f.5
+             logical name: scsi2
+             logical name: scsi3
              version: 00
              width: 32 bits
              clock: 66MHz
-             capabilities: ide pm pci_native_mode bus_master cap_list
+             capabilities: ide pm pci_native_mode bus_master cap_list emulated
              configuration: driver=ata_piix latency=0
              resources: irq:21 ioport:1108(size=8) ioport:1124(size=4) ioport:1100(size=8) ioport:1120(size=4) ioport:10d0(size=16) ioport:10c0(size=16)
+           *-disk:0
+                description: ATA Disk
+                product: Seagate BarraCud
+                physical id: 0
+                bus info: scsi@2:0.0.0
+                logical name: /dev/sdc
+                version: 1024
+                serial: 7M001LF7
+                size: 465GiB (500GB)
+                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=512
+           *-disk:1
+                description: ATA Disk
+                product: Seagate BarraCud
+                physical id: 1
+                bus info: scsi@3:0.0.0
+                logical name: /dev/sdd
+                version: 1024
+                serial: 7M001KKJ
+                size: 465GiB (500GB)
+                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=512
      *-pci:1
           description: Host bridge
           product: Xeon 5600 Series QuickPath Architecture Generic Non-core Registers

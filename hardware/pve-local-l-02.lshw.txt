@@ -1,0 +1,1337 @@
+pve-local-l-02
+    description: Rack Mount Chassis
+    product: ProLiant DL380 G7 (583968-421)
+    vendor: HP
+    serial: CZ210702D1
+    width: 64 bits
+    capabilities: smbios-2.7 dmi-2.7 smp vsyscall32
+    configuration: boot=normal chassis=rackmount family=ProLiant sku=583968-421 uuid=39333835-3836-5a43-3231-303730324431
+  *-core
+       description: Motherboard
+       physical id: 0
+     *-firmware
+          description: BIOS
+          vendor: HP
+          physical id: 0
+          version: P67
+          date: 05/21/2018
+          size: 64KiB
+          capacity: 8MiB
+          capabilities: pci pnp upgrade shadowing escd cdboot bootselect edd int13floppy360 int13floppy1200 int13floppy720 int5printscreen int9keyboard int14serial int17printer int10video acpi usb biosbootspecification netboot
+     *-cpu:0
+          description: CPU
+          product: Intel(R) Xeon(R) CPU           X5650  @ 2.67GHz
+          vendor: Intel Corp.
+          physical id: 400
+          bus info: cpu@0
+          version: 6.44.2
+          slot: Proc 1
+          size: 2661MHz
+          capacity: 2661MHz
+          width: 64 bits
+          clock: 133MHz
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d cpufreq
+          configuration: cores=6 enabledcores=6 microcode=31 threads=12
+        *-cache:0
+             description: L1 cache
+             physical id: 710
+             slot: Processor 1 Internal L1 Cache
+             size: 192KiB
+             capacity: 192KiB
+             capabilities: burst internal write-back data
+             configuration: level=1
+        *-cache:1
+             description: L2 cache
+             physical id: 720
+             slot: Processor 1 Internal L2 Cache
+             size: 1536KiB
+             capacity: 1536KiB
+             capabilities: burst internal write-back
+             configuration: level=2
+        *-cache:2
+             description: L3 cache
+             physical id: 730
+             slot: Processor 1 Internal L3 Cache
+             size: 12MiB
+             capacity: 12MiB
+             capabilities: burst internal write-back
+             configuration: level=3
+     *-cpu:1
+          description: CPU
+          product: Intel(R) Xeon(R) CPU           X5650  @ 2.67GHz
+          vendor: Intel Corp.
+          physical id: 406
+          bus info: cpu@1
+          version: 6.44.2
+          slot: Proc 2
+          size: 2661MHz
+          capacity: 2661MHz
+          width: 64 bits
+          clock: 133MHz
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ht tm pbe syscall nx pdpe1gb rdtscp x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr pdcm pcid dca sse4_1 sse4_2 popcnt aes lahf_lm epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid dtherm ida arat vnmi flush_l1d cpufreq
+          configuration: cores=6 enabledcores=6 microcode=31 threads=12
+        *-cache:0
+             description: L1 cache
+             physical id: 716
+             slot: Processor 2 Internal L1 Cache
+             size: 192KiB
+             capacity: 192KiB
+             capabilities: burst internal write-back data
+             configuration: level=1
+        *-cache:1
+             description: L2 cache
+             physical id: 726
+             slot: Processor 2 Internal L2 Cache
+             size: 1536KiB
+             capacity: 1536KiB
+             capabilities: burst internal write-back
+             configuration: level=2
+        *-cache:2
+             description: L3 cache
+             physical id: 736
+             slot: Processor 2 Internal L3 Cache
+             size: 12MiB
+             capacity: 12MiB
+             capabilities: burst internal write-back
+             configuration: level=3
+     *-memory
+          description: System Memory
+          physical id: 1000
+          slot: System board or motherboard
+          size: 144GiB
+          capabilities: ecc
+          configuration: errordetection=ecc
+        *-bank:0
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: 0
+             slot: PROC 1 DIMM 1G
+             width: 64 bits
+        *-bank:1
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: 1
+             slot: PROC 1 DIMM 2D
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:2
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: 2
+             slot: PROC 1 DIMM 3A
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+        *-bank:3
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: 3
+             slot: PROC 1 DIMM 4H
+             width: 64 bits
+        *-bank:4
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: 4
+             slot: PROC 1 DIMM 5E
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:5
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: 5
+             slot: PROC 1 DIMM 6B
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+        *-bank:6
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: 6
+             slot: PROC 1 DIMM 7I
+             width: 64 bits
+        *-bank:7
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: 7
+             slot: PROC 1 DIMM 8F
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:8
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: 8
+             slot: PROC 1 DIMM 9C
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+        *-bank:9
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: 9
+             slot: PROC 2 DIMM 1G
+             width: 64 bits
+        *-bank:10
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: a
+             slot: PROC 2 DIMM 2D
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:11
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: b
+             slot: PROC 2 DIMM 3A
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+        *-bank:12
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: c
+             slot: PROC 2 DIMM 4H
+             width: 64 bits
+        *-bank:13
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: d
+             slot: PROC 2 DIMM 5E
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:14
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: e
+             slot: PROC 2 DIMM 6B
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+        *-bank:15
+             description: DIMM DDR3 Synchronous [empty]
+             physical id: f
+             slot: PROC 2 DIMM 7I
+             width: 64 bits
+        *-bank:16
+             description: DIMM DDR3 Synchronous 1333 MHz (0.8 ns)
+             physical id: 10
+             slot: PROC 2 DIMM 8F
+             size: 8GiB
+             width: 64 bits
+             clock: 1333MHz (0.8ns)
+        *-bank:17
+             description: DIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+             physical id: 11
+             slot: PROC 2 DIMM 9C
+             size: 16GiB
+             width: 64 bits
+             clock: 1600MHz (0.6ns)
+     *-pci:0
+          description: Host bridge
+          product: 5520 I/O Hub to ESI Port
+          vendor: Intel Corporation
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+        *-pci:0
+             description: PCI bridge
+             product: 5520/5500/X58 I/O Hub PCI Express Root Port 1
+             vendor: Intel Corporation
+             physical id: 1
+             bus info: pci@0000:00:01.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:25 ioport:4000(size=4096) memory:fbd00000-fbffffff
+           *-raid
+                description: RAID bus controller
+                product: Smart Array G6 controllers
+                vendor: Hewlett-Packard Company
+                physical id: 0
+                bus info: pci@0000:05:00.0
+                logical name: scsi2
+                version: 01
+                width: 64 bits
+                clock: 33MHz
+                capabilities: raid pm msi pciexpress msix bus_master cap_list rom
+                configuration: driver=hpsa latency=0
+                resources: irq:35 memory:fbe00000-fbffffff memory:fbdf0000-fbdf0fff ioport:4000(size=256) memory:fbd00000-fbd7ffff
+              *-generic UNCLAIMED
+                   description: SCSI
+                   product: P410i
+                   vendor: HP
+                   physical id: 0.0.0
+                   bus info: scsi@2:0.0.0
+                   version: 6.64
+                   serial: 5001438009F8E870
+                   configuration: ansiversion=5
+              *-disk
+                   description: SCSI Disk
+                   product: LOGICAL VOLUME
+                   vendor: HP
+                   physical id: 1.0.0
+                   bus info: scsi@2:1.0.0
+                   logical name: /dev/sda
+                   version: 6.64
+                   serial: 5001438009F8E870
+                   size: 111GiB (119GB)
+                   capabilities: 15000rpm gpt-1.00 partitioned partitioned:gpt
+                   configuration: ansiversion=5 guid=d9e634b9-c85d-46ab-a57c-d655612076b3 logicalsectorsize=512 sectorsize=4096
+                 *-volume:0
+                      description: BIOS Boot partition
+                      vendor: EFI
+                      physical id: 1
+                      bus info: scsi@2:1.0.0,1
+                      logical name: /dev/sda1
+                      serial: a3af356e-75c8-4a8e-8838-d7e7da04d096
+                      capacity: 1006KiB
+                      capabilities: nofs
+                 *-volume:1
+                      description: Windows FAT volume
+                      vendor: mkfs.fat
+                      physical id: 2
+                      bus info: scsi@2:1.0.0,2
+                      logical name: /dev/sda2
+                      version: FAT32
+                      serial: 302d-f917
+                      size: 1022MiB
+                      capacity: 1023MiB
+                      capabilities: boot fat initialized
+                      configuration: FATs=2 filesystem=fat
+                 *-volume:2
+                      description: LVM Physical Volume
+                      vendor: Linux
+                      physical id: 3
+                      bus info: scsi@2:1.0.0,3
+                      logical name: /dev/sda3
+                      serial: lrOfXt-gFZa-iNQG-wzGz-CkFe-DlaS-q8c5la
+                      size: 110GiB
+                      capabilities: multi lvm2
+        *-pci:1
+             description: PCI bridge
+             product: 5520/5500/X58 I/O Hub PCI Express Root Port 2
+             vendor: Intel Corporation
+             physical id: 2
+             bus info: pci@0000:00:02.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:26
+        *-pci:2
+             description: PCI bridge
+             product: 5520/5500/X58 I/O Hub PCI Express Root Port 3
+             vendor: Intel Corporation
+             physical id: 3
+             bus info: pci@0000:00:03.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:27
+        *-pci:3
+             description: PCI bridge
+             product: 5520/X58 I/O Hub PCI Express Root Port 4
+             vendor: Intel Corporation
+             physical id: 4
+             bus info: pci@0000:00:04.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:28
+        *-pci:4
+             description: PCI bridge
+             product: 5520/X58 I/O Hub PCI Express Root Port 5
+             vendor: Intel Corporation
+             physical id: 5
+             bus info: pci@0000:00:05.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:29
+        *-pci:5
+             description: PCI bridge
+             product: 5520/X58 I/O Hub PCI Express Root Port 6
+             vendor: Intel Corporation
+             physical id: 6
+             bus info: pci@0000:00:06.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:30
+        *-pci:6
+             description: PCI bridge
+             product: 5520/5500/X58 I/O Hub PCI Express Root Port 7
+             vendor: Intel Corporation
+             physical id: 7
+             bus info: pci@0000:00:07.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:31
+        *-pci:7
+             description: PCI bridge
+             product: 5520/5500/X58 I/O Hub PCI Express Root Port 8
+             vendor: Intel Corporation
+             physical id: 8
+             bus info: pci@0000:00:08.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:32
+        *-pci:8
+             description: PCI bridge
+             product: 7500/5520/5500/X58 I/O Hub PCI Express Root Port 9
+             vendor: Intel Corporation
+             physical id: 9
+             bus info: pci@0000:00:09.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:33
+        *-pci:9
+             description: PCI bridge
+             product: 7500/5520/5500/X58 I/O Hub PCI Express Root Port 10
+             vendor: Intel Corporation
+             physical id: a
+             bus info: pci@0000:00:0a.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci msi pciexpress pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:34
+        *-generic:0
+             description: PIC
+             product: 7500/5520/5500/X58 I/O Hub System Management Registers
+             vendor: Intel Corporation
+             physical id: 14
+             bus info: pci@0000:00:14.0
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pciexpress 8259 cap_list
+             configuration: driver=i7core_edac latency=0
+             resources: irq:0
+        *-generic:1 UNCLAIMED
+             description: PIC
+             product: 7500/5520/5500/X58 I/O Hub GPIO and Scratch Pad Registers
+             vendor: Intel Corporation
+             physical id: 14.1
+             bus info: pci@0000:00:14.1
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pciexpress 8259 cap_list
+             configuration: latency=0
+        *-generic:2 UNCLAIMED
+             description: PIC
+             product: 7500/5520/5500/X58 I/O Hub Control Status and RAS Registers
+             vendor: Intel Corporation
+             physical id: 14.2
+             bus info: pci@0000:00:14.2
+             version: 13
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pciexpress 8259 cap_list
+             configuration: latency=0
+        *-pci:10
+             description: PCI bridge
+             product: 82801JI (ICH10 Family) PCI Express Root Port 1
+             vendor: Intel Corporation
+             physical id: 1c
+             bus info: pci@0000:00:1c.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 memory:f2000000-f5ffffff
+           *-network:0
+                description: Ethernet interface
+                product: NetXtreme II BCM5709 Gigabit Ethernet
+                vendor: Broadcom Inc. and subsidiaries
+                physical id: 0
+                bus info: pci@0000:03:00.0
+                logical name: mgmt
+                version: 20
+                serial: 3c:4a:92:71:8d:14
+                size: 1Gbit/s
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=full firmware=bc 5.2.3 NCSI 2.0.6 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+                resources: irq:16 memory:f4000000-f5ffffff
+           *-network:1 DISABLED
+                description: Ethernet interface
+                product: NetXtreme II BCM5709 Gigabit Ethernet
+                vendor: Broadcom Inc. and subsidiaries
+                physical id: 0.1
+                bus info: pci@0000:03:00.1
+                logical name: nic1
+                version: 20
+                serial: 3c:4a:92:71:8d:16
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 5.2.3 NCSI 2.0.6 latency=0 link=no multicast=yes port=twisted pair
+                resources: irq:17 memory:f2000000-f3ffffff
+        *-pci:11
+             description: PCI bridge
+             product: 82801JI (ICH10 Family) PCI Express Root Port 3
+             vendor: Intel Corporation
+             physical id: 1c.2
+             bus info: pci@0000:00:1c.2
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 memory:f6000000-f9ffffff
+           *-network:0 DISABLED
+                description: Ethernet interface
+                product: NetXtreme II BCM5709 Gigabit Ethernet
+                vendor: Broadcom Inc. and subsidiaries
+                physical id: 0
+                bus info: pci@0000:04:00.0
+                logical name: nic2
+                version: 20
+                serial: 3c:4a:92:71:8d:18
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 5.2.3 latency=0 link=no multicast=yes port=twisted pair
+                resources: irq:18 memory:f8000000-f9ffffff
+           *-network:1 DISABLED
+                description: Ethernet interface
+                product: NetXtreme II BCM5709 Gigabit Ethernet
+                vendor: Broadcom Inc. and subsidiaries
+                physical id: 0.1
+                bus info: pci@0000:04:00.1
+                logical name: nic3
+                version: 20
+                serial: 3c:4a:92:71:8d:1a
+                capacity: 1Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=bnx2 driverversion=7.0.14-14-pve duplex=half firmware=bc 5.2.3 latency=0 link=no multicast=yes port=twisted pair
+                resources: irq:19 memory:f6000000-f7ffffff
+        *-pci:12
+             description: PCI bridge
+             product: 82801JI (ICH10 Family) PCI Express Root Port 5
+             vendor: Intel Corporation
+             physical id: 1c.4
+             bus info: pci@0000:00:1c.4
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pciexpress msi pm normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:16 ioport:3000(size=4096) memory:f1d00000-f1ffffff
+           *-generic:0 UNCLAIMED
+                description: System peripheral
+                product: Integrated Lights-Out Standard Slave Instrumentation & System Support
+                vendor: Hewlett-Packard Company
+                physical id: 0
+                bus info: pci@0000:02:00.0
+                version: 04
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list
+                configuration: latency=0
+                resources: ioport:3000(size=256) memory:f1ff0000-f1ff01ff ioport:3400(size=256)
+           *-generic:1
+                description: System peripheral
+                product: Integrated Lights-Out Standard Management Processor Support and Messaging
+                vendor: Hewlett-Packard Company
+                physical id: 0.2
+                bus info: pci@0000:02:00.2
+                version: 04
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm msi pciexpress bus_master cap_list rom
+                configuration: driver=hpilo latency=0
+                resources: irq:17 ioport:3800(size=256) memory:f1fe0000-f1fe00ff memory:f1e00000-f1efffff memory:f1d80000-f1dfffff memory:f1d70000-f1d77fff memory:f1d60000-f1d67fff memory:f1d00000-f1d0ffff
+           *-usb
+                description: USB controller
+                product: Integrated Lights-Out Standard Virtual USB Controller
+                vendor: Hewlett-Packard Company
+                physical id: 0.4
+                bus info: pci@0000:02:00.4
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: msi pciexpress pm uhci bus_master cap_list
+                configuration: driver=uhci_hcd latency=0
+                resources: irq:52 ioport:3c00(size=32)
+              *-usbhost
+                   product: UHCI Host Controller
+                   vendor: Linux 7.0.14-14-pve uhci_hcd
+                   physical id: 1
+                   bus info: usb@6
+                   logical name: usb6
+                   version: 7.00
+                   capabilities: usb-1.10
+                   configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:0
+             description: USB controller
+             product: 82801JI (ICH10 Family) USB UHCI Controller #1
+             vendor: Intel Corporation
+             physical id: 1d
+             bus info: pci@0000:00:1d.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master cap_list
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:20 ioport:1000(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 7.0.14-14-pve uhci_hcd
+                physical id: 1
+                bus info: usb@2
+                logical name: usb2
+                version: 7.00
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:1
+             description: USB controller
+             product: 82801JI (ICH10 Family) USB UHCI Controller #2
+             vendor: Intel Corporation
+             physical id: 1d.1
+             bus info: pci@0000:00:1d.1
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master cap_list
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:23 ioport:1020(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 7.0.14-14-pve uhci_hcd
+                physical id: 1
+                bus info: usb@3
+                logical name: usb3
+                version: 7.00
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:2
+             description: USB controller
+             product: 82801JI (ICH10 Family) USB UHCI Controller #3
+             vendor: Intel Corporation
+             physical id: 1d.2
+             bus info: pci@0000:00:1d.2
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master cap_list
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:22 ioport:1040(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 7.0.14-14-pve uhci_hcd
+                physical id: 1
+                bus info: usb@4
+                logical name: usb4
+                version: 7.00
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:3
+             description: USB controller
+             product: 82801JI (ICH10 Family) USB UHCI Controller #6
+             vendor: Intel Corporation
+             physical id: 1d.3
+             bus info: pci@0000:00:1d.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: uhci bus_master cap_list
+             configuration: driver=uhci_hcd latency=0
+             resources: irq:23 ioport:1060(size=32)
+           *-usbhost
+                product: UHCI Host Controller
+                vendor: Linux 7.0.14-14-pve uhci_hcd
+                physical id: 1
+                bus info: usb@5
+                logical name: usb5
+                version: 7.00
+                capabilities: usb-1.10
+                configuration: driver=hub slots=2 speed=12Mbit/s
+        *-usb:4
+             description: USB controller
+             product: 82801JI (ICH10 Family) USB2 EHCI Controller #1
+             vendor: Intel Corporation
+             physical id: 1d.7
+             bus info: pci@0000:00:1d.7
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm debug ehci bus_master cap_list
+             configuration: driver=ehci-pci latency=0
+             resources: irq:20 memory:f1bf0000-f1bf03ff
+           *-usbhost
+                product: EHCI Host Controller
+                vendor: Linux 7.0.14-14-pve ehci_hcd
+                physical id: 1
+                bus info: usb@1
+                logical name: usb1
+                version: 7.00
+                capabilities: usb-2.00
+                configuration: driver=hub slots=8 speed=480Mbit/s
+        *-pci:13
+             description: PCI bridge
+             product: 82801 PCI Bridge
+             vendor: Intel Corporation
+             physical id: 1e
+             bus info: pci@0000:00:1e.0
+             version: 90
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci subtractive_decode bus_master cap_list
+             resources: ioport:2000(size=4096) memory:f1c00000-f1cfffff ioport:e8000000(size=134217728)
+           *-display
+                description: VGA compatible controller
+                product: ES1000
+                vendor: Advanced Micro Devices, Inc. [AMD/ATI]
+                physical id: 3
+                bus info: pci@0000:01:03.0
+                logical name: /dev/fb0
+                version: 02
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm vga_controller bus_master cap_list rom fb
+                configuration: depth=32 driver=radeon latency=64 mingnt=8 resolution=1024,768
+                resources: irq:23 memory:e8000000-efffffff ioport:2000(size=256) memory:f1cf0000-f1cfffff memory:c0000-dffff
+        *-isa
+             description: ISA bridge
+             product: 82801JIB (ICH10) LPC Interface Controller
+             vendor: Intel Corporation
+             physical id: 1f
+             bus info: pci@0000:00:1f.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: isa bus_master cap_list
+             configuration: driver=lpc_ich latency=0
+             resources: irq:0
+           *-pnp00:00
+                product: PnP device PNP0303
+                physical id: 0
+                capabilities: pnp
+                configuration: driver=i8042 kbd
+           *-pnp00:01
+                product: PnP device PNP0f13
+                physical id: 1
+                capabilities: pnp
+                configuration: driver=i8042 aux
+           *-pnp00:02
+                product: PnP device PNP0501
+                physical id: 2
+                capabilities: pnp
+                configuration: driver=serial
+           *-pnp00:03
+                product: PnP device PNP0b00
+                physical id: 3
+                capabilities: pnp
+                configuration: driver=rtc_cmos
+        *-ide
+             description: IDE interface
+             product: 82801JI (ICH10 Family) 4 port SATA IDE Controller #1
+             vendor: Intel Corporation
+             physical id: 1f.2
+             bus info: pci@0000:00:1f.2
+             logical name: scsi0
+             version: 00
+             width: 32 bits
+             clock: 66MHz
+             capabilities: ide pm isa_compat_mode pci_native_mode bus_master cap_list emulated
+             configuration: driver=ata_piix latency=0
+             resources: irq:17 ioport:1080(size=8) ioport:1088(size=4) ioport:1090(size=8) ioport:1098(size=4) ioport:10a0(size=16) ioport:10b0(size=16)
+           *-cdrom
+                description: DVD reader
+                product: DV-28S-W
+                vendor: TEAC
+                physical id: 0.0.0
+                bus info: scsi@0:0.0.0
+                logical name: /dev/cdrom
+                logical name: /dev/sr0
+                version: C.2D
+                capabilities: removable audio dvd
+                configuration: ansiversion=5 status=nodisc
+     *-pci:1
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 101
+          bus info: pci@0000:00:0d.0
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:2
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 102
+          bus info: pci@0000:00:0d.1
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:3
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 103
+          bus info: pci@0000:00:0d.2
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:4
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 104
+          bus info: pci@0000:00:0d.3
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:5
+          description: Host bridge
+          product: 7500/5520/5500/X58 Physical Layer Port 0
+          vendor: Intel Corporation
+          physical id: 105
+          bus info: pci@0000:00:0d.4
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:6
+          description: Host bridge
+          product: 7500/5520/5500 Physical Layer Port 1
+          vendor: Intel Corporation
+          physical id: 106
+          bus info: pci@0000:00:0d.5
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:7
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 107
+          bus info: pci@0000:00:0d.6
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:8
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 108
+          bus info: pci@0000:00:0e.0
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:9
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 109
+          bus info: pci@0000:00:0e.1
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:10
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 10a
+          bus info: pci@0000:00:0e.2
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:11
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 10b
+          bus info: pci@0000:00:0e.3
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:12
+          description: Host bridge
+          product: Intel Corporation
+          vendor: Intel Corporation
+          physical id: 10c
+          bus info: pci@0000:00:0e.4
+          version: 13
+          width: 32 bits
+          clock: 33MHz
+     *-pci:13
+          description: Host bridge
+          product: Xeon 5600 Series QuickPath Architecture Generic Non-core Registers
+          vendor: Intel Corporation
+          physical id: 10d
+          bus info: pci@0000:3e:00.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:14
+          description: Host bridge
+          product: Xeon 5600 Series QuickPath Architecture System Address Decoder
+          vendor: Intel Corporation
+          physical id: 10e
+          bus info: pci@0000:3e:00.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:15
+          description: Host bridge
+          product: Xeon 5600 Series QPI Link 0
+          vendor: Intel Corporation
+          physical id: 10f
+          bus info: pci@0000:3e:02.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:16
+          description: Host bridge
+          product: Xeon 5600 Series QPI Physical 0
+          vendor: Intel Corporation
+          physical id: 110
+          bus info: pci@0000:3e:02.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:17
+          description: Host bridge
+          product: Xeon 5600 Series Mirror Port Link 0
+          vendor: Intel Corporation
+          physical id: 111
+          bus info: pci@0000:3e:02.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:18
+          description: Host bridge
+          product: Xeon 5600 Series Mirror Port Link 1
+          vendor: Intel Corporation
+          physical id: 112
+          bus info: pci@0000:3e:02.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:19
+          description: Host bridge
+          product: Xeon 5600 Series QPI Link 1
+          vendor: Intel Corporation
+          physical id: 113
+          bus info: pci@0000:3e:02.4
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:20
+          description: Host bridge
+          product: Xeon 5600 Series QPI Physical 1
+          vendor: Intel Corporation
+          physical id: 114
+          bus info: pci@0000:3e:02.5
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:21
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Registers
+          vendor: Intel Corporation
+          physical id: 115
+          bus info: pci@0000:3e:03.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:22
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Target Address Decoder
+          vendor: Intel Corporation
+          physical id: 116
+          bus info: pci@0000:3e:03.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:23
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller RAS Registers
+          vendor: Intel Corporation
+          physical id: 117
+          bus info: pci@0000:3e:03.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:24
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Test Registers
+          vendor: Intel Corporation
+          physical id: 118
+          bus info: pci@0000:3e:03.4
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:25
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Control
+          vendor: Intel Corporation
+          physical id: 119
+          bus info: pci@0000:3e:04.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:26
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Address
+          vendor: Intel Corporation
+          physical id: 11a
+          bus info: pci@0000:3e:04.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:27
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Rank
+          vendor: Intel Corporation
+          physical id: 11b
+          bus info: pci@0000:3e:04.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:28
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Thermal Control
+          vendor: Intel Corporation
+          physical id: 11c
+          bus info: pci@0000:3e:04.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:29
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Control
+          vendor: Intel Corporation
+          physical id: 11d
+          bus info: pci@0000:3e:05.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:30
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Address
+          vendor: Intel Corporation
+          physical id: 11e
+          bus info: pci@0000:3e:05.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:31
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Rank
+          vendor: Intel Corporation
+          physical id: 11f
+          bus info: pci@0000:3e:05.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:32
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Thermal Control
+          vendor: Intel Corporation
+          physical id: 120
+          bus info: pci@0000:3e:05.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:33
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Control
+          vendor: Intel Corporation
+          physical id: 121
+          bus info: pci@0000:3e:06.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:34
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Address
+          vendor: Intel Corporation
+          physical id: 122
+          bus info: pci@0000:3e:06.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:35
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Rank
+          vendor: Intel Corporation
+          physical id: 123
+          bus info: pci@0000:3e:06.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:36
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Thermal Control
+          vendor: Intel Corporation
+          physical id: 124
+          bus info: pci@0000:3e:06.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:37
+          description: Host bridge
+          product: Xeon 5600 Series QuickPath Architecture Generic Non-core Registers
+          vendor: Intel Corporation
+          physical id: 125
+          bus info: pci@0000:3f:00.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:38
+          description: Host bridge
+          product: Xeon 5600 Series QuickPath Architecture System Address Decoder
+          vendor: Intel Corporation
+          physical id: 126
+          bus info: pci@0000:3f:00.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:39
+          description: Host bridge
+          product: Xeon 5600 Series QPI Link 0
+          vendor: Intel Corporation
+          physical id: 127
+          bus info: pci@0000:3f:02.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:40
+          description: Host bridge
+          product: Xeon 5600 Series QPI Physical 0
+          vendor: Intel Corporation
+          physical id: 128
+          bus info: pci@0000:3f:02.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:41
+          description: Host bridge
+          product: Xeon 5600 Series Mirror Port Link 0
+          vendor: Intel Corporation
+          physical id: 129
+          bus info: pci@0000:3f:02.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:42
+          description: Host bridge
+          product: Xeon 5600 Series Mirror Port Link 1
+          vendor: Intel Corporation
+          physical id: 12a
+          bus info: pci@0000:3f:02.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:43
+          description: Host bridge
+          product: Xeon 5600 Series QPI Link 1
+          vendor: Intel Corporation
+          physical id: 12b
+          bus info: pci@0000:3f:02.4
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:44
+          description: Host bridge
+          product: Xeon 5600 Series QPI Physical 1
+          vendor: Intel Corporation
+          physical id: 12c
+          bus info: pci@0000:3f:02.5
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:45
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Registers
+          vendor: Intel Corporation
+          physical id: 12d
+          bus info: pci@0000:3f:03.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:46
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Target Address Decoder
+          vendor: Intel Corporation
+          physical id: 12e
+          bus info: pci@0000:3f:03.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:47
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller RAS Registers
+          vendor: Intel Corporation
+          physical id: 12f
+          bus info: pci@0000:3f:03.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:48
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Test Registers
+          vendor: Intel Corporation
+          physical id: 130
+          bus info: pci@0000:3f:03.4
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:49
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Control
+          vendor: Intel Corporation
+          physical id: 131
+          bus info: pci@0000:3f:04.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:50
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Address
+          vendor: Intel Corporation
+          physical id: 132
+          bus info: pci@0000:3f:04.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:51
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Rank
+          vendor: Intel Corporation
+          physical id: 133
+          bus info: pci@0000:3f:04.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:52
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 0 Thermal Control
+          vendor: Intel Corporation
+          physical id: 134
+          bus info: pci@0000:3f:04.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:53
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Control
+          vendor: Intel Corporation
+          physical id: 135
+          bus info: pci@0000:3f:05.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:54
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Address
+          vendor: Intel Corporation
+          physical id: 136
+          bus info: pci@0000:3f:05.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:55
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Rank
+          vendor: Intel Corporation
+          physical id: 137
+          bus info: pci@0000:3f:05.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:56
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 1 Thermal Control
+          vendor: Intel Corporation
+          physical id: 138
+          bus info: pci@0000:3f:05.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:57
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Control
+          vendor: Intel Corporation
+          physical id: 139
+          bus info: pci@0000:3f:06.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:58
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Address
+          vendor: Intel Corporation
+          physical id: 13a
+          bus info: pci@0000:3f:06.1
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:59
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Rank
+          vendor: Intel Corporation
+          physical id: 13b
+          bus info: pci@0000:3f:06.2
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+     *-pci:60
+          description: Host bridge
+          product: Xeon 5600 Series Integrated Memory Controller Channel 2 Thermal Control
+          vendor: Intel Corporation
+          physical id: 13c
+          bus info: pci@0000:3f:06.3
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+  *-power:0 UNCLAIMED
+       description: Power Supply 1
+       product: 503296-B21
+       vendor: HP
+       physical id: 1
+       serial: 5ANLD0A4DY69N4
+       capacity: 460mWh
+  *-power:1 UNCLAIMED
+       description: Power Supply 2
+       product: 503296-B21
+       vendor: HP
+       physical id: 2
+       serial: 5ANLF0CHL1L48G
+       capacity: 460mWh
+  *-input:0
+       product: Power Button
+       physical id: 3
+       logical name: input0
+       logical name: /dev/input/event0
+       capabilities: platform
+  *-input:1
+       product: PC Speaker
+       physical id: 4
+       logical name: input4
+       logical name: /dev/input/event1
+       capabilities: isa

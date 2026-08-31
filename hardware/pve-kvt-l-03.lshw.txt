@@ -1,4 +1,4 @@
-saint-tropez
+pve-kvt-l-03
     description: Mini Tower Computer
     product: PowerEdge T30 (07C5)
     vendor: Dell Inc.
@@ -17,8 +17,8 @@ saint-tropez
           description: BIOS
           vendor: Dell Inc.
           physical id: 0
-          version: 1.0.0
-          date: 09/05/2016
+          version: 1.1.0
+          date: 05/21/2019
           size: 64KiB
           capacity: 16MiB
           capabilities: pci pnp upgrade shadowing cdboot bootselect edd int13floppy1200 int13floppy720 int13floppy2880 int5printscreen int9keyboard int14serial int17printer acpi usb biosbootspecification netboot uefi
@@ -30,7 +30,7 @@ saint-tropez
           bus info: cpu@0
           version: 6.94.3
           slot: Socket 0
-          size: 3672MHz
+          size: 3427MHz
           capacity: 4200MHz
           width: 64 bits
           clock: 100MHz
@@ -142,13 +142,12 @@ saint-tropez
              vendor: Intel Corporation
              physical id: 2
              bus info: pci@0000:00:02.0
-             logical name: /dev/fb0
              version: 06
              width: 64 bits
              clock: 33MHz
-             capabilities: pciexpress msi pm vga_controller bus_master cap_list rom fb
-             configuration: depth=32 driver=i915 latency=0 resolution=1920,1080
-             resources: irq:142 memory:de000000-deffffff memory:c0000000-cfffffff ioport:f000(size=64) memory:c0000-dffff
+             capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
+             configuration: driver=i915 latency=0
+             resources: irq:133 memory:de000000-deffffff memory:c0000000-cfffffff ioport:f000(size=64) memory:c0000-dffff
         *-usb
              description: USB controller
              product: 100 Series/C230 Series Chipset Family USB 3.0 xHCI Controller
@@ -160,23 +159,23 @@ saint-tropez
              clock: 33MHz
              capabilities: pm msi xhci bus_master cap_list
              configuration: driver=xhci_hcd latency=0
-             resources: irq:128 memory:df130000-df13ffff
+             resources: irq:127 memory:df030000-df03ffff
            *-usbhost:0
                 product: xHCI Host Controller
-                vendor: Linux 6.14.8-2-pve xhci-hcd
+                vendor: Linux 7.0.14-11-pve xhci-hcd
                 physical id: 0
                 bus info: usb@1
                 logical name: usb1
-                version: 6.14
+                version: 7.00
                 capabilities: usb-2.00
                 configuration: driver=hub slots=16 speed=480Mbit/s
            *-usbhost:1
                 product: xHCI Host Controller
-                vendor: Linux 6.14.8-2-pve xhci-hcd
+                vendor: Linux 7.0.14-11-pve xhci-hcd
                 physical id: 1
                 bus info: usb@2
                 logical name: usb2
-                version: 6.14
+                version: 7.00
                 capabilities: usb-3.00
                 configuration: driver=hub slots=10 speed=5000Mbit/s
         *-generic
@@ -190,7 +189,7 @@ saint-tropez
              clock: 33MHz
              capabilities: pm msi cap_list
              configuration: driver=intel_pch_thermal latency=0
-             resources: irq:18 memory:df14f000-df14ffff
+             resources: irq:18 memory:df04f000-df04ffff
         *-communication:0
              description: Communication controller
              product: 100 Series/C230 Series Chipset Family MEI Controller #1
@@ -202,7 +201,7 @@ saint-tropez
              clock: 33MHz
              capabilities: pm msi bus_master cap_list
              configuration: driver=mei_me latency=0
-             resources: irq:141 memory:df14e000-df14efff
+             resources: irq:132 memory:df04e000-df04efff
         *-communication:1
              description: Serial controller
              product: 100 Series/C230 Series Chipset Family KT Redirection
@@ -214,82 +213,74 @@ saint-tropez
              clock: 66MHz
              capabilities: msi pm 16550 cap_list
              configuration: driver=serial latency=0
-             resources: irq:19 ioport:f0a0(size=8) memory:df14d000-df14dfff
+             resources: irq:19 ioport:f0a0(size=8) memory:df04d000-df04dfff
         *-sata
              description: SATA controller
              product: Q170/Q150/B150/H170/H110/Z170/CM236 Chipset SATA Controller [AHCI Mode]
              vendor: Intel Corporation
              physical id: 17
              bus info: pci@0000:00:17.0
-             logical name: scsi0
              logical name: scsi1
-             logical name: scsi3
+             logical name: scsi2
              version: 31
              width: 32 bits
              clock: 66MHz
              capabilities: sata msi pm ahci_1.0 bus_master cap_list emulated
              configuration: driver=ahci latency=0
-             resources: irq:126 memory:df148000-df149fff memory:df14c000-df14c0ff ioport:f090(size=8) ioport:f080(size=4) ioport:f060(size=32) memory:df14b000-df14b7ff
+             resources: irq:125 memory:df048000-df049fff memory:df04c000-df04c0ff ioport:f090(size=8) ioport:f080(size=4) ioport:f060(size=32) memory:df04b000-df04b7ff
            *-disk:0
                 description: ATA Disk
-                product: WDC WD5000AAKX-0
-                vendor: Western Digital
+                product: KINGSTON SUV400S
                 physical id: 0
-                bus info: scsi@0:0.0.0
-                logical name: /dev/sda
-                version: 1H19
-                serial: WD-WCC2E2C47N5P
-                size: 465GiB (500GB)
-                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=512
-           *-disk:1
-                description: ATA Disk
-                product: Samsung SSD 870
-                physical id: 1
                 bus info: scsi@1:0.0.0
-                logical name: /dev/sdb
-                version: 1B6Q
-                serial: S5Y2NF0R140023V
-                size: 931GiB (1TB)
+                logical name: /dev/sda
+                version: 87RA
+                serial: 50026B7775010095
+                size: 111GiB (120GB)
                 capabilities: gpt-1.00 partitioned partitioned:gpt
-                configuration: ansiversion=5 guid=51b480fa-f0a8-45ae-9a39-2ac30457b3c6 logicalsectorsize=512 sectorsize=512
+                configuration: ansiversion=5 guid=86c73765-346f-4f24-a49c-7dfb95fd8256 logicalsectorsize=512 sectorsize=4096
               *-volume:0
                    description: BIOS Boot partition
                    vendor: EFI
                    physical id: 1
                    bus info: scsi@1:0.0.0,1
-                   logical name: /dev/sdb1
-                   serial: cd422192-3ad7-4f57-8321-41bf46661408
+                   logical name: /dev/sda1
+                   serial: a091903a-805e-415b-9bf6-6d396c62120a
                    capacity: 1006KiB
                    capabilities: nofs
-              *-volume:1 UNCLAIMED
+              *-volume:1
                    description: Windows FAT volume
                    vendor: mkfs.fat
                    physical id: 2
                    bus info: scsi@1:0.0.0,2
+                   logical name: /dev/sda2
+                   logical name: /boot/efi
                    version: FAT32
-                   serial: 45dd-e00d
+                   serial: 05f9-b369
                    size: 1022MiB
                    capacity: 1023MiB
                    capabilities: boot fat initialized
-                   configuration: FATs=2 filesystem=fat
+                   configuration: FATs=2 filesystem=fat mount.fstype=vfat mount.options=rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro state=mounted
               *-volume:2
                    description: LVM Physical Volume
                    vendor: Linux
                    physical id: 3
                    bus info: scsi@1:0.0.0,3
-                   logical name: /dev/sdb3
-                   serial: aBN0HC-yie3-sI8h-9aLH-Lg3Y-toUC-0Qnxdm
-                   size: 930GiB
+                   logical name: /dev/sda3
+                   serial: SWhaft-ozUd-sYRr-JM1a-XQhF-JCjk-pWowHo
+                   size: 110GiB
                    capabilities: multi lvm2
-           *-disk:2
+           *-disk:1
                 description: ATA Disk
-                product: ST1000VX005-2EZ1
-                physical id: 0.0.0
-                bus info: scsi@3:0.0.0
-                logical name: /dev/sdc
-                version: CV11
-                serial: Z9CBH2H1
-                size: 931GiB (1TB)
+                product: XA480LE10063
+                physical id: 1
+                bus info: scsi@2:0.0.0
+                logical name: /dev/sdb
+                version: 00ZU
+                serial: KfTmTu-7cTp-FE2d-YQ3R-ZFBY-3Z6H-hCh6AH
+                size: 447GiB
+                capacity: 447GiB
+                capabilities: lvm2
                 configuration: ansiversion=5 logicalsectorsize=512 sectorsize=4096
         *-pci:1
              description: PCI bridge
@@ -313,48 +304,6 @@ saint-tropez
                 width: 32 bits
                 clock: 33MHz
                 capabilities: pci pm msi pciexpress normal_decode bus_master cap_list
-        *-pci:2
-             description: PCI bridge
-             product: 100 Series/C230 Series Chipset Family PCI Express Root Port #5
-             vendor: Intel Corporation
-             physical id: 1c.4
-             bus info: pci@0000:00:1c.4
-             version: f1
-             width: 32 bits
-             clock: 33MHz
-             capabilities: pci pciexpress msi pm normal_decode bus_master cap_list
-             configuration: driver=pcieport
-             resources: irq:125 memory:df000000-df0fffff ioport:d0000000(size=34603008)
-           *-network:0 DISABLED
-                description: Ethernet interface
-                product: BCM57840 NetXtreme II 10 Gigabit Ethernet
-                vendor: Broadcom Inc. and subsidiaries
-                physical id: 0
-                bus info: pci@0000:04:00.0
-                logical name: enp4s0f0
-                version: 11
-                serial: ac:9e:17:f7:18:23
-                capacity: 10Gbit/s
-                width: 64 bits
-                clock: 33MHz
-                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical fibre 1000bt-fd 10000bt-fd
-                configuration: autonegotiation=off broadcast=yes driver=bnx2x driverversion=6.14.8-2-pve firmware=bc 7.8.79 latency=0 link=no multicast=yes port=fibre
-                resources: irq:16 memory:d1800000-d1ffffff memory:d1000000-d17fffff memory:d2010000-d201ffff memory:df080000-df0fffff
-           *-network:1 DISABLED
-                description: Ethernet interface
-                product: BCM57840 NetXtreme II 10 Gigabit Ethernet
-                vendor: Broadcom Inc. and subsidiaries
-                physical id: 0.1
-                bus info: pci@0000:04:00.1
-                logical name: enp4s0f1
-                version: 11
-                serial: ac:9e:17:f7:18:25
-                capacity: 10Gbit/s
-                width: 64 bits
-                clock: 33MHz
-                capabilities: pm vpd msi msix pciexpress bus_master cap_list rom ethernet physical fibre 1000bt-fd 10000bt-fd
-                configuration: autonegotiation=off broadcast=yes driver=bnx2x driverversion=6.14.8-2-pve firmware=bc 7.8.79 latency=0 link=no multicast=yes port=fibre
-                resources: irq:17 memory:d0800000-d0ffffff memory:d0000000-d07fffff memory:d2000000-d200ffff memory:df000000-df07ffff
         *-isa
              description: ISA bridge
              product: C236 Chipset LPC/eSPI Controller
@@ -367,68 +316,28 @@ saint-tropez
              capabilities: isa bus_master
              configuration: latency=0
            *-pnp00:00
-                product: PnP device PNP0c02
+                product: PnP device PNP0501
                 physical id: 0
                 capabilities: pnp
-                configuration: driver=system
+                configuration: driver=serial
            *-pnp00:01
-                product: PnP device PNP0501
+                product: PnP device PNP0303
                 physical id: 1
                 capabilities: pnp
-                configuration: driver=serial
+                configuration: driver=i8042 kbd
            *-pnp00:02
-                product: PnP device PNP0303
+                product: PnP device PNP0f03
                 physical id: 2
                 capabilities: pnp
-                configuration: driver=i8042 kbd
+                configuration: driver=i8042 aux
            *-pnp00:03
-                product: PnP device PNP0f03
+                product: PnP device PNP0b00
                 physical id: 3
                 capabilities: pnp
-                configuration: driver=i8042 aux
-           *-pnp00:04
-                product: PnP device PNP0c02
-                physical id: 4
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:05
-                product: PnP device PNP0c02
-                physical id: 5
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:06
-                product: PnP device PNP0b00
-                physical id: 6
-                capabilities: pnp
                 configuration: driver=rtc_cmos
-           *-pnp00:07
-                product: PnP device INT3f0d
-                physical id: 7
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:08
-                product: PnP device PNP0c02
-                physical id: 8
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:09
-                product: PnP device PNP0c02
-                physical id: 9
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:0a
-                product: PnP device PNP0c02
-                physical id: a
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:0b
-                product: PnP device PNP0c02
-                physical id: b
-                capabilities: pnp
-                configuration: driver=system
-           *-pnp00:0c
+           *-pnp00:04
                 product: PnP device PNP0c31
-                physical id: c
+                physical id: 4
                 capabilities: pnp
                 configuration: driver=tpm_tis
         *-memory UNCLAIMED
@@ -442,7 +351,7 @@ saint-tropez
              clock: 33MHz (30.3ns)
              capabilities: bus_master
              configuration: latency=0
-             resources: memory:df144000-df147fff
+             resources: memory:df044000-df047fff
         *-multimedia
              description: Audio device
              product: 100 Series/C230 Series Chipset Family HD Audio Controller
@@ -463,7 +372,7 @@ saint-tropez
              clock: 33MHz
              capabilities: pm msi bus_master cap_list
              configuration: driver=snd_hda_intel latency=32
-             resources: irq:143 memory:df140000-df143fff memory:df120000-df12ffff
+             resources: irq:134 memory:df040000-df043fff memory:df020000-df02ffff
            *-input:0
                 product: HDA Intel PCH Front Mic
                 physical id: 0
@@ -509,14 +418,14 @@ saint-tropez
              width: 64 bits
              clock: 33MHz
              configuration: driver=i801_smbus latency=0
-             resources: irq:16 memory:df14a000-df14a0ff ioport:f040(size=32)
+             resources: irq:16 memory:df04a000-df04a0ff ioport:f040(size=32)
         *-network
              description: Ethernet interface
              product: Ethernet Connection (2) I219-LM
              vendor: Intel Corporation
              physical id: 1f.6
              bus info: pci@0000:00:1f.6
-             logical name: enp0s31f6
+             logical name: mgmt
              version: 31
              serial: 48:4d:7e:ce:75:92
              size: 1Gbit/s
@@ -524,8 +433,8 @@ saint-tropez
              width: 32 bits
              clock: 33MHz
              capabilities: pm msi bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
-             configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=6.14.8-2-pve duplex=full firmware=0.8-4 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
-             resources: irq:127 memory:df100000-df11ffff
+             configuration: autonegotiation=on broadcast=yes driver=e1000e driverversion=7.0.14-11-pve duplex=full firmware=0.8-4 latency=0 link=yes multicast=yes port=twisted pair speed=1Gbit/s
+             resources: irq:126 memory:df000000-df01ffff
   *-input:0
        product: Sleep Button
        physical id: 1
