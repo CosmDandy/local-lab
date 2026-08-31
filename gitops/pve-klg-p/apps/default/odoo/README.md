@@ -62,4 +62,4 @@ stringData:
 
 Namespace `odoo` создаётся автоматически ArgoCD (`syncOptions: CreateNamespace=true`
 в `gitops/pve-klg-p/argocd/odoo.yaml`), отдельного `namespace.yaml` в манифестах нет —
-по аналогии с `apps/default/homepage` и `infrastructure/sealed-secrets`.
+по аналогии с `infrastructure/sealed-secrets`.
