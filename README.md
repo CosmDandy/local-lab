@@ -1,5 +1,7 @@
 # Local Lab
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/CosmDandy/local-lab)
+
 Personal infrastructure-as-code repository: два Kubernetes-кластера на Talos поверх Proxmox, управляемые через Terraform (bootstrap) и ArgoCD (deploy).
 
 > Состояние: **скелет**. Смотри [SERVICES.md](./SERVICES.md) для списка сервисов и текущей фазы.
