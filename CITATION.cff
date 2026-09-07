@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: If you refer to this work, please cite it as below.
+title: Local Lab: multi-cluster Kubernetes as code
+abstract: >-
+  Personal infrastructure-as-code repository: two Talos Kubernetes clusters on Proxmox, bootstrapped with Terraform and reconciled by Flux and Argo CD.
+type: software
+authors:
+  - family-names: Kondrashin
+    given-names: Timofey
+    orcid: null
+    website: https://cosmdandy.dev
+repository-code: https://github.com/CosmDandy/local-lab
+url: https://github.com/CosmDandy/local-lab
+keywords:
+  - kubernetes
+  - talos
+  - proxmox
+  - gitops
+  - terraform
+  - homelab
+license: MIT
