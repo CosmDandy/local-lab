@@ -1,8 +1,8 @@
 # Local Lab
 
-[![security](https://github.com/CosmDandy/local-lab/actions/workflows/security.yml/badge.svg)](https://github.com/CosmDandy/local-lab/actions/workflows/security.yml)
-[![license](https://img.shields.io/github/license/CosmDandy/local-lab)](LICENSE)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/CosmDandy/local-lab)
+[![Open in GitHub Codespaces][codespaces]](https://codespaces.new/CosmDandy/local-lab)
+
+[![build][build]](https://github.com/CosmDandy/local-lab/actions/workflows/security.yml) [![talos][talos]](https://www.talos.dev) [![proxmox][proxmox]](https://www.proxmox.com) [![license][license]](LICENSE)
 
 Personal infrastructure-as-code repository: два Kubernetes-кластера на Talos поверх Proxmox, управляемые через Terraform (bootstrap) и ArgoCD (deploy).
 
@@ -324,3 +324,9 @@ devpod up . --id . --provider . --dotfiles https://github.com/CosmDandy/dotfiles
 - `.gitignore` исключает: `*.env`, `*.tfvars` (кроме `*.example`), `*.key`, `*.pem`, `kubeconfig`, `talosconfig`, `secrets/`, `.claude/`
 - Все секреты в кластерах — через **External Secrets Operator** или **SealedSecrets** (без plaintext в репо)
 - Сертификаты — через cert-manager + Let's Encrypt (DNS challenge, без публичного 443)
+
+[codespaces]: https://github.com/codespaces/badge.svg
+[build]: https://img.shields.io/github/actions/workflow/status/CosmDandy/local-lab/security.yml?branch=master&style=flat&label=build&labelColor=21262d&logo=githubactions&logoColor=8b949e
+[talos]: https://img.shields.io/badge/talos-k8s-00a8c8?style=flat&labelColor=21262d&logo=kubernetes&logoColor=8b949e
+[proxmox]: https://img.shields.io/badge/proxmox-ve-7828dc?style=flat&labelColor=21262d&logo=proxmox&logoColor=8b949e
+[license]: https://img.shields.io/github/license/CosmDandy/local-lab?style=flat&label=license&labelColor=21262d&color=484f58&logo=opensourceinitiative&logoColor=8b949e
